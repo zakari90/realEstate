@@ -19,7 +19,6 @@ export default function Home({params} :{
   return (
     <>
       {/* hero   */}
-      <p>bismi lah</p>
       <HeroSection title={heroSection("title")} description={heroSection("description")} />
 
       {/* --------------------- */}
