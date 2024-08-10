@@ -10,7 +10,7 @@ export default function ContactSection({title, description}:{
     className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
    <></>
     <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
-    <div className="relative  flex flex-wrap lg:h-screen lg:items-center">
+    <div className="relative  flex flex-wrap md:flex-nowrap lg:h-screen lg:items-center">
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <p className="mt-4">

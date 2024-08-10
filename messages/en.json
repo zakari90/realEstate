@@ -1,124 +1,124 @@
 {
-  "lang":{
-    "direction":"ltr"
+  "lang": {
+    "direction": "ltr"
   },
   "NotFoundPage": {
     "title": "Page Not Found",
-    "description": "Oops! It seems like you've stumbled upon a page that doesn't exist. Don't worry, our internationalization magic is still hard at work on other parts of the app. Feel free to navigate back to explore more!"
+    "description": "Oops! It seems like you've stumbled upon a page that doesn't exist. Don't worry, our real estate magic is still hard at work on other parts of the site. Feel free to navigate back to explore more!"
   },
-  "announcement":{
-   "content": "New Collection Available Now!"
+  "announcement": {
+    "content": "New Listings Available Now!"
   },
   "navigation": {
     "home": "Home",
     "services": "Services",
-    "about":"About Us",
-    "pr":"Products",
-    "contact":"Contact"
+    "about": "About Us",
+    "pr": "Properties",
+    "contact": "Contact"
   },
   "heroSection": {
-    "title": "Discover the Finest Fabrics",
-    "description": "we are dedicated to providing high-quality fabrics for every need."
+    "title": "Discover Your Dream Home",
+    "description": "We are dedicated to connecting you with the finest properties for every need."
   },
-  "servicesSection":{
+  "servicesSection": {
     "title": "Services",
     "servicesList": [
       {
         "id": 1,
         "image": "/images/fabric-manufacturing1.jpg",
-        "title": "Fabric Manufacturing",
-        "description": "Our state-of-the-art fabric manufacturing facility combines traditional techniques with modern technology to produce high-quality textiles. From raw material to finished product, every step is meticulously managed to ensure durability, comfort, and style."
+        "title": "Property Management",
+        "description": "Our expert team provides comprehensive property management services to ensure your investment is well-maintained and profitable. From tenant relations to maintenance, we've got you covered."
       },
       {
         "id": 2,
         "image": "/images/fabric-dyeing.jpg",
-        "title": "Fabric Dyeing",
-        "description": "Our fabric dyeing process uses eco-friendly dyes and innovative techniques to achieve vibrant, long-lasting colors. We prioritize sustainability and safety, ensuring that our fabrics are not only beautiful but also environmentally responsible."
+        "title": "Home Buying",
+        "description": "Looking to buy your dream home? Our experienced agents guide you through every step of the process, from finding the perfect property to closing the deal."
       },
       {
         "id": 3,
         "image": "/images/fabric-weaving.jpg",
-        "title": "Weaving",
-        "description": "Our weaving process is where craftsmanship meets precision. Using the finest materials, our expert weavers create intricate patterns and textures that bring our fabrics to life. Each piece is a testament to our commitment to quality and excellence."
+        "title": "Home Selling",
+        "description": "Selling your home? We offer personalized marketing strategies to ensure your property is seen by the right buyers. Our goal is to achieve the best possible price in the shortest time."
       }
     ]
   },
   "aboutSection": {
-    "title": "About Us",    
+    "title": "About Us",
     "image": "/images/about-pic.jpg",
-
-    "introduction": "Welcome to our company, where tradition meets innovation in the world of textiles. With decades of experience in fabric manufacturing, dyeing, and weaving, we are committed to delivering the highest quality products to our customers.",
-    "commitment": "Our journey began with a passion for fabrics and a vision to create a brand that values craftsmanship, sustainability, and customer satisfaction. we believe that the quality of fabric can transform a product. That's why we invest in the best raw materials and employ skilled artisans who take pride in their work. Our facilities are equipped with advanced technology to ensure precision and excellence at every stage of production.",
-    "sustainability":"from sourcing to processing we strive to minimize our environmental footprint while delivering vibrant, durable, and beautiful fabrics",
-    "productsRange":"Whether you're looking for luxurious silks, sturdy cottons, or innovative blends, you'll find something that suits your needs in our extensive collection.",
-    "conclusion":"We look forward to being a part of your creative journey and helping you bring your visions to life with our exceptional fabrics.",
+    "introduction": "Welcome to our real estate company, where expertise meets dedication. With years of experience in the property market, we are committed to providing exceptional services to our clients.",
+    "commitment": "Our journey began with a passion for real estate and a vision to create a brand that values integrity, transparency, and customer satisfaction. We believe that every client deserves a property that suits their lifestyle and budget.",
+    "sustainability": "We prioritize sustainable practices in all our operations, from energy-efficient listings to green building certifications.",
+    "productsRange": "Whether you're looking for a luxurious penthouse, a cozy suburban home, or a commercial property, you'll find something that suits your needs in our extensive portfolio.",
+    "conclusion": "We look forward to being a part of your real estate journey and helping you find or sell your property with confidence.",
     "aboutSectionElements": {
       "title": "About Us",
       "introduction": "Introduction",
       "commitment": "Commitment",
-      "sustainability":"Sustainability",
-      "productsRange":"Products Range",
-      "conclusion":"let be partnners"
+      "sustainability": "Sustainability",
+      "productsRange": "Property Range",
+      "conclusion": "Let's Work Together"
     }
   },
-  "productsSection" : { 
-  "title": "Our Products",
-  "productsList" : [
-    {
-      "id": 1,
-      "name": "Cotton",
-      "description": "Discover our high-quality cotton fabric, perfect for everyday wear and home textiles. Renowned for its softness, breathability, and durability, this fabric is ideal for creating comfortable clothing, cozy bedding, and stylish home decor. Experience the natural comfort and versatility of our premium cotton fabric, a staple for any fabric enthusiast.",
-      "pictures": ["/images/cotton/cotton1.jpg", "/images/cotton/cotton2.jpg", "/images/cotton/cotton3.jpg", "/images/cotton/cotton-plant.jpg"]
-    },
-    {
-      "id": 2,
-      "name": "Linen",
-      "description": "Elevate your projects with our luxurious linen fabric, known for its strength and breathability. This elegant fabric offers a cool and comfortable feel, making it perfect for chic clothing, sophisticated tablecloths, and breezy curtains. Our linen fabric combines functionality with a touch of class, ideal for any refined creation.",
-      "pictures": ["/images/linen/linen1.jpeg", "/images/linen/linen2.jpg", "/images/linen/linen3.jpg", "/images/linen/linen.jpeg", "/images/linen/flax-plants-linen.jpeg"]
-    },
-    {
-      "id": 3,
-      "name": "Silk",
-      "description": "Indulge in the opulence of our premium silk fabric, featuring a smooth texture and a captivating sheen. This exquisite fabric drapes beautifully, making it ideal for elegant evening wear, luxurious scarves, and delicate accessories. Experience the unmatched elegance and sophistication of our high-quality silk fabric, perfect for your finest projects.",
-      "pictures": ["/images/silk/silk1.jpg", "/images/silk/silk2.jpg", "/images/silk/silk3.jpg"]
-    },
-    {
-      "id": 4,
-      "name": "Wool",
-      "description": "Our high-quality wool fabric is perfect for creating warm and durable garments. Known for its excellent insulation properties, this fabric is ideal for crafting cozy sweaters, sturdy coats, and stylish hats. Enjoy the natural warmth and resilience of our premium wool fabric, suitable for both fashion and functional projects.",
-      "pictures": ["/images/wool/wool1.jpg", "/images/wool/wool2.jpg", "/images/wool/wool3.jpg"]
-    },
-    {
-      "id": 5,
-      "name": "Polyester",
-      "description": "Explore the versatility of our polyester fabric, known for its durability and ease of care. This fabric is perfect for a wide range of applications, from everyday clothing to home textiles. With its resistance to wrinkles and shrinking, our polyester fabric is a practical choice for busy lifestyles and long-lasting creations.",
-      "pictures": ["/images/polyester/polyester1.jpg", "/images/polyester/polyester2.jpg", "/images/polyester/polyester3.jpg"]
-    },
-    {
-      "id": 6,
-      "name": "Denim",
-      "description": "Our sturdy denim fabric is a timeless favorite for creating durable and stylish apparel. Perfect for crafting jeans, jackets, and accessories, this fabric offers both comfort and longevity. Embrace the classic appeal and versatility of our premium denim fabric, a must-have for any fashion-forward project.",
-      "pictures": ["/images/denim/denim1.jpg", "/images/denim/denim2.jpg", "/images/denim/denim3.jpg", "/images/denim/denim-making.jpg"]
-    },
-    {
-      "id": 7,
-      "name": "Rayon",
-      "description": "Discover the silky softness of our rayon fabric, perfect for a variety of applications. Known for its smooth texture and vibrant drape, rayon is ideal for creating flowy dresses, lightweight blouses, and comfortable loungewear. Experience the luxurious feel and versatility of our premium rayon fabric, a must-have for your next sewing project.",
-      "pictures": ["/images/rayon/rayon1.jpg", "/images/rayon/rayon2.jpg", "/images/rayon/rayon3.jpg"]
-    }
-  ]},
-"contactSection": {
-  "title": "Contact Us",
-  "description": "Have questions or inquiries? Feel free to get in touch with us. Our team is here to assist you.",
-  "emailPlaceHolder":"Email",
-  "messagePlaceHolder":"Message"
-},  
+  "productsSection": {
+    "title": "Our Properties",
+    "productsList": [
+      {
+        "id": 1,
+        "name": "Luxury Apartment",
+        "description": "Experience the pinnacle of urban living in our luxury apartments, featuring modern designs, premium amenities, and breathtaking city views. Perfect for those seeking a sophisticated lifestyle in the heart of the city.",
+        "pictures": ["/images/cotton/cotton1.jpg", "/images/cotton/cotton2.jpg", "/images/cotton/cotton3.jpg", "/images/cotton/cotton-plant.jpg"]
+      },
+      {
+        "id": 2,
+        "name": "Suburban Home",
+        "description": "Discover the charm of suburban living in our spacious homes, perfect for families looking for a peaceful retreat with easy access to urban conveniences. Enjoy large yards, quiet streets, and a sense of community.",
+        "pictures": ["/images/linen/linen1.jpeg", "/images/linen/linen2.jpg", "/images/linen/linen3.jpg", "/images/linen/linen.jpeg", "/images/linen/flax-plants-linen.jpeg"]
+      },
+      {
+        "id": 3,
+        "name": "Commercial Property",
+        "description": "Find the ideal location for your business in our range of commercial properties. From office spaces to retail outlets, we offer properties that provide visibility, accessibility, and growth potential.",
+        "pictures": ["/images/silk/silk1.jpg", "/images/silk/silk2.jpg", "/images/silk/silk3.jpg"]
+      },
+      {
+        "id": 4,
+        "name": "Vacation Home",
+        "description": "Escape to a serene getaway with our selection of vacation homes, perfect for short stays or long-term rentals. Enjoy stunning views, luxurious amenities, and the ultimate relaxation.",
+        "pictures": ["/images/wool/wool1.jpg", "/images/wool/wool2.jpg", "/images/wool/wool3.jpg"]
+      },
+      {
+        "id": 5,
+        "name": "Eco-Friendly Home",
+        "description": "Live sustainably in our eco-friendly homes, designed with the environment in mind. These properties feature energy-efficient appliances, green building materials, and innovative designs for a lower carbon footprint.",
+        "pictures": ["/images/polyester/polyester1.jpg", "/images/polyester/polyester2.jpg", "/images/polyester/polyester3.jpg"]
+      },
+      {
+        "id": 6,
+        "name": "Luxury Condo",
+        "description": "Our luxury condos offer a blend of elegance and convenience, with high-end finishes, state-of-the-art amenities, and prime locations. Ideal for those seeking a refined lifestyle in a vibrant urban setting.",
+        "pictures": ["/images/denim/denim1.jpg", "/images/denim/denim2.jpg", "/images/denim/denim3.jpg", "/images/denim/denim-making.jpg"]
+      },
+      {
+        "id": 7,
+        "name": "Urban Loft",
+        "description": "Explore the trendy appeal of our urban lofts, perfect for creative individuals looking for a unique living space. These properties feature open floor plans, industrial aesthetics, and prime locations.",
+        "pictures": ["/images/rayon/rayon1.jpg", "/images/rayon/rayon2.jpg", "/images/rayon/rayon3.jpg"]
+      }
+    ]
+  },
+  "contactSection": {
+    "title": "Contact Us",
+    "description": "Have questions or inquiries? Feel free to get in touch with us. Our team is here to assist you.",
+    "emailPlaceHolder": "Email",
+    "messagePlaceHolder": "Message"
+  },
   "footerSection": {
-    "presentation":"we are dedicated to providing high-quality fabrics for every need.",
-    "email": "contact@fabriccompany.com",
+    "presentation": "We are dedicated to connecting you with the finest properties for every need.",
+    "email": "contact@realestatecompany.com",
     "whatsApp": "+1234567890",
     "phoneNumber": "+0987654321",
-    "address": "123 Fabric Street, Textile City, TX 12345",
-    "copyright": "Company Name"
+    "address": "456 Realty Avenue, Property City, ST 67890",
+    "copyright": "Real Estate Company"
   }
 }

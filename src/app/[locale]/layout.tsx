@@ -5,16 +5,14 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Inter as FontSans } from "next/font/google";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import './globals.css';
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 })
 export const metadata: Metadata = {
-  title: 'Fabric company',
-  description: 'website for a fabric company',
+  title: 'Real State',
+  description: 'website for a Real State',
 };
 
 interface RootLayoutProps {
