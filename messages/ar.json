@@ -9,8 +9,13 @@
   "announcement": {
     "content": "عقارات جديدة متاحة الآن!"
   },
+  "agentNavigation": {
+    "home" : "الرئيسية",
+    "Properties" :"العقارات",
+    "orders" : "طلبات"
+  },
   "navigation": {
-    "home": "الصفحة الرئيسية",
+    "home": "الرئيسية",
     "services": "الخدمات",
     "about": "معلومات عنا",
     "pr": "العقارات",

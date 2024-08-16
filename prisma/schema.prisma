@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id         String     @id @default(uuid())
+  name       String
+  email      String?    @unique
+  phone      String?
+  properties Property[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Property {
+  id           String           @id @default(uuid())
+  typeId       String?
+  type         PropertyType?    @relation(fields: [typeId], references: [id])
+  description  String?
+  price        Int?
+  agentId      String?
+  agent        Agent?           @relation(fields: [agentId], references: [id])
+  offers       Offer[]
+  statusId     String?
+  status       PropertyStatus?  @relation(fields: [statusId], references: [id])
+  location     PropertyLocation?
+  feature      PropertyFeature?
+  images       PropertyImage[]
+  video        String?
+  panorama     String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model PropertyImage {
+  id         String   @id @default(uuid())
+  url        String?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId String?
+}
+
+model PropertyFeature {
+  id              String   @id @default(uuid())
+  bedrooms        Int?
+  bathrooms       Int?
+  parkingSpots    Int?
+  area            Int?
+  hasSwimmingPool Boolean?
+  hasGardenYard   Boolean?
+  hasBalcony      Boolean?
+  property        Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId      String?  @unique
+}
+
+model PropertyLocation {
+  id            String   @id @default(uuid())
+  streetAddress String?
+  city          String?
+  state         String?
+  zip           String?
+  region        String?
+  landmark      String?
+  propertyId    String?  @unique
+  property      Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model PropertyType {
+  id       String     @id @default(uuid())
+  value    String?
+  Property Property[]
+}
+
+model PropertyStatus {
+  id       String     @id @default(uuid())
+  value    String?
+  Property Property[]
+}
+
+model Client {
+  id           String      @id @default(uuid())
+  name         String
+  email        String?     @unique
+  phone        String?
+  offers       Offer[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Offer {
+  id         String    @id @default(uuid())
+  propertyId String?
+  clientId   String?
+  createdAt  DateTime  @default(now())
+  amount     Float?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Restrict)
+}
+
+// enum PropertyType {
+//   APARTMENT
+//   HOUSE
+//   COMMERCIAL
+//   LAND
+// }
+
+// enum PropertyStatus {
+//   FOR_SALE
+//   FOR_RENT
+//   SOLD
+//   RENTED
+// }

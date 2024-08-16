@@ -9,6 +9,11 @@
   "announcement": {
     "content": "New Listings Available Now!"
   },
+  "agentNavigation": {
+    "home" : "Home",
+    "Properties" :"Properties",
+    "orders" : "orders"
+  },
   "navigation": {
     "home": "Home",
     "services": "Services",
