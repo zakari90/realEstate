@@ -1,7 +1,12 @@
 import LangSwitcher from "@/components/lang-switcher";
 import { ModeToggle } from "@/components/modeToggle";
 import { Nav, NavLink } from "@/components/Nav";
-
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs';
 export const dynamic = "force-dynamic"
 
 //TODO : translate this navigation use my navbar
@@ -13,8 +18,12 @@ export default function Layout({
   return (
     <>
     <div className="w-full">
- <div className="flex justify-around">
-
+    <SignedOut>
+            <SignInButton />
+    </SignedOut>
+      <SignedIn>
+    <div className="flex justify-around">
+    <UserButton />
       <LangSwitcher />
       <Nav>
         <NavLink href="/admin">Dashboard</NavLink>
@@ -23,11 +32,10 @@ export default function Layout({
         <NavLink href="/admin/orders">Sales</NavLink>
       </Nav>
       <ModeToggle/>
-      </div>
-
-{children}
+      </div> 
+      {children}
+      </SignedIn>
     </div>
-     
     </>
     ); 
   }
