@@ -4,7 +4,9 @@ import HeroSection from '@/components/heroSection';
 import ProductsSection from '@/components/productsSection';
 import ServicesSection from '@/components/servicesSection';
 import { Separator } from '@/components/ui/separator';
+import db from '@/db/db';
 import { useTranslations } from 'next-intl';
+import RealEstateLanding, { PropertiesSection, PropertyCard, PropertyCardSkeleton } from './test';
 
 
 
@@ -16,9 +18,11 @@ export default function Home({params} :{
   const contactSection = useTranslations("contactSection");
   const productsSection = useTranslations('productsSection');
 
+
   return (
     <>
       {/* hero   */}
+
       <HeroSection title={heroSection("title")} description={heroSection("description")} />
 
       {/* --------------------- */}

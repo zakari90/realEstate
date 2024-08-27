@@ -1,13 +1,15 @@
 "use client"
 import React from 'react';
 
-const WhatsAppLink = ({productName}:{
+const WhatsAppLink = ({productName, agentPhone, offer}:{
   productName? : string
+  agentPhone? : string
+  offer? : string
 }) => {
   const handleWhatsAppClick = () => {
     // e.preventDefault();
-    const phoneNumber = '1234567890';
-    const message = productName ? `Hello! I'm interested in ${productName}` : "Hello! I'm interested in your product";
+    const phoneNumber = {agentPhone} || '1234567890';
+    const message = productName ? `Hello! I'm interested in ${productName} my offer is ${offer}` : "Hello! I'm interested in your product";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.location.href = url;
   };

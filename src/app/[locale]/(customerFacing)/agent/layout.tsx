@@ -2,6 +2,7 @@ import LangSwitcher from "@/components/lang-switcher";
 import { ModeToggle } from "@/components/modeToggle";
 import { Nav, NavLink } from "@/components/Nav";
 import {
+  SignIn,
   SignInButton,
   SignedIn,
   SignedOut,
@@ -18,20 +19,24 @@ export default function Layout({
   return (
     <>
     <div className="w-full">
-    <SignedOut>
-            <SignInButton />
-    </SignedOut>
+      
+    <div className="m-auto w-1/2 flex justify-center">
+      <SignedOut >
+        <SignIn routing="hash" />
+      </SignedOut>
+    </div>
       <SignedIn>
     <div className="flex justify-around">
     <UserButton />
       <LangSwitcher />
       <Nav>
-        <NavLink href="/admin">Dashboard</NavLink>
-        <NavLink href="/admin/products">Products</NavLink>
-        <NavLink href="/admin/users">Customers</NavLink>
-        <NavLink href="/admin/orders">Sales</NavLink>
+        <NavLink href="/agent">Dashboard</NavLink>
+        <NavLink href="/agent/properties">properties</NavLink>
+        <NavLink href="/agent/customers">Customers</NavLink>
+        <NavLink href="/agent/profile">Profile</NavLink>
       </Nav>
       <ModeToggle/>
+      
       </div> 
       {children}
       </SignedIn>

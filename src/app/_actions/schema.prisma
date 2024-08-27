@@ -52,7 +52,7 @@ model PropertyFeature {
   area            Int?
   parkingSpot     Boolean?
   swimmingPool    Boolean?
-  gardenYard      Boolean?
+  sardenYard      Boolean?
   balcony         Boolean?
   property        Property?
 }
@@ -61,7 +61,9 @@ model PropertyLocation {
   id            String    @id @default(uuid())
   streetAddress String?
   city          String?
+  state         String?
   zip           String?
+  region        String?
   landmark      String?
   property      Property?
 }
@@ -70,19 +72,19 @@ model PropertyLocation {
 model Client {
   id        String   @id @default(uuid())
   name      String
-  email     String?  
+  email     String?  @unique
   phone     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  offers    Offer?
+  offers    Offer[]
 }
 
 model Offer {
   id         String    @id @default(uuid())
   propertyId String?
-  clientId   String?   @unique
+  clientId   String?
   createdAt  DateTime  @default(now())
-  amount     Int
+  amount     Float?
   client     Client?   @relation(fields: [clientId], references: [id], onDelete: Restrict)
   property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }

@@ -20,11 +20,11 @@ model Agents {
 
 model Property {
   id          String            @id @default(uuid())
-  type        String?
+  typeId      String?
   description String?
   price       Int?
   agentId     String?
-  status      String?
+  statusId    String?
   locationId  String?           @unique
   featureId   String?           @unique
   video       String?
@@ -34,7 +34,9 @@ model Property {
   offers      Offer[]
   feature     PropertyFeature?  @relation(fields: [featureId], references: [id], onDelete: Cascade)
   location    PropertyLocation? @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  status      PropertyStatus?   @relation(fields: [statusId], references: [id])
   agent       Agents?           @relation(fields: [agentId], references: [id])
+  type        PropertyType?     @relation(fields: [typeId], references: [id])
   images      PropertyImage[]
 }
 
@@ -49,11 +51,11 @@ model PropertyFeature {
   id              String    @id @default(uuid())
   bedrooms        Int?
   bathrooms       Int?
+  parkingSpots    Int?
   area            Int?
-  parkingSpot     Boolean?
-  swimmingPool    Boolean?
-  gardenYard      Boolean?
-  balcony         Boolean?
+  hasSwimmingPool Boolean?
+  hasGardenYard   Boolean?
+  hasBalcony      Boolean?
   property        Property?
 }
 
@@ -61,28 +63,41 @@ model PropertyLocation {
   id            String    @id @default(uuid())
   streetAddress String?
   city          String?
+  state         String?
   zip           String?
+  region        String?
   landmark      String?
   property      Property?
 }
 
+model PropertyType {
+  id       String     @id @default(uuid())
+  value    String?
+  Property Property[]
+}
+
+model PropertyStatus {
+  id       String     @id @default(uuid())
+  value    String?
+  Property Property[]
+}
 
 model Client {
   id        String   @id @default(uuid())
   name      String
-  email     String?  
+  email     String?  @unique
   phone     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  offers    Offer?
+  offers    Offer[]
 }
 
 model Offer {
   id         String    @id @default(uuid())
   propertyId String?
-  clientId   String?   @unique
+  clientId   String?
   createdAt  DateTime  @default(now())
-  amount     Int
+  amount     Float?
   client     Client?   @relation(fields: [clientId], references: [id], onDelete: Restrict)
   property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }

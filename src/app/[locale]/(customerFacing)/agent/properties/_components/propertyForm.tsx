@@ -2,17 +2,22 @@
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { addProperty } from "../../_actions/actions";
+import { addProperty } from "../../../../../_actions/actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import UploadImagesButton from "@/components/uploadImagesButton";
 import UploadVideoButton from "@/components/uploadvideoButton";
 import { useState } from "react";
+import db from "@/db/db";
+
+
 
 export function PropertyForm() {
   const [videoUrl, setVideoUrl] = useState("");
+  const [panoramaUrl, setPanoramaUrl] = useState("");
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
+
 
   const handleVideoUpload = (url: string) => {
     console.log(url);
@@ -54,7 +59,7 @@ export function PropertyForm() {
 
       <div className="space-y-2">
         <Label htmlFor="price">Price</Label>
-        <Input type="text" id="price" name="price" />
+        <Input type="number" id="price" name="price" />
       </div>
 
       <div className="space-y-2">
@@ -71,17 +76,16 @@ export function PropertyForm() {
         <Label htmlFor="city">City</Label>
         <Input type="text" id="city" name="city" />
       </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="state">State</Label>
-        <Input type="text" id="state" name="state" />
-      </div>
-
       <div className="space-y-2">
         <Label htmlFor="zip">Zip Code</Label>
         <Input type="text" id="zip" name="zip" />
       </div>
 
+      <div className="space-y-2">
+        <Label htmlFor="landmark">LandMark</Label>
+        <Input type="text" id="landmark" name="landmark" />
+      </div>
+      
       <div className="space-y-2">
         <Label htmlFor="bedrooms">Bedrooms</Label>
         <Input type="number" id="bedrooms" name="bedrooms" />
@@ -98,8 +102,8 @@ export function PropertyForm() {
       </div>
 
       <div className="flex items-center space-x-2 space-y-2">
-        <Checkbox id="parkingSpots" name="parkingSpots" />
-        <label htmlFor="parkingSpots" className="text-sm font-medium">
+        <Checkbox id="parkingSpot" name="parkingSpot" />
+        <label htmlFor="parkingSpot" className="text-sm font-medium">
           Has Parking Spots
         </label>
       </div>
@@ -128,22 +132,23 @@ export function PropertyForm() {
       <div className="space-y-2 flex flex-col">
         <Label htmlFor="imagesUrl">Image URLs</Label>
         <UploadImagesButton onImagesUpload={handleImagesUpload} />
-        <Input type="url" id="imagesUrl" name="imagesUrl" className="hidden" value={imagesUrl.join(', ')} />
+        <Input type="url" id="imagesUrl" name="imagesUrl" className="hidden" readOnly value={imagesUrl.join(', ')} />
         <div>{imagesUrl?.length ? `Images uploaded successfully` : "No images uploaded yet"}</div>
       </div>
 
       <div className="space-y-2 flex flex-col">
         <Label htmlFor="video">Video URL</Label>
         <UploadVideoButton onVideoUpload={handleVideoUpload} />
-        <Input type="url" id="video" name="video" className="hidden" value={videoUrl} />
+        <Input type="url" id="video" name="video" className="hidden" readOnly value={videoUrl} />
         <div>{videoUrl ? `Video uploaded successfully` : "No video uploaded yet"}</div>
-        {videoUrl}
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="panorama">Panorama URL</Label>
-        <Input type="url" id="panorama" name="panorama" />
-      </div>
+        <Input type="url" id="panorama" name="panorama" value={panoramaUrl} onChange={(event) => setPanoramaUrl(event.target.value)}/>
+        <div>{panoramaUrl ? `Video uploaded successfully` : "No video uploaded yet"}</div>
+
+      </div>  
 
       <Button type="submit">Submit</Button>
     </form>

@@ -11,6 +11,7 @@ import { ModeToggle } from '@/components/modeToggle';
 import LangSwitcher from '@/components/lang-switcher';
 import Navbar from '@/components/navbar';
 import { ClerkProvider } from '@clerk/nextjs';
+import { StoreProvider } from '../StoreProvider';
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({
 
   return (
     <ClerkProvider>
+<StoreProvider>
 
     <html lang={locale} dir={documentDirection} suppressHydrationWarning>
 
@@ -64,6 +66,8 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+</StoreProvider>
+
     </ClerkProvider>
 
   );

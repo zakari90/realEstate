@@ -1,5 +1,5 @@
  // Replace with your actual import
- import { OurFileRouter } from "@/app/api/uploadthing/core";
+ import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
  import { UploadButton } from "@uploadthing/react";
 import { Button } from "./ui/button";
  
