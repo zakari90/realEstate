@@ -23,14 +23,24 @@ import { Textarea } from "@/components/ui/textarea"
 import UploadImagesButton from "@/components/uploadImagesButton"
 import UploadVideoButton from "@/components/uploadvideoButton"
 import { useState } from "react"
-import { addProperty } from "../../../../../_actions/actions"
+import { addProperty, updateProperty } from "../../../../../_actions/actions"
+import { useFormState, useFormStatus } from "react-dom"
+import { Property } from "@prisma/client"
+import { ClientProperty } from "../../../(client)/test/propertiesSection"
 
-export function FormProperty() {
+
+//TODO : corect edit checkboxes and images video input
+export function FormProperty({property} : { property?: ClientProperty | null }) {
+
+
+  const[error, action ] = useFormState(property == null ? addProperty : updateProperty.bind(null,property.id) ,{})
+  // const[error, action ] = useFormState( addProperty ,{})
+
   const [videoUrl, setVideoUrl] = useState("");
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [panoramaUrl, setPanoramaUrl] = useState<string>("");
 
-const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&description=&landmark=&price=&propertyStatus=&propertyType=&streetAddress=&zip="
+  const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&description=&landmark=&price=&propertyStatus=&propertyType=&streetAddress=&zip="
   const examplePanoramaUrl = "https://3dwarehouse.sketchup.com/embed/ca842bc2-6275-4a17-8e58-7d04f72b66be?token=JV26vmLOK4g=&binaryName=s22"
   const exampleVideoUrl = "https://utfs.io/f/814e6598-026c-49a8-8039-d6eac77fcc9c-castku.mp4"
   const handleVideoUpload = (url: string) => {
@@ -48,7 +58,7 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
-          <form action={addProperty}>
+          <form action={action}>
             <div className="flex items-center gap-4">
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                 Add Property
@@ -70,10 +80,10 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
                   <div className="mt-2">
                     <Select required name="propertyType">
                       <SelectTrigger>
-                        <SelectValue placeholder="Property type" />
+                        <SelectValue defaultValue={property?.type || ""} placeholder="Property type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="apartment">Apartment</SelectItem>
+                        <SelectItem  value="apartment">Apartment</SelectItem>
                         <SelectItem value="house">House</SelectItem>
                         <SelectItem value="commercial">Commercial</SelectItem>
                         <SelectItem value="land">Land</SelectItem>
@@ -83,7 +93,7 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
                   <div className="mt-2">
                     <Select required name="propertyStatus">
                       <SelectTrigger>
-                        <SelectValue placeholder="Property Status" />
+                        <SelectValue defaultValue={property?.status || ""} placeholder="Property Status" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="forSale">For Sale</SelectItem>
@@ -94,7 +104,7 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
                   </div>
                   <div className="mt-2">
                     <Label htmlFor="area">Area (m²)</Label>
-                    <Input required type="number" id="area" name="area" />
+                    <Input required type="number" id="area" name="area" defaultValue={property?.feature?.area || ""} />
                   </div>
                   <div className="mt-2">
                     <Label htmlFor="price">Price</Label>
@@ -102,7 +112,7 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
                   </div>
                   <div className="mt-2">
                     <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" name="description" />
+                    <Textarea id="description" name="description" defaultValue={property?.description || ""} />
                   </div>
                   </CardContent>
                 </Card>
@@ -113,21 +123,21 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
                   <CardContent>
                   <div className="mt-2">
                     <Label htmlFor="streetAddress">Street Address</Label>
-                    <Input required type="text" id="streetAddress" name="streetAddress" />
+                    <Input required type="text" id="streetAddress" name="streetAddress" defaultValue={property?.location?.streetAddress || ""} />
                   </div>
 
                   <div className="mt-2">
                     <Label htmlFor="city">City</Label>
-                    <Input required type="text" id="city" name="city" />
+                    <Input required type="text" id="city" name="city"defaultValue={property?.location?.city || ""} />
                   </div>
                   <div className="mt-2">
                     <Label htmlFor="zip">Zip Code</Label>
-                    <Input type="text" id="zip" name="zip" />
+                    <Input type="text" id="zip" name="zip"  defaultValue={property?.location?.zip || ""}/>
                   </div>
 
                   <div className="mt-2">
                     <Label htmlFor="landmark">LandMark</Label>
-                    <Textarea id="landmark" name="landmark" />
+                    <Textarea id="landmark" name="landmark" defaultValue={property?.location?.landmark || ""} />
                   </div>
                   </CardContent>
                 </Card>
@@ -178,39 +188,38 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
                     <CardTitle>Proprety Images</CardTitle>
                   </CardHeader>
                   <CardContent>
-  {imagesUrl?.length ? (
-    <div className="grid gap-2">
-        <Input required type="url" id="imagesUrl" name="imagesUrl" className="hidden w-0 h-0" 
-        value={imagesUrl.join(', ')}
-        readOnly
-      />
-      <Image
-        alt="Product image"
-        className="aspect-square w-full rounded-md object-cover"
-        height="300"
-        src={imagesUrl[0]}
-        width="300"
-      />
-      <div className="grid grid-cols-3 gap-2">
-        {imagesUrl.map((url, index) => (
-          <button key={index}>
-            <Image
-              alt={`Product image ${index}`}
-              className="aspect-square w-full rounded-md object-cover"
-              height="84"
-              src={url}
-              width="84"
-            />
-          </button>
-        ))}
-      </div>
+                  {imagesUrl?.length ? (
+                  <div className="grid gap-2">
+              <Input required type="url" id="imagesUrl" name="imagesUrl" className="hidden w-0 h-0" 
+                    value={imagesUrl.join(', ')}
+                  />
+              <Image
+                alt="Product image"
+                className="aspect-square w-full rounded-md object-cover"
+                height="300"
+                src={imagesUrl[0]}
+                width="300"
+              />
+              <div className="grid grid-cols-3 gap-2">
+                {imagesUrl.map((url, index) => (
+                  <button key={index}>
+                    <Image
+                      alt={`Product image ${index}`}
+                      className="aspect-square w-full rounded-md object-cover"
+                      height="84"
+                      src={url}
+                      width="84"
+                    />
+                  </button>
+                ))}
+              </div>
     </div>
   ) : (
     <div className="space-y-2 flex flex-col items-center justify-center">
       <UploadImagesButton onImagesUpload={handleImagesUpload} />
     </div>
   )}
-</CardContent>
+                  </CardContent>
                 </Card>
                 <Card
                   className="overflow-hidden"
@@ -265,10 +274,7 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
               </div>
             </div>
             <div className="flex items-center justify-center gap-2 md:hidden">
-              {/* <Button variant="outline" size="sm">
-                Discard
-              </Button> */}
-              <Button size="sm">Save Product</Button>
+              <SubmitButton/>
             </div>
             </form>
 
@@ -276,5 +282,14 @@ const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&de
         </main>
       </div>
     </div>
+  )
+}
+
+
+function SubmitButton(){
+  const {pending} = useFormStatus()
+  return(
+    <Button type="submit" disabled={pending}>{pending ? "Saving..." : "Save" }</Button>
+
   )
 }

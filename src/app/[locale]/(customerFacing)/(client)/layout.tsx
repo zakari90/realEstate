@@ -5,6 +5,10 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Inter as FontSans } from "next/font/google";
+import Link from 'next/link';
+import { ClientNavBar } from './_components/clientNavbar';
+import { ClientOfferForm } from './_components/property/clientOfferForm';
+import ClientFooter from './_components/clientFootre';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,9 +30,6 @@ export default function RootLayout({
   params: { locale },
 }: Readonly<RootLayoutProps>) {
 
-  const font = locale === 'ar' ? rubik.className :  fontSans.variable;
-  const documentDirection = locale === 'ar' ? "rtl" :  "ltr";
-
   const Navigation = useTranslations('navigation');
   const navLinks:[string, string][] = [
     [Navigation('home'), 'home'],
@@ -40,9 +41,11 @@ export default function RootLayout({
 
   return (
   <>
-    <Header locale={locale} navLinks= {navLinks}  />        
+    {/* <Header locale={locale} navLinks= {navLinks}  />         */}
+    <ClientNavBar/>
       <div className='flex-grow'>{children}</div>
-    <Footer locale={locale} navLinks= {navLinks} />
+      <ClientFooter/>
+    {/* <Footer locale={locale} navLinks= {navLinks} /> */}
   </>
 
   );

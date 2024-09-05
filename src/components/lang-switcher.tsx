@@ -31,18 +31,18 @@ export default function LangSwitcher() {
       <p className='sr-only'>change language</p>
       <DropdownMenuTrigger asChild>
         <Button className="flex items-center gap-1" variant="ghost" disabled={isPending}>
-          <GlobeIcon className="h-4 w-4" />
+          {/* <GlobeIcon className="h-4 w-4" /> */}
           <span>{languages.find(lang => lang.code === localeActive)?.label ?? 'Select Language'}</span>
           <ChevronDownIcon className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-40">
+      <DropdownMenuContent align="center" className="w-10 mx-auto">
         {languages.map(({ code, label }) => (
           <DropdownMenuItem 
             key={code} 
             onSelect={() => onSelectChange(code)}
             className="flex items-center gap-2 cursor-pointer hover:bg-primary-foreground">
-            <FlagIcon className="h-4 w-4" />
+            {/* <FlagIcon className="h-4 w-4" /> */}
             <span>{label}</span>
           </DropdownMenuItem>
         ))}

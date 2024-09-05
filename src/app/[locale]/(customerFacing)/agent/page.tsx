@@ -3,7 +3,6 @@ import db from '@/db/db'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { addAgent } from '../../../_actions/actions'
 import { PageHeader } from '@/components/pageHeader'
 import { AgentDashboard } from './_dashcomponents/dashboard'
 import Link from 'next/link'
@@ -17,29 +16,47 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from '@/components/ui/badge'
+import { agentId } from './properties/page'
 
 // Removed getClerkUsertDetails as it's duplicate of getAgentDetails
 
-async function getAgentProperties() {
+async function getAgentProperties(agentId:string) {
   // Consider adding a filter for the specific agent
-  return await db.property.findMany();
+  //  const data = await db.property.count()
+  const data = await db.property.aggregate({
+    where:{
+      agentId:agentId
+    }, 
+    _count:true
+  });
+  return{
+    numberOfProperties: data._count || 0
+  }
 }
 
 async function getAgentClients(agentId: string) {
-  return await db.client.findMany({
+ const data = await db.client.aggregate({
     where: {
       offers: {
-        some: {
           property: {
             agentId: agentId
           }
-        }
+        
       }
-    }
+    },
+    _count:true
   });
+  return{
+    numberOfOffers : data._count || 0}
+  
 }
 
 async function AgentPage() {
+  const [offers, properties] = await Promise.all([
+     getAgentClients(agentId),
+     getAgentProperties(agentId)
+  ])
+  
 
   return (
     <div className="container">
@@ -47,16 +64,13 @@ async function AgentPage() {
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <DashboardCard
-            title= 'My Properties'
-            body="body"
-          />
-          <DashboardCard
-            title= 'Total Values'
-            body="body"
+            title= 'Number of properties'
+            body={properties.numberOfProperties as unknown as string}
           />
           <DashboardCard
             title= 'Total Offers'
-            body="body"
+            body={offers.numberOfOffers as unknown as string}
+            
           />
         </div>
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
@@ -83,17 +97,16 @@ type DashboardCardProps = {
 
 function DashboardCard({ title, body }: DashboardCardProps) {
   return (
-    <Card>
-
-<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-<CardTitle className="text-sm font-medium">
-
-  {title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-      <div className="text-2xl font-bold">{body}</div>
-      </CardContent>
-    </Card>
+<Card>
+  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+  <CardTitle className="text-sm font-medium">
+    {title}
+  </CardTitle>
+    </CardHeader>
+    <CardContent>
+    <div className="text-2xl font-bold">{body}</div>
+    </CardContent>
+</Card>
   )
 }
 

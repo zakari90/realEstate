@@ -13,14 +13,18 @@ import { BathIcon, BedIcon, Pin, PinIcon, Ruler} from 'lucide-react';
 import Link from 'next/link'
 import Image from 'next/image'
 import db from '@/db/db'
-import PropertiesSection from './propertiesSection'
-import { getRecentPropertiesWithDetails } from '@/app/_actions/actions'
+import { getRecentProperties } from '@/app/_actions/actions'
+
+import Banner from '../_components/banner'
+
+
 
 async function page() {
-  const properties = await getRecentPropertiesWithDetails()
+  const properties = await getRecentProperties()
   return (
     <>
-    <PropertiesSection properties={properties} />
+    <Banner/>
+    
     </>
   )
 }

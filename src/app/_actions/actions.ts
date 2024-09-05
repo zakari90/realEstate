@@ -13,6 +13,7 @@ const propertyFormSchema = z.object({
   propertyType: z.string().min(1, { message: "Property type is required" }),
   propertyStatus: z.string().min(1, { message: "Property status is required" }),
   price: z.string().transform((val) => parseInt(val, 10)).refine((val) => !isNaN(val) && val > 0, { message: "Price is required and must be a positive number" }),
+  // price: z.coerce.number().int().min(1),
   description: z.string().optional(),
   streetAddress: z.string().min(1, { message: "Street address is required" }),
   city: z.string().min(1, { message: "City is required" }),
@@ -30,23 +31,21 @@ const propertyFormSchema = z.object({
   panorama: z.string().optional(),
 });
 
-export async function addProperty(formData: FormData) {
+export async function addProperty(prevState: any, formData: FormData) {
 
   try {
-
     const result = propertyFormSchema.safeParse(Object.fromEntries(formData.entries()));
     if (!result.success) {
       // Return the errors to be displayed in the form
-      return { error: result.error.flatten().fieldErrors };
+      return  result.error.formErrors.fieldErrors ;
     }
-
     const clerkAgent =  await registerClerkUserAsAgent()
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
       throw new Error('User email not found');
     }
     const email = clerkAgent.email;
 
-    return await db.$transaction(async (tx) => 
+    await db.$transaction(async (tx) => 
       {
       const agent = await tx.agents.findUnique({
         where: { email: email },
@@ -117,174 +116,222 @@ export async function addProperty(formData: FormData) {
   }
   redirect("/agent/properties")
 } 
-export async function registerClerkUserAsAgent(){
+
+export async function updateProperty(propertyId: string, prevState: any, formData: FormData) {
+    try {
+      const result = propertyFormSchema.safeParse(Object.fromEntries(formData.entries()));
+      if (!result.success) {
+        // Return the errors to be displayed in the form
+        return  result.error.flatten().fieldErrors;
+      }
+
+      const clerkAgent = await registerClerkUserAsAgent();
+      if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
+        throw new Error('User email not found');
+      }
+      const email = clerkAgent.email;
+      await db.$transaction(async (tx) => {
+        const agent = await tx.agents.findUnique({
+          where: { email: email },
+        });
+
+        if (!agent) {
+          throw new Error('agent not found');
+        }
+
+        const data = result.data;
+        if (!data) {
+          throw new Error('formdata input error');
+        }
+
+        const property = await db.property.findUnique({ where: { id: propertyId } });
+        if (!property) {
+          throw new Error('Property not found');
+        }
+
+        // Update or create property location
+        const propertyLocation = await db.propertyLocation.upsert({
+          where: { id: property.locationId || "" },
+          update: {
+            streetAddress: data.streetAddress,
+            city: data.city,
+            zip: data.zip,
+            landmark: data.landmark
+          },
+          create: {
+            streetAddress: data.streetAddress,
+            city: data.city,
+            zip: data.zip,
+            landmark: data.landmark
+          },
+        });
+
+        const images = JSON.stringify(data.imagesUrl);
+        const imageslist = JSON.parse(images);
+        const imagesUrl = imageslist.map((url: string) => ({ url }));
+
+        // Update or create property feature
+        const propertyFeature = await db.propertyFeature.upsert({
+          where: { id: property.featureId || "" },
+          update: {
+            bedrooms: data.bedrooms,
+            bathrooms: data.bathrooms,
+            parkingSpot: data.parkingSpot,
+            area: data.area,
+            swimmingPool: data.swimmingPool,
+            gardenYard: data.gardenYard,
+            balcony: data.balcony,
+          },
+          create: {
+            bedrooms: data.bedrooms,
+            bathrooms: data.bathrooms,
+            parkingSpot: data.parkingSpot,
+            area: data.area,
+            swimmingPool: data.swimmingPool,
+            gardenYard: data.gardenYard,
+            balcony: data.balcony,
+          },
+        });
+
+        // Update the property
+        await db.property.update({
+          where: { id: propertyId },
+          data: {
+            description: data.description,
+            price: data.price,
+            agentId: agent.id,
+            type: data.propertyType,
+            status: data.propertyStatus,
+            locationId: propertyLocation.id,
+            featureId: propertyFeature.id,
+            images: {
+              deleteMany: {}, // Delete all existing images
+              create: imagesUrl, // Create new images
+            },
+            video: data.video,
+            panorama: data.panorama,
+          },
+        });
+
+        console.log("property updated successfully");
+        db.$disconnect();
+        
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.error("Validation error:", error.errors);
+        // return error.flatten().fieldErrors ;
+      } else {
+        console.error("An unexpected error occurred:", error);
+        // return { general: ['An unexpected error occurred'] } ;
+      }
+    }
+
+}
+const agentFormSchema = z.object({
+  phoneNumber: z.string().min(10),
+
+})
+export async function registerClerkUserAsAgent(formData?: FormData) {
   try {
     const user = await currentUser();
     if (!user || !user.emailAddresses || user.emailAddresses.length === 0) {
       throw new Error('User email not found');
     }
     const email = user.emailAddresses[0].emailAddress;
-    const agent = await db.agents.findUnique({
+    let agent = await db.agents.findUnique({
       where: { email: email }
     });
-    return agent; // Returns the agent data or null if not found
+    const agentPhoneNumber = agentFormSchema.safeParse(formData?.get("phoneNumber"))
+
+    if (!agent) {
+      agent = await db.agents.create({
+        data: {
+          email: email,
+          clerkId: user.id,
+          name: user.fullName, // Adjust based on your user object structure
+          phone: agentPhoneNumber.success ? agentPhoneNumber.data.phoneNumber : null , // Adjust based on your user object structure
+        }
+      });
+    }
+
+    return agent; // Returns the agent data
   } catch (error) {
-    console.error("Error fetching agent data:", error);
+    console.error("Error fetching or creating agent data:", error);
     throw error; // Re-throw error for higher-level handling
   }
 }
 
 
 
-const agentFormSchema = z.object({
-  clerkId: z.string(),
-  name: z.string(),
-  phoneNumber: z.string().min(10, { message: "valde phone number is required" }),
-  email: z.string().optional(),
-  propertiesUrl: z.preprocess((val) => typeof val === 'string' ? val.split(',') : val, z.array(z.string().url({ message: "Must be a valid URL" }))).optional(),
+const offerFormSchema = z.object({
+  propertyId: z.string().min(1),
+  amount: z.string().transform((val) => parseInt(val, 10)).refine((val) => !isNaN(val) && val > 0, { message: "Amount is required and must be a positive number" }),
 
-})
-export async function addAgent(formData: FormData) {
-  console.log(formData);
+});
 
-  try {
-    const result = agentFormSchema.safeParse(Object.fromEntries(formData.entries()));
-    console.log(result);
-    if (result.success === false) {
-      return result.error.formErrors.fieldErrors
-    }
-  
-    // Process the validated data..
-    const data =result.data
-    if (!data) {
-      throw new Error('formdata input error');
-    }
-   await db.agents.create({
-    data: {
-      clerkId: data?.clerkId,
-      name: data?.name,
-      phone: data?.phoneNumber,
-      email: data?.email,
-    },
-  })
-    console.log("agent created successfully")
-    console.log("-------------------------------------------------------")
+const clientFormSchema = z.object({
+  clientName: z.string().nullable().optional(),
+  clientEmail: z.string().nullable().optional(),
+  clientPhone: z.string(),
+});
 
-    db.$disconnect()
-    redirect("/agent/properties")
-    
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error("Validation error:", error.errors);
-    } else {
-      console.error("An unexpected error occurred:", error);
-    }
-    // Handle the error appropriately...
-  }
-}
+export async function createClientOffer(prevState: any,formData: FormData) {
 
-const offerFormSchema  = z.object(
-  {
-    propertyId: z.string(),
-    amount: z.string().transform((val) => parseInt(val, 10)).refine((val) => !isNaN(val) && val > 0, { message: "Must be a positive number" }).optional(),
-  }
-)
-const clientFormSchema  = z.object(
-  {
-    clientName: z.string().optional(),
-    clientEmail: z.string().optional(),
-    clientPhone :z.string(),
-  }
-)
-export async function createClientOffer(formData : FormData) {
-  console.log("23555555555555555555555555555555")
-  console.log(formData)
-  const clientPhone = formData.get('clientPhone');
-  const clientName = formData.get('clientName');
-  const clientEmail = formData.get('clientEmail');
-  const propertyId = formData.get('propertyId');
-  const clientOffer = formData.get('clientOffer');
-
-  console.log('Client Phone:', clientPhone);
-  console.log('Client Offer:', clientOffer);
-  console.log('Client Name:', clientName);
-  console.log('Client Email:', clientEmail);
-  console.log('propertyId :', propertyId);
-
-  console.log("23555555555555555555555555555555")
 
   try {
-    const parse = clientFormSchema.safeParse({
-      clientPhone : formData.get('clientPhone'),
-      clientName : formData.get('clientName'),
-      clientEmail : formData.get('clientEmail'),
+    const clientPhone = formData.get('clientPhone') ;
+    const clientName = formData.get('clientName') ;
+    const clientEmail = formData.get('clientEmail') ;
+    const propertyId = formData.get('propertyId') ;
+    const clientOffer = formData.get('clientOffer') ;
+    const parseClient = clientFormSchema.safeParse({
+      clientPhone,
+      clientName,
+      clientEmail,
     });
-  
-    if (!parse.success) {
-      return { message: "Failed to create ClientOffer" };
-    }
-    const data = parse.data;
 
+    if (!parseClient.success) {
+      return  parseClient.error.formErrors.fieldErrors ;
+    }
+    // Validate offer data
+    const parseOffer = offerFormSchema.safeParse({
+      propertyId,
+      amount: clientOffer,
+    });
+
+    if (!parseOffer.success) {
+      console.error("Offer validation failed:", parseOffer.error.errors);
+      return parseOffer.error.formErrors.fieldErrors
+    }
+
+    const clientData = parseClient.data;
+    const offerData = parseOffer.data;
+
+    // Create client
     const newClient = await db.client.create({
       data: {
-        phone: data.clientPhone,
-        email: data.clientEmail || "",
-        name: data.clientName || "",
+        phone: clientData.clientPhone,
+        email: clientData.clientEmail || "",
+        name: clientData.clientName || "",
       },
     });
     console.log('Created new client:', newClient);
 
+    // Create offer
     const newOffer = await db.offer.create({
       data: {
-        propertyId: 'some-property-id', 
+        propertyId: offerData.propertyId,
         clientId: newClient.id,
-        amount: 2500.00,
+        amount: offerData.amount,
       },
     });
-  
-    console.log('Created new offer:', newOffer);
+    console.log('successfully Create new offer:', newOffer);
+
   } catch (error) {
+    console.error("An unexpected error occurred:", error);
   }
-
-  console.log("formDataformDataformDataformDataformDataformDataformDataformDataformDataformDataformDataformDataformDataformData");
-  console.log(formData);
-  console.log("formDataformDataformDataformDataformDataformDataformDataformDataformData");
-
-  // try {
-  //   const result = agentFormSchema.safeParse(Object.fromEntries(formData.entries()));
-  //   console.log(result);
-  //   if (result.success === false) {
-  //     return result.error.formErrors.fieldErrors
-  //   }
-  
-  //   // Process the validated data..
-  //   const data =result.data
-  //   if (!data) {
-  //     throw new Error('formdata input error');
-  //   }
-  //  await db.offer.create({
-  //   data: {
-  //     clerkId: data?.clerkId,
-  //     name: data?.name,
-  //     phone: data?.phoneNumber,
-  //     email: data?.email,
-  //   },
-  // })
-  //   console.log("agent created successfully")
-  //   console.log("-------------------------------------------------------")
-
-  //   db.$disconnect()
-  //   redirect("/agent/properties")
-    
-  // } catch (error) {
-  //   if (error instanceof z.ZodError) {
-  //     console.error("Validation error:", error.errors);
-  //   } else {
-  //     console.error("An unexpected error occurred:", error);
-  //   }
-  //   // Handle the error appropriately...
-  // }
-  // redirect("/properties")
+  redirect("/")
 }
 
 export async function deleteProperty(
@@ -295,7 +342,42 @@ export async function deleteProperty(
   revalidatePath("/")
   revalidatePath("/products")
   }
-export async function getAllPropertiesWithDetails() {
+export async function getPropertyWithId(propertyyId : string) {
+    try {
+      const property = await db.property.findUnique(
+        {where: {id : propertyyId},
+        include: {
+          feature: true,
+          location: true,
+          images: true,
+        },
+      });
+      if (!property) {
+        return notFound()
+      }
+      return ({        
+        id: property.id,
+        type: property.type,
+        description: property.description,
+        price: property.price,
+        agentId: property.agentId,
+        status: property.status,
+        locationId: property.locationId,
+        featureId: property.featureId,
+        video: property.video,
+        panorama: property.panorama,
+        createdAt: property.createdAt,
+        updatedAt: property.updatedAt,
+        feature: property.feature,
+        location: property.location,
+        images: property.images.map(image => image.url),});
+  
+    } catch (error) {
+      console.error('Error fetching properties with details for agent:', error);
+      throw error; // Handle the error appropriately
+    }
+  }
+export async function getAllProperties() {
     try {
       const properties = await db.property.findMany({
         include: {
@@ -328,7 +410,7 @@ export async function getAllPropertiesWithDetails() {
       throw error; // Handle the error appropriately
     }
   }
-export async function getRecentPropertiesWithDetails() {
+export async function getRecentProperties() {
   try {
     const properties = await db.property.findMany({
       include: {
@@ -363,7 +445,7 @@ export async function getRecentPropertiesWithDetails() {
     throw error; // Handle the error appropriately
   }
 }
-export async function getAgentPropertiesWithDetails() {
+export async function getAgentProperties() {
   try {
     const agent = await registerClerkUserAsAgent();
     if (!agent) {

@@ -44,19 +44,12 @@ import Image from "next/image"
 import { Property } from "@prisma/client"
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProperties, selectProperties, selectStatus } from "@/lib/features/agentData/agentData"
+import Link from "next/link"
 
-export default function MainTableComponent() {
-  const dispatch = useDispatch();
-  const properties = useSelector(selectProperties);
-  const status = useSelector(selectStatus);
-console.log("===========================")
-console.log(properties)
-console.log(status)
-useEffect(() => {
-  dispatch(fetchProperties());
-}, [dispatch]);
+export default function MainTableComponent({properties}:{properties:any[]}) {
+  
 
-console.log("===========================")
+
   const [selectedProperty, setSelectedProperty] = useState(null)
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -73,19 +66,18 @@ console.log("===========================")
     setSelectedProperty(property)
     setIsEditDialogOpen(true)
   }
+ 
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  const totalPages = Math.ceil(properties.length / itemsPerPage)
+  const totalPages = properties.length > 0 ? Math.ceil(properties.length / itemsPerPage) : 0
   const paginatedProperties = properties.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
   
  
-
+  if (properties.length === 0) return <p>No products found</p>
   return (
-
- 
     <div className="w-full overflow-auto">
       <Table>
         <TableHeader>
@@ -128,9 +120,11 @@ console.log("===========================")
                       <Eye className="mr-2 h-4 w-4" />
                       <span>View</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => handleEditProperty(property)}>
+                    <DropdownMenuItem>
+                    <Link className="hover:cursor-pointer" href={`/agent/properties/${property.id}/edit`}>
                       <Pencil className="mr-2 h-4 w-4" />
                       <span>Edit</span>
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="text-destructive">

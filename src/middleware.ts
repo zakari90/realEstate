@@ -7,9 +7,10 @@ const intlMiddleware = createMiddleware({
   defaultLocale: 'en',
 })
 
-const isPublicRoute = createRouteMatcher(['/', '/(fr|en|ar)/:path*'])
+const isPublicRoute = createRouteMatcher(['/:path*'])
+// const isPublicRoute = createRouteMatcher(['/', '/(fr|en|ar)/:path*'])
 
-// const isProtectedRoute = createRouteMatcher(['dashboard/(.*)'])
+// const isProtectedRoute = createRouteMatcher(['agent/(.*)','admin/(.*)'])
 
 export default clerkMiddleware((auth, req) => {
   if (!isPublicRoute(req)) {
