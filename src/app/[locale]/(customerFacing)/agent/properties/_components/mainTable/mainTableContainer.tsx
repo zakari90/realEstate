@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { addProperty, deleteProperty } from "../../../../../../_actions/actions";
 import { MainTable } from "./mainTable";
+import { deleteProperty } from "@/app/_actions/agent/actions";
 
 const data = [
     {

@@ -12,15 +12,15 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 import { ContactDialog } from "./contactDialog";
-import { ClientProperty } from "./propertiesSection";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Bed, Bath, Maximize, Home } from "lucide-react"
 import { useEffect, useState } from "react";
+import { Property } from "@prisma/client";
+import { ClientProperty } from "@/app/_actions/client/actions";
 export function PropertyCard({ property }: { property: ClientProperty }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-
   useEffect(() => {
     if (!api) {
       return
@@ -32,7 +32,8 @@ export function PropertyCard({ property }: { property: ClientProperty }) {
       setCurrent(api.selectedScrollSnap())
     })
   }, [api])  
-  const images = property?.images
+  
+  const images =  property.images ? property.images.split(",") : [];
 
   return (
     <>
@@ -78,13 +79,6 @@ export function PropertyCard({ property }: { property: ClientProperty }) {
               </div>
             </div>
           </Carousel>
-          {/* <Image
-            width={200}
-            height={200}
-            src={property?.images?.[1] || "/placeholder.svg?height=200&width=400"}
-            alt="Property photo"
-            className="w-full h-48 object-cover"
-          /> */}
           <Badge className="absolute top-2 left-2 bg-green-500 hover:cursor-pointer">{property.type} {property.status}</Badge>
         </div>
       </CardHeader>
@@ -95,21 +89,21 @@ export function PropertyCard({ property }: { property: ClientProperty }) {
         </div>
         <div className="flex mb-4">
         <MapPinIcon className="size-4" />
-        <p className="text-muted-foreground ">{`${property?.location?.city}`}</p>
+        <p className="text-muted-foreground ">{`${property?.address}`}</p>
 
         </div>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center">
             <Bed className="w-5 h-5 mr-2 text-muted-foreground" />
-            <span>{property?.feature?.bedrooms} Beds</span>
+            <span>{property?.bedrooms} Beds</span>
           </div>
           <div className="flex items-center">
             <Bath className="w-5 h-5 mr-2 text-muted-foreground" />
-            <span>{property?.feature?.bathrooms} Baths</span>
+            <span>{property?.bathrooms} Baths</span>
           </div>
           <div className="flex items-center">
             <Maximize className="w-5 h-5 mr-2 text-muted-foreground" />
-            <span>{property?.feature?.area} m<sup>2</sup></span>
+            <span>{property?.area} m<sup>2</sup></span>
           </div>
           <div className="flex items-center">
             <Home className="w-5 h-5 mr-2 text-muted-foreground" />
@@ -118,51 +112,13 @@ export function PropertyCard({ property }: { property: ClientProperty }) {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full">Schedule a Viewing</Button>
+      <ContactDialog property={property} />
+
+        {/* <Button className="w-full">Schedule a Viewing</Button> */}
       </CardFooter>
+
     </Card>
-      {/* <Card className='flex overflow-hidden relative'>
-          <Link href={`/preperties/${property.id}`} className=" w-1/2 aspect-square ">
-            <Image
-              width={200}
-              height={200}
-                className=" h-full w-full rounded-lg"
-                src={property?.images?.[0] || ""} 
-                alt="Card Image"
-              />
-          </Link>
-          <div className='w-1/2'>   
-            <CardHeader>
-              <CardTitle>{property.type} {property.status} </CardTitle>
-              <CardDescription className='flex gap-1'>
-                  <MapPinIcon className="size-4" />
-                  <span>{`${property?.location?.city}`} </span>              
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <span className='bg-yellow-500 rounded-sm p-1'>{property.price} DH</span>
-            </CardContent>
-            <CardFooter >
-            <div className='flex flex-wrap gap-5'>
-            <div className='flex items-center gap-1' > 
-              <RulerIcon className="w-4 h-4" />
-              <span>{property?.feature?.area} m<sup>2</sup></span>
-            </div>
-            <div className='flex items-center gap-1' > 
-              <BedIcon className="w-4 h-4" />
-              <span>{property?.feature?.bedrooms}</span>
-            </div>
-            <div className='flex items-center gap-1' > 
-              <BathIcon className="w-4 h-4" />
-              <span>{property?.feature?.bathrooms}</span>
-            </div>
-            </div>
-  
-            </CardFooter>  
-          </div>
-  
-        <ContactDialog property={property} />
-      </Card> */}
+      
     </>
 
     );

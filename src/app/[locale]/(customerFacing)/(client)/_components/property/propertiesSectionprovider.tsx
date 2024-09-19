@@ -1,10 +1,12 @@
-import { getAllProperties } from "@/app/_actions/actions"
+import { getAllProperties } from "@/app/_actions/client/actions"
 import PropertiesSection from "./propertiesSection"
 
 
 async function PropertiesSectionProvider( ) {
   const properties = await getAllProperties()
+
   return (
+
     <PropertiesSection properties={properties}/>
   )
 }

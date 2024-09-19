@@ -41,34 +41,30 @@ import {
 } from "@/components/ui/table"
 import { Eye, MoreVertical, Pencil, Trash2 } from "lucide-react"
 import Image from "next/image"
-import { Property } from "@prisma/client"
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProperties, selectProperties, selectStatus } from "@/lib/features/agentData/agentData"
 import Link from "next/link"
+import { Offer } from "@prisma/client"
+import { AgentPropertyData } from "@/app/_actions/agent/actions"
 
-export default function MainTableComponent({properties}:{properties:any[]}) {
+
+export default function MainTableComponent({properties}:{properties:AgentPropertyData[]}) {
   
+  const [selectedProperty, setSelectedProperty] = useState<AgentPropertyData | null>(null);
 
-
-  const [selectedProperty, setSelectedProperty] = useState(null)
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
 
-
-
-  const handleViewProperty = (property) => {
+  const handleViewProperty = (property: AgentPropertyData) => {
     setSelectedProperty(property)
     setIsViewDialogOpen(true)
   }
 
-  const handleEditProperty = (property) => {
-    setSelectedProperty(property)
-    setIsEditDialogOpen(true)
-  }
  
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
+  
   const totalPages = properties.length > 0 ? Math.ceil(properties.length / itemsPerPage) : 0
   const paginatedProperties = properties.slice(
     (currentPage - 1) * itemsPerPage,
@@ -95,7 +91,7 @@ export default function MainTableComponent({properties}:{properties:any[]}) {
             <TableRow key={index}>
               <TableCell>
                 <Image
-                  src={property?.images?.[0] || ""}
+                  src={property?.images?.split(",")[0] || ""}
                   alt={property?.type  ||''}
                   width={500}
                   height={500}
@@ -161,7 +157,6 @@ export default function MainTableComponent({properties}:{properties:any[]}) {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
               />
             </PaginationItem>
             {[...Array(totalPages)].map((_, i) => (
@@ -177,7 +172,7 @@ export default function MainTableComponent({properties}:{properties:any[]}) {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
+                
               />
             </PaginationItem>
           </PaginationContent>
@@ -199,13 +194,18 @@ export default function MainTableComponent({properties}:{properties:any[]}) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {selectedProperty?.offers?.map((interaction, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{interaction.number}</TableCell>
-                    <TableCell>{interaction.amount}</TableCell>
-                    <TableCell>{interaction.amount}</TableCell>
-                  </TableRow>
-                ))}
+
+                  {selectedProperty?.offers && selectedProperty.offers.length > 0 ? (
+                    selectedProperty.offers.map((interaction, index) => (
+                      <TableRow key={index}>
+                        {/* <TableCell>{interaction.number ?? 'N/A'}</TableCell> */}
+                        <TableCell>{interaction.amount ?? 'N/A'}</TableCell>
+                        {/* Ensure these fields are relevant and exist in `interaction` */}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <p>You don t have any offers</p>
+                  )}
               </TableBody>
             </Table>
           </div>
@@ -215,7 +215,7 @@ export default function MainTableComponent({properties}:{properties:any[]}) {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit: {selectedProperty?.name}</DialogTitle>
+            <DialogTitle>Edit: {selectedProperty?.type}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <p>Edit functionality would go here.</p>

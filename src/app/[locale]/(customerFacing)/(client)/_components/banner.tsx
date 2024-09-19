@@ -49,7 +49,7 @@ export default function Banner() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left lg:w-1/2">
               <h1 className="mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl">
-                Find Your Dream Home
+                Find Your Dream Property
               </h1>
               <div className="mb-4">
                 <div className="flex">
@@ -83,7 +83,7 @@ export default function Banner() {
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2">
+            {/* <div className="lg:w-1/2">
               <div className=" relative aspect-square overflow-hidden rounded-lg shadow-xl">
                 <Carousel
                   opts={{
@@ -111,7 +111,7 @@ export default function Banner() {
                   </CarouselContent>
                 </Carousel>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

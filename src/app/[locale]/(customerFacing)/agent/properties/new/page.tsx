@@ -1,6 +1,5 @@
 import { PageHeader } from '@/components/pageHeader'
-import { PropertyForm } from '../_components/propertyForm'
-import { FormProperty } from '../_components/formProperty'
+import PropertyListingForm from '../_components/propertyListingForm'
 
 function NewProductPage() {
   return (
@@ -11,7 +10,9 @@ function NewProductPage() {
         Add Prodcut
     </PageHeader>
     {/* <PropertyForm /> */}
-    <FormProperty/>
+    <PropertyListingForm/>
+    {/* <FormProperty/> */}
+    
     </div>
 
     </>

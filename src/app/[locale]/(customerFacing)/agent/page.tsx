@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { PageHeader } from '@/components/pageHeader'
-import { AgentDashboard } from './_dashcomponents/dashboard'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import {
@@ -16,45 +15,16 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from '@/components/ui/badge'
-import { agentId } from './properties/page'
+import { getAgentClients, getAgentProperties } from '@/app/_actions/agent/actions'
 
 // Removed getClerkUsertDetails as it's duplicate of getAgentDetails
 
-async function getAgentProperties(agentId:string) {
-  // Consider adding a filter for the specific agent
-  //  const data = await db.property.count()
-  const data = await db.property.aggregate({
-    where:{
-      agentId:agentId
-    }, 
-    _count:true
-  });
-  return{
-    numberOfProperties: data._count || 0
-  }
-}
 
-async function getAgentClients(agentId: string) {
- const data = await db.client.aggregate({
-    where: {
-      offers: {
-          property: {
-            agentId: agentId
-          }
-        
-      }
-    },
-    _count:true
-  });
-  return{
-    numberOfOffers : data._count || 0}
-  
-}
 
 async function AgentPage() {
   const [offers, properties] = await Promise.all([
-     getAgentClients(agentId),
-     getAgentProperties(agentId)
+     getAgentClients(),
+     getAgentProperties()
   ])
   
 
@@ -63,21 +33,21 @@ async function AgentPage() {
       <PageHeader>Dashboard</PageHeader>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <DashboardCard
+        {/* <DashboardCard
             title= 'Number of properties'
-            body={properties.numberOfProperties as unknown as string}
-          />
-          <DashboardCard
+            body={properties as unknown as string}
+          /> */}
+          {/* <DashboardCard
             title= 'Total Offers'
             body={offers.numberOfOffers as unknown as string}
             
-          />
+          /> */}
         </div>
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
           <TransactionsCard/>
         </div>
       </main>
-      <AgentDashboard/>
+      
       <div className="m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <DashboardCard
             title= 'title'

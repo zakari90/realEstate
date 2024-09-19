@@ -10,7 +10,7 @@ interface UploadVideoButtonProps {
 function UploadVideoButton({ onVideoUpload }: UploadVideoButtonProps) {
 
   return (
-    <Button className="bg-blue-600 p-2 w-[120px] h-[80px] hover:cursor-pointer rounded-sm">
+    <div className="bg-blue-600 p-2 w-[120px] h-[80px] hover:cursor-pointer rounded-sm">
       <UploadButton<OurFileRouter , "videoUploader">
         endpoint="videoUploader"
         onClientUploadComplete={(res) => {
@@ -22,7 +22,7 @@ function UploadVideoButton({ onVideoUpload }: UploadVideoButtonProps) {
           alert(`ERROR! ${error.message}`);
         }}
       />
-    </Button>
+    </div>
   );
 }
 

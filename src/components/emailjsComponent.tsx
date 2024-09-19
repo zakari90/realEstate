@@ -37,7 +37,7 @@ export default function EmailjsComponent() {
 }
 
   return (
-    <form onSubmit={sendEmail} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+    <form onSubmit={sendEmail} className="w-full space-y-4">
     <div>
       <label htmlFor="email" className="sr-only">Email</label>
       <div className="relative">
@@ -50,7 +50,6 @@ export default function EmailjsComponent() {
         onChange={(e) => setEmail(e.target.value)}
         required
         />
-  
         <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"

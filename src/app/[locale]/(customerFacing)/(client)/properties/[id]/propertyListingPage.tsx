@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent } from "@/components/ui/card"
+import EmailLink from "@/components/emailComponent"
+import PhoneCallLink from "@/components/phoneCallComponent"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Bed, Bath, Maximize, Home, MapPin, Calendar, Phone, Mail, ChevronRight, Video, Image as ImageIcon, Map } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -17,9 +17,7 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  TableRow
 } from "@/components/ui/table"
 import {
   Tabs,
@@ -27,14 +25,23 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { ClientProperty } from '../../_components/property/propertiesSection'
+import WhatsAppLink from "@/components/whatsAppComponents"
+import { Agents, Property } from "@prisma/client"
+import { Bath, Bed, Calendar, ChevronRight, Home, Image as ImageIcon, Mail, Map, MapPin, Maximize, Phone, Video } from "lucide-react"
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { ContactDialog } from "../../_components/property/contactDialog"
 
-export default function PropertyListingPage({property}:{property:ClientProperty}) {
+export default function PropertyListingPage({
+  property,
+  agent
+}: {
+  property: Property;
+  agent: Agents | null;
+}) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-
-  const images = property?.images
+  const images  = property.images? property.images.split(",") : [];
   const videoUrl = property.video
   useEffect(() => {
     if (!api) {
@@ -47,9 +54,14 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
       setCurrent(api.selectedScrollSnap())
     })
   }, [api])
+  const features  = property.features? property.features.split(",") : [];
+  
+  const mapIconSize = 40; // Default size for SVG icon
+  const fallbackIconSize =  30; // Default size for fallback icon
 
   return (
     <div className="container mx-auto px-4 py-8">
+      
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="space-y-4">
@@ -59,8 +71,8 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
                   <CarouselItem key={index}>
                     <Image
                     src={src}
-                    width={100}
-                    height={100}
+                    width={600}
+                    height={600}
                     alt={`Property image ${index + 1}`}
                     className="w-full aspect-video object-cover rounded-lg"
                     />
@@ -105,42 +117,90 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
 
           <div className="space-y-4">
             <div className="flex justify-between items-start">
-              <h1 className="text-3xl font-bold">Charming Family Home</h1>
-              <Badge className="text-lg px-3 py-1">For Sale</Badge>
+              <h1 className="text-3xl font-bold">{property.type} </h1>
+              <Badge className="text-lg px-3 py-1">{property.status}</Badge>
             </div>
-            <p className="text-2xl font-bold">$450,000</p>
+            <p className="text-2xl font-bold">{property.price} MAD</p>
             <div className="flex items-center text-muted-foreground">
-              <MapPin className="w-5 h-5 mr-2" />
-              <span>123 Main St, Anytown, USA 12345</span>
+            <div>
+
+            {property.mapUrl ? (
+        <a
+          href={property.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+          }}
+          aria-label="View on Google Maps"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            aria-label="Google Maps"
+            role="img"
+            viewBox="0 0 512 512"
+            style={{
+              width: '100%', // Ensures SVG scales to container size
+              height: '100%', // Ensures SVG scales to container size
+              maxWidth: mapIconSize, // Maximum size constraint
+              maxHeight: mapIconSize, // Maximum size constraint
+            }}
+          >
+            <rect width="512" height="512" rx="15%" fill="#ffffff"></rect>
+            <clipPath id="a">
+              <path d="M375 136a133 133 0 00-79-66 136 136 0 00-40-6 133 133 0 00-103 48 133 133 0 00-31 86c0 38 13 64 13 64 15 32 42 61 61 86a399 399 0 0130 45 222 222 0 0117 42c3 10 6 13 13 13s11-5 13-13a228 228 0 0116-41 472 472 0 0145-63c5-6 32-39 45-64 0 0 15-29 15-68 0-37-15-63-15-63z"></path>
+            </clipPath>
+            <g strokeWidth="130" clipPath="url(#a)">
+              <path stroke="#fbbc04" d="M104 379l152-181"></path>
+              <path stroke="#4285f4" d="M256 198L378 53"></path>
+              <path stroke="#34a853" d="M189 459l243-290"></path>
+              <path stroke="#1a73e8" d="M255 120l-79-67"></path>
+              <path stroke="#ea4335" d="M76 232l91-109"></path>
+            </g>
+            <circle cx="256" cy="198" r="51" fill="#ffffff"></circle>
+          </svg>
+        </a>) : (
+        <MapPin
+          style={{
+            width: fallbackIconSize,
+            height: fallbackIconSize,
+            color: '#000000', // Default color for fallback icon
+          }}
+          aria-label="Location Pin"
+        />
+      )}
+            </div>
+
+              
+              <span>{property.address} </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="flex items-center">
                 <Bed className="w-5 h-5 mr-2 text-muted-foreground" />
-                <span>3 Bedrooms</span>
+                <span>{property.bedrooms} Bedrooms</span>
               </div>
               <div className="flex items-center">
                 <Bath className="w-5 h-5 mr-2 text-muted-foreground" />
-                <span>2 Bathrooms</span>
+                <span>{property.bathrooms} Bathrooms</span>
               </div>
               <div className="flex items-center">
                 <Maximize className="w-5 h-5 mr-2 text-muted-foreground" />
-                <span>1,500 sqft</span>
+                <span>{property.area} m<sup>2</sup></span>
               </div>
-              <div className="flex items-center">
-                <Home className="w-5 h-5 mr-2 text-muted-foreground" />
-                <span>Single Family</span>
-              </div>
+
             </div>
 
             <p className="text-muted-foreground">
-              This charming family home offers a perfect blend of comfort and style. 
-              With its spacious layout, modern amenities, and prime location, it's an 
-              ideal choice for those seeking a welcoming environment to call home.
+              {property.description}
             </p>
           </div>
 {/* TODO : add the fllwing table */}
-          <Card>
+          {/* <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Property Details</h2>
               <Table>
@@ -168,8 +228,12 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
                 </TableBody>
               </Table>
             </CardContent>
-          </Card>
-
+          </Card> */}
+          {features.map((feature, index) => (
+        <Badge className="gap-3" key={index} variant="outline">
+          {feature}
+        </Badge>
+      ))}
           <Card>
             <CardContent className="p-6">
               <Tabs defaultValue="video" className="w-full">
@@ -182,20 +246,20 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
                     <ImageIcon className="w-4 h-4 mr-2" />
                     360° View
                   </TabsTrigger>
-                  <TabsTrigger value="map">
+                  {/* <TabsTrigger value="map">
                     <Map className="w-4 h-4 mr-2" />
                     Map
-                  </TabsTrigger>
+                  </TabsTrigger> */}
                 </TabsList>
                 <TabsContent value="video" className="mt-4">
                   <div className="aspect-video">
                     <iframe
                       width="100%"
                       height="100%"
-                      src={videoUrl}
+                      src={videoUrl || ""}
                       title="Property Video Tour"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      
+                      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
                   </div>
@@ -205,41 +269,53 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
                     <p className="text-muted-foreground">360° Panorama View Placeholder</p>
                   </div>
                 </TabsContent>
-                <TabsContent value="map" className="mt-4">
+                {/* <TabsContent value="map" className="mt-4">
                   <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
                     <p className="text-muted-foreground">Google Maps Embed Placeholder</p>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1574.3173229769047!2d-5.687383368973645!3d33.87584251621207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzPCsDUyJzMyLjMiTiA1wrA0MScxNS42Ilc!5e1!3m2!1sen!2sma!4v1726392154192!5m2!1sen!2sma" width="600" height="450" 
+                     loading="lazy"></iframe>
                   </div>
-                </TabsContent>
+                </TabsContent> */}
               </Tabs>
             </CardContent>
           </Card>
         </div>
 
         <div className="space-y-6">
+        <Card className="animate-pulse bg-yellow-200">
+            <CardContent className="p-6 space-y-4">
+              <h2 className="text-xl font-semibold">Make an offer</h2>
+              <p className="text-sm text-muted-foreground">
+              You can make an offer that suits you best in terms of price and payment period.
+              </p>
+              <ContactDialog property={property}/>
+            </CardContent>
+          </Card>
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h2 className="text-xl font-semibold">Contact Agent</h2>
-              <img
-                src="/placeholder.svg?height=100&width=100&text=Agent"
+              <h2 className="text-xl font-semibold">Contact Publisher</h2>
+              <Image
+                width={200}
+                height={200}
+                src={agent?.image ||"https://utfs.io/f/5fc9f0eb-0403-4072-9003-ca31cdab076d-24goo2.jpg"}
                 alt="Agent"
                 className="w-24 h-24 rounded-full mx-auto"
               />
               <div className="text-center">
-                <p className="font-semibold">Jane Doe</p>
-                <p className="text-sm text-muted-foreground">Luxury Real Estate Specialist</p>
+                <p className="font-semibold">{agent?.name}</p>
+                {/* TODO: add agent description to db */}
+                {/* <p className="text-sm text-muted-foreground">Luxury Real Estate Specialist</p> */}
               </div>
-              <div className="space-y-2">
-                <Button className="w-full">
-                  <Phone className="mr-2 h-4 w-4" /> Call Agent
-                </Button>
-                <Button variant="outline" className="w-full">
-                  <Mail className="mr-2 h-4 w-4" /> Email Agent
-                </Button>
-              </div>
+              <div className="space-y-2 flex justify-around items-center">
+                <PhoneCallLink phone={agent?.phone || ""}/>
+                <WhatsAppLink productName={property.type + " " + property.address} />
+                <EmailLink />
+   
+            </div>
             </CardContent>
           </Card>
-
-          <Card>
+{/* TODO: add Schedule a Viewing*/}
+          {/* <Card>
             <CardContent className="p-6 space-y-4">
               <h2 className="text-xl font-semibold">Schedule a Viewing</h2>
               <div className="flex items-center text-muted-foreground">
@@ -250,19 +326,9 @@ export default function PropertyListingPage({property}:{property:ClientProperty}
                 Book Appointment <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
-          </Card>
+          </Card> */}
 
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <h2 className="text-xl font-semibold">Mortgage Calculator</h2>
-              <p className="text-sm text-muted-foreground">
-                Estimated monthly payment: <span className="font-semibold">$2,100</span>
-              </p>
-              <Button variant="outline" className="w-full">
-                Calculate Mortgage
-              </Button>
-            </CardContent>
-          </Card>
+
         </div>
       </div>
     </div>

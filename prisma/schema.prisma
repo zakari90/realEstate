@@ -12,6 +12,7 @@ model Agents {
   clerkId    String?    @unique
   name       String?
   email      String?    @unique
+  image      String?    
   phone      String?
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
@@ -19,53 +20,30 @@ model Agents {
 }
 
 model Property {
-  id          String            @id @default(uuid())
-  type        String?
-  description String?
-  price       Int?
-  agentId     String?
-  status      String?
-  locationId  String?           @unique
-  featureId   String?           @unique
-  video       String?
-  panorama    String?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  offers      Offer[]
-  feature     PropertyFeature?  @relation(fields: [featureId], references: [id], onDelete: Cascade)
-  location    PropertyLocation? @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  agent       Agents?           @relation(fields: [agentId], references: [id])
-  images      PropertyImage[]
-}
-
-model PropertyImage {
-  id         String    @id @default(uuid())
-  url        String?
-  propertyId String?
-  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-}
-
-model PropertyFeature {
   id              String    @id @default(uuid())
+  type            String?
+  status          String?
+  address         String?
+  mapUrl          String?
+  description     String?
+  price           Int?  
+  area            Int?
   bedrooms        Int?
   bathrooms       Int?
-  area            Int?
-  parkingSpot     Boolean?
-  swimmingPool    Boolean?
-  gardenYard      Boolean?
-  balcony         Boolean?
-  property        Property?
+  agentId         String?
+  video           String?
+  panorama        String?
+  images          String?
+  features        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  offers          Offer[]
+  agent           Agents?   @relation(fields: [agentId], references: [id])
 }
 
-model PropertyLocation {
-  id            String    @id @default(uuid())
-  streetAddress String?
-  city          String?
-  zip           String?
-  landmark      String?
-  property      Property?
-}
 
+
+   
 
 model Client {
   id        String   @id @default(uuid())

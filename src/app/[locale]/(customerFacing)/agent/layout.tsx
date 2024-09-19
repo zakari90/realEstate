@@ -19,18 +19,12 @@ export default function AgentLayout({
   }>) {
   return (
     <>
-    {/* <ClerkProvider> */}
+    <ClerkProvider>
    
     <div className="w-full">
-      
-    {/* <div className="m-auto w-1/2 flex justify-center">
-      <SignedOut >
-        <SignIn routing="hash" />
-      </SignedOut>
-    </div> */}
-    {/* <SignedIn> */}
+    <SignedIn>
     <div className="flex justify-around">
-    {/* <UserButton /> */}
+    <UserButton />
       <LangSwitcher />
       <Nav>
         <NavLink href="/agent">Dashboard</NavLink>
@@ -42,9 +36,15 @@ export default function AgentLayout({
       
     </div> 
       {children}
-    {/* </SignedIn> */}
+    </SignedIn>
+    <div className="m-auto w-1/2 flex justify-center">
+      <SignedOut >
+        <SignIn routing="hash" />
+      </SignedOut>
     </div>
-    {/* </ClerkProvider> */}
+
+    </div>
+    </ClerkProvider>
 
     </>
     ); 

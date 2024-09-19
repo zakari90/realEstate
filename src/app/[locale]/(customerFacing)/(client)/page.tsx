@@ -1,9 +1,8 @@
 import ContactSection from '@/components/contactSection';
-import { Separator } from '@/components/ui/separator';
 import { useTranslations } from 'next-intl';
 import Banner from './_components/banner';
 import PropertiesSectionProvider from './_components/property/propertiesSectionprovider';
-import ClientFooter from './test/clientFootre';
+import ServiceSection from '@/components/servicesSection';
 
 
 
@@ -25,9 +24,9 @@ export default function Home({params} :{
 
       {/* --------------------- */}
       {/* services */}
-
+      <ServiceSection/>
       {/* contact */}      
-      <ContactSection title={contactSection("title")} description={contactSection("description")} />
+      {/* <ContactSection title={contactSection("title")} description={contactSection("description")} /> */}
       {/* --------------------- */}
     </>
   );

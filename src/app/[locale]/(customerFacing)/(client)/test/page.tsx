@@ -1,33 +1,99 @@
+"use client"
 
-import React from 'react'
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { Home, Phone, Mail, MapPin, Star, Key, Search, Building, Warehouse, MapPinIcon, RulerIcon } from 'lucide-react'
+import axios from 'axios';
 
-import { BathIcon, BedIcon, Pin, PinIcon, Ruler} from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import { useEffect, useState } from 'react'
 
-import Link from 'next/link'
-import Image from 'next/image'
-import db from '@/db/db'
-import { getRecentProperties } from '@/app/_actions/actions'
+interface Post {
+  id: number;
+  body: string;
+}
 
-import Banner from '../_components/banner'
+function App() {
+  const rowsPerPage = 10;
+  const [data, setData] = useState<Post[]>([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(rowsPerPage);
 
 
+  const getData = async () => {
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+      const data = response.data;
+      console.log(38, data);
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+  useEffect(() => {
+    getData();
+  }, [])
 
-async function page() {
-  const properties = await getRecentProperties()
   return (
     <>
-    <Banner/>
-    
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Id</TableHead>
+            <TableHead>Body</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.slice(startIndex, endIndex).map((item) => {
+            return <>
+              <TableRow>
+                <TableCell className="text-left">{item.id}</TableCell>
+                <TableCell className="text-left">{item.body}</TableCell>
+              </TableRow>
+            </>
+          })}
+
+        </TableBody>
+      </Table>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              className={
+                startIndex === 0 ? "pointer-events-none opacity-50" : undefined
+              }
+              onClick={() => {
+                setStartIndex(startIndex - rowsPerPage);
+                setEndIndex(endIndex - rowsPerPage);
+              }} />
+          </PaginationItem>
+
+          <PaginationItem>
+            <PaginationNext
+              className={
+                endIndex === 100 ? "pointer-events-none opacity-50" : undefined
+              }
+              onClick={() => {
+                setStartIndex(startIndex + rowsPerPage); //10
+                setEndIndex(endIndex + rowsPerPage); //10 + 10 = 20
+              }} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+
     </>
   )
 }
 
-export default page
-
+export default App

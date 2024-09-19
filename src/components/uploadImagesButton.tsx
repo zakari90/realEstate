@@ -9,7 +9,7 @@ function UploadImagesButton({ onImagesUpload }: UploadImagesButtonProps) {
 
 
   return (
-      <Button className="bg-blue-600 p-2 w-[120px] h-[90px] hover:cursor-pointer rounded-sm">
+      <div className="bg-blue-600 p-2 w-[120px] h-[90px] hover:cursor-pointer rounded-sm">
       <UploadButton<OurFileRouter,"imagesUploader">
           endpoint="imagesUploader"
           onClientUploadComplete={(res) => {
@@ -23,7 +23,7 @@ function UploadImagesButton({ onImagesUpload }: UploadImagesButtonProps) {
             alert(`ERROR! ${error.message}`);
           }}
         />
-      </Button>
+      </div>
   );
 }
 export default UploadImagesButton

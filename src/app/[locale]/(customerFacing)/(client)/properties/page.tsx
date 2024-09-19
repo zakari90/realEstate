@@ -1,12 +1,14 @@
+import { getAllProperties } from '@/app/_actions/client/actions'
 import { PageHeader } from '@/components/pageHeader'
-import MainPropertiesSectionProvider from '../_components/property/mainPropertiesSectionProvider'
+import MainPropertiesSection from '../_components/property/mainPropertiesSection'
 
-function PropertiesPage() {
+async function PropertiesPage() {
+  const properties = await getAllProperties()
+
   return (
     <>
-    <PageHeader>PropertiesPage</PageHeader>
-    <MainPropertiesSectionProvider/>
-
+    {/* <PageHeader>PropertiesPage</PageHeader> */}
+    <MainPropertiesSection properties={properties}/>
 </>
 
   )
