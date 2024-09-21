@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button"
 import { Bed, Bath, Maximize, Home } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Property } from "@prisma/client";
-import { ClientProperty } from "@/app/_actions/client/actions";
+import { ClientProperty } from "@/_actions/client/actions";
 export function PropertyCard({ property }: { property: ClientProperty }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)

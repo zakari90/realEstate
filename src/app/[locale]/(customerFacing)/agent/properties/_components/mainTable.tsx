@@ -45,7 +45,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchProperties, selectProperties, selectStatus } from "@/lib/features/agentData/agentData"
 import Link from "next/link"
 import { Offer } from "@prisma/client"
-import { AgentPropertyData } from "@/app/_actions/agent/actions"
+import { AgentPropertyData } from "@/_actions/agent/actions"
 
 
 export default function MainTableComponent({properties}:{properties:AgentPropertyData[]}) {

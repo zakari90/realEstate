@@ -9,6 +9,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs';
+import { NavBar } from "../(client)/_components/clientNavbar";
 export const dynamic = "force-dynamic"
 
 //TODO : translate this navigation use my navbar
@@ -17,25 +18,32 @@ export default function AgentLayout({
   }: Readonly<{
     children: React.ReactNode;
   }>) {
+    const navItems = [
+      { href: "/agent", label: "Dashboard" },
+      { href: "/agent/properties", label: "Properties" },
+      // { href: "/aboutUs", label: "About us" },
+    ];
+    
   return (
     <>
     <ClerkProvider>
    
-    <div className="w-full">
+    <div className="w-full relative">
     <SignedIn>
-    <div className="flex justify-around">
-    <UserButton />
-      <LangSwitcher />
+    
+      {/* <LangSwitcher />
       <Nav>
         <NavLink href="/agent">Dashboard</NavLink>
         <NavLink href="/agent/properties">properties</NavLink>
         <NavLink href="/agent/customers">Customers</NavLink>
         <NavLink href="/agent/profile">Profile</NavLink>
       </Nav>
-      <ModeToggle/>
-      
-    </div> 
-      {children}
+      <ModeToggle/> */}
+      <div className="absolute top-5 right-2">
+        <UserButton />
+      </div>
+      <NavBar navItems={navItems}/>
+        {children}
     </SignedIn>
     <div className="m-auto w-1/2 flex justify-center">
       <SignedOut >

@@ -1,6 +1,6 @@
 
 import { PageHeader } from "@/components/pageHeader"
-import { getAgentProperties } from "@/app/_actions/agent/actions"
+import { getAgentProperties } from "@/_actions/agent/actions"
 import PropertyListingForm from "../../_components/propertyListingForm"
 
 async function EditProductPage({params :{id}}:{

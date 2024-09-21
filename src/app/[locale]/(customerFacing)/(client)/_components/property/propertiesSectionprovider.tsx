@@ -1,4 +1,4 @@
-import { getAllProperties } from "@/app/_actions/client/actions"
+import { getAllProperties } from "@/_actions/client/actions"
 import PropertiesSection from "./propertiesSection"
 
 

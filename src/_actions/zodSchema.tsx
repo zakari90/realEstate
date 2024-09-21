@@ -39,6 +39,7 @@ export const agentFormSchema = z.object({
 
 export const offerFormSchema = z.object({
     propertyId: z.string().min(1),
+    period: z.string(),
     amount: z.string().transform((val) => parseInt(val, 10)).refine((val) => !isNaN(val) && val > 0, { message: "Amount is required and must be a positive number" }),
   
   });

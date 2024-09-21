@@ -7,7 +7,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 
-import { ClientProperty } from "@/app/_actions/client/actions";
+import { ClientProperty } from "@/_actions/client/actions";
 import { ClientOfferForm } from "./clientOfferForm";
 export function ContactDialog({ property }: { property: ClientProperty }){
     return(

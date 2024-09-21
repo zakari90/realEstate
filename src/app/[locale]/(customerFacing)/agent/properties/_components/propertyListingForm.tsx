@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Plus, Minus, HelpCircle } from "lucide-react"
 import { useFormState, useFormStatus } from "react-dom"
-import { addProperty, updateProperty } from '@/app/_actions/agent/actions'
+import { addProperty, updateProperty } from '@/_actions/agent/actions'
 import UploadVideoButton from '@/components/uploadvideoButton'
 import Image from 'next/image'
 import UploadImagesButton from '@/components/uploadImagesButton'

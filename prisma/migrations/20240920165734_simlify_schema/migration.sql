@@ -4,6 +4,7 @@ CREATE TABLE "Agents" (
     "clerkId" TEXT,
     "name" TEXT,
     "email" TEXT,
+    "image" TEXT,
     "phone" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
@@ -13,50 +14,22 @@ CREATE TABLE "Agents" (
 CREATE TABLE "Property" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "type" TEXT,
+    "status" TEXT,
+    "address" TEXT,
+    "mapUrl" TEXT,
     "description" TEXT,
     "price" INTEGER,
-    "agentId" TEXT,
-    "status" TEXT,
-    "locationId" TEXT,
-    "featureId" TEXT,
-    "video" TEXT,
-    "panorama" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "Property_featureId_fkey" FOREIGN KEY ("featureId") REFERENCES "PropertyFeature" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "Property_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "PropertyLocation" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "Property_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "Agents" ("id") ON DELETE SET NULL ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "PropertyImage" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "url" TEXT,
-    "propertyId" TEXT,
-    CONSTRAINT "PropertyImage_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "PropertyFeature" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "area" INTEGER,
     "bedrooms" INTEGER,
     "bathrooms" INTEGER,
-    "parkingSpots" INTEGER,
-    "area" INTEGER,
-    "hasSwimmingPool" BOOLEAN,
-    "hasGardenYard" BOOLEAN,
-    "hasBalcony" BOOLEAN
-);
-
--- CreateTable
-CREATE TABLE "PropertyLocation" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "streetAddress" TEXT,
-    "city" TEXT,
-    "state" TEXT,
-    "zip" TEXT,
-    "region" TEXT,
-    "landmark" TEXT
+    "agentId" TEXT,
+    "video" TEXT,
+    "panorama" TEXT,
+    "images" TEXT,
+    "features" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Property_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "Agents" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -72,10 +45,12 @@ CREATE TABLE "Client" (
 -- CreateTable
 CREATE TABLE "Offer" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "status" BOOLEAN,
+    "amount" INTEGER NOT NULL,
+    "period" TEXT NOT NULL,
     "propertyId" TEXT,
     "clientId" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "amount" REAL,
     CONSTRAINT "Offer_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Client" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Offer_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -87,10 +62,4 @@ CREATE UNIQUE INDEX "Agents_clerkId_key" ON "Agents"("clerkId");
 CREATE UNIQUE INDEX "Agents_email_key" ON "Agents"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Property_locationId_key" ON "Property"("locationId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Property_featureId_key" ON "Property"("featureId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Client_email_key" ON "Client"("email");
+CREATE UNIQUE INDEX "Offer_clientId_key" ON "Offer"("clientId");

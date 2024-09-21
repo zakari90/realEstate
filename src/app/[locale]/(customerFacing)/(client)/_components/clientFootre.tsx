@@ -13,10 +13,10 @@ export default function ClientFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center md:text-left">
             <h3 className="text-lg font-semibold mb-4">About Us</h3>
-            <p className="text-sm">
+            <div className="text-sm">
               <LogoComponent/>
               We are a company dedicated to providing excellent services and products to our customers.
-            </p>
+            </div>
           </div>
           <div className="text-center md:text-left">
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>

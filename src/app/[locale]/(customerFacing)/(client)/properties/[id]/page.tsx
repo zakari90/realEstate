@@ -1,5 +1,5 @@
 
-import { getAgentWithPropertyId, getPropertyWithId } from "@/app/_actions/client/actions"
+import { getAgentWithPropertyId, getPropertyWithId } from "@/_actions/client/actions"
 import PropertyListingPage from "./propertyListingPage"
 
 async function PropertyPage({params :{id}}:{

@@ -7,8 +7,8 @@ import React, { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { useFormState, useFormStatus } from "react-dom";
-import { createClientOffer } from "@/app/_actions/agent/actions";
-import { ClientProperty } from "@/app/_actions/client/actions";
+import { createClientOffer } from "@/_actions/agent/actions";
+import { ClientProperty } from "@/_actions/client/actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 

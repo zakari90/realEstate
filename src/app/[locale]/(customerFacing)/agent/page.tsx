@@ -1,3 +1,4 @@
+"use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import db from '@/db/db'
 import { Input } from '@/components/ui/input'
@@ -5,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { PageHeader } from '@/components/pageHeader'
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Loader2 } from 'lucide-react'
 import {
   Table,
   TableBody,
@@ -15,22 +16,42 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from '@/components/ui/badge'
-import { getAgentClients, getAgentProperties } from '@/app/_actions/agent/actions'
+import { getAgentClients, getAgentProperties } from '@/_actions/agent/actions'
+import OffersTable from './properties/_components/offersTable'
+import { useEffect } from 'react'
+import { useAgentStore } from '@/context/store'
 
 // Removed getClerkUsertDetails as it's duplicate of getAgentDetails
 
 
 
-async function AgentPage() {
-  const [offers, properties] = await Promise.all([
-     getAgentClients(),
-     getAgentProperties()
-  ])
-  
+function AgentPage() {
+  const { agent, agentProperties, error, isLoading, fetchAgentData } = useAgentStore()
 
+  useEffect(() => {
+    fetchAgentData()
+  }, [fetchAgentData])
+
+  if (isLoading) return  <div className="flex justify-center"><Loader2 className="size-24 animate-spin" /></div>
+  if (error) return <div>Error: {error}</div>
+  console.log("---------------------------")
+  // console.log( agent?.name, agentProperties, error, isLoading, fetchAgentData  )
+  console.log( agentProperties.properties[0] )
+  console.log("---------------------------")
+
+
+  // const numberOfOffers = offers.numberOfOffers ? offers.numberOfOffers + "" : "0"
+  const numberOfProprties = agentProperties.properties.length ? agentProperties.properties.length + "" : "0"
   return (
     <div className="container">
       <PageHeader>Dashboard</PageHeader>
+      <div className="m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <DashboardCard
+            title= 'Number of properties'
+            body={numberOfProprties}
+          />
+
+        </div>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         {/* <DashboardCard
@@ -43,17 +64,8 @@ async function AgentPage() {
             
           /> */}
         </div>
-        <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          <TransactionsCard/>
-        </div>
+        <OffersTable properties={agentProperties?.properties}/>
       </main>
-      
-      <div className="m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <DashboardCard
-            title= 'title'
-            body="body"
-          />
-        </div>
     </div>
   )
 }

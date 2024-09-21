@@ -57,10 +57,12 @@ model Client {
 
 model Offer {
   id         String    @id @default(uuid())
+  status     Boolean?
+  amount     Int
+  period     String
   propertyId String?
   clientId   String?   @unique
   createdAt  DateTime  @default(now())
-  amount     Int
   client     Client?   @relation(fields: [clientId], references: [id], onDelete: Restrict)
   property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }

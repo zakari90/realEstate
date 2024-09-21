@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { MainTable } from "./mainTable";
-import { deleteProperty } from "@/app/_actions/agent/actions";
+import { deleteProperty } from "@/_actions/agent/actions";
 
 const data = [
     {

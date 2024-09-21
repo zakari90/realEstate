@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache"
 import { notFound, redirect } from "next/navigation"
 import { agentFormSchema, clientFormSchema, offerFormSchema, propertyFormSchema } from "../zodSchema"
 import { Offer, Property } from "@prisma/client"
+import { count } from "console"
 
 
 export interface AgentPropertyData {
@@ -278,6 +279,7 @@ export async function updateAgentData(formData: FormData) {
         phone: result.data.phoneNumber
       }
     });
+    redirect("/agent/properties")
   } catch (error) {
     console.error("Error updating agent data:", error);
     throw error; // Re-throw error for higher-level handling
@@ -292,12 +294,14 @@ export async function createClientOffer(prevState: { status: string; message: st
     const clientEmail = formData.get('clientEmail') as string;
     const propertyId = formData.get('propertyId') as string;
     const clientOffer = formData.get('clientOffer') as string;
+    const clientPeriod = formData.get('clientPeriod') as string;
 
     // Validate the client data using the schema
     const parseClient = clientFormSchema.safeParse({
       clientPhone,
       clientName,
       clientEmail,
+      
     });
 
     // Check if client data is valid
@@ -314,6 +318,7 @@ export async function createClientOffer(prevState: { status: string; message: st
     const parseOffer = offerFormSchema.safeParse({
       propertyId,
       amount: clientOffer,
+      period:clientPeriod
     });
 
     // Check if offer data is valid
@@ -345,10 +350,10 @@ export async function createClientOffer(prevState: { status: string; message: st
         propertyId: offerData.propertyId,
         clientId: newClient.id, // Use the newly created client ID
         amount: offerData.amount,
+        period: offerData.period
       },
     });
 
-    // Return success status if everything is created successfully
     return { 
       status: 'success', 
       message: 'Offer created successfully' 
@@ -364,57 +369,6 @@ export async function createClientOffer(prevState: { status: string; message: st
 }
 
 
-// export async function createClientOffer(prevState: any,formData: FormData) {
-//   try {
-//     const clientPhone = formData.get('clientPhone') ;
-//     const clientName = formData.get('clientName') ;
-//     const clientEmail = formData.get('clientEmail') ;
-//     const propertyId = formData.get('propertyId') ;
-//     const clientOffer = formData.get('clientOffer') ;
-//     const parseClient = clientFormSchema.safeParse({
-//       clientPhone,
-//       clientName,
-//       clientEmail,
-//     });
-
-//     if (!parseClient.success) {
-//       return  parseClient.error.formErrors.fieldErrors ;
-//     }
-//     // Validate offer data
-//     const parseOffer = offerFormSchema.safeParse({
-//       propertyId,
-//       amount: clientOffer,
-//     });
-
-//     if (!parseOffer.success) {
-//       console.error("Offer validation failed:", parseOffer.error.errors);
-//       return parseOffer.error.formErrors.fieldErrors
-//     }
-
-//     const clientData = parseClient.data;
-//     const offerData = parseOffer.data;
-
-//     // Create client
-//     const newClient = await db.client.create({
-//       data: {
-//         phone: clientData.clientPhone,
-//         email: clientData.clientEmail || "",
-//         name: clientData.clientName || "",
-//       },
-//     });
-//     await db.offer.create({
-//       data: {
-//         propertyId: offerData.propertyId,
-//         clientId: newClient.id,
-//         amount: offerData.amount,
-//       },
-//     });
-//     redirect("/properties")
-//   } catch (error) {
-//     console.error("An unexpected error occurred while creating offer:", error);
-//   }
-//   redirect("/")
-// }
 // TODO: delete files from unploadthing
 export async function deleteProperty(
   id: string,
@@ -424,7 +378,6 @@ export async function deleteProperty(
   revalidatePath("/")
   revalidatePath("/products")
   }
-
 
 export async function getPropertyOffers(propertyId: string): Promise<{ propertyOffers: Offer[] }> {
   try {
@@ -442,59 +395,6 @@ export async function getPropertyOffers(propertyId: string): Promise<{ propertyO
   }
 }
 
-// export async function getAgentProperties(): Promise<{ properties: Property[] }> {
-//   try {
-//     const agent = await registerClerkUserAsAgent();
-//     if (!agent) {
-//       console.log("Agent not found");
-//       return { properties: [] }; // Returning an empty array for consistency
-//     }
-
-//     const properties = await db.property.findMany({
-//       where: { agentId: agent.id },
-//       include: {
-//         offers: {
-//           include: {
-//             client: true,
-//           },
-//         },
-//       },
-//     });
-
-//     // Process properties if needed
-//     const formattedProperties = properties.map(property => ({
-//       id: property.id,
-//       type: property.type,
-//       description: property.description,
-//       price: property.price,
-//       agentId: property.agentId,
-//       status: property.status,
-//       video: property.video,
-//       panorama: property.panorama,
-//       createdAt: property.createdAt,
-//       updatedAt: property.updatedAt,
-//       features: property.features,
-//       address: property.address,
-//       bedrooms: property.bedrooms,
-//       bathrooms: property.bathrooms,
-//       images: property.images,
-//       offers: property.offers.map(offer => ({
-//         id: offer.id,
-//         amount: offer.amount,
-//         createdAt: offer.createdAt,
-//         clientName: offer.client?.name || null,
-//         clientEmail: offer.client?.email || null,
-//       })),
-//     }));
-
-//     return { properties : formattedProperties};
-
-//   } catch (error) {
-//     console.error('Error fetching properties with details for agent:', error);
-//     throw new Error('Error fetching properties'); // Return a custom error message
-//   }
-// }
-  
 export async function getAgentProperties(): Promise<{ properties: AgentPropertyData[] }> {
   try {
     // Register the clerk user as an agent and handle the case where the agent is not found
@@ -570,8 +470,7 @@ export async function getAgentPropertyOffers(propertyId:string) {
     }
       
     }
-
-    
+  
 export async function getAgentClients() {
   const agent = await registerClerkUserAsAgent();
     if (!agent) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { ClientProperty } from "@/app/_actions/client/actions";
+import { ClientProperty } from "@/_actions/client/actions";
 import { PageHeader } from "@/components/pageHeader";
 import { PropertyCard } from "./propertyCard";
 import {
