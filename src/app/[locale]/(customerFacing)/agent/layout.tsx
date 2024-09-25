@@ -30,8 +30,9 @@ export default function AgentLayout({
    
     <div className="w-full relative">
     <SignedIn>
+    <LangSwitcher />
     
-      {/* <LangSwitcher />
+      {/* 
       <Nav>
         <NavLink href="/agent">Dashboard</NavLink>
         <NavLink href="/agent/properties">properties</NavLink>

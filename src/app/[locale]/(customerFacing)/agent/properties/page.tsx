@@ -20,27 +20,23 @@ export default function AgentDashboard() {
 
   if (isLoading) return  <div className="flex justify-center"><Loader2 className="size-24 animate-spin" /></div>
   if (error) return <div>Error: {error}</div>
-  const agentPhone = agent?.phone ? <></> : <form action={updateAgentData} className="m-auto md:w-1/3">
-  <div className='flex'>
+  const agentTable= agent?.phone 
+  ? <div>
+    <div className='flex justify-between mt-2'>
+      <PageHeader>Properties</PageHeader>
+      <Button> <Link href="/agent/properties/new">Add Property</Link> </Button> 
+    </div>
+    <MainTableComponent properties={agentProperties.properties} /> 
+  </div> 
+  : <form action={updateAgentData} className="m-auto md:w-1/3">
+  <div className='flex justify-center items-center ml-auto mr-auto w-2/3'>
     <Input type="text" id="phoneNumber" name="phoneNumber" placeholder='Phone Number'/>   
     <Button className='ml-3' type="submit">Submit</Button>
   </div>
 </form>
   return (
     <div className="container">
-      <div className="flex justify-between items-center gap-4 mt-2">
-        {agentPhone}
-        
-      </div>
-      <div className="w-full mt-2">
-            <div className="flex justify-between w-full ">
-              <PageHeader>Properties</PageHeader>
-              <Button>
-                <Link href="/agent/properties/new">Add Property</Link>
-              </Button>
-            </div>
-            <MainTableComponent properties={agentProperties.properties} />
-          </div>
+              {agentTable}           
     </div>
   )
 }

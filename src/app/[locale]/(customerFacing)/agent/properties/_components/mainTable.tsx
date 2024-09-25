@@ -1,6 +1,7 @@
 "use client"
-import { useEffect, useState } from "react"
+import { AgentPropertyData, deletePropertyById } from "@/_actions/agent/actions"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
   DialogContent,
@@ -15,14 +16,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Label } from "@/components/ui/label"
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+  PaginationLink
 } from "@/components/ui/pagination"
 import {
   Select,
@@ -39,21 +38,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Eye, MoreVertical, Pencil, Trash2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, Eye, MoreVertical, Pencil, Trash2 } from "lucide-react"
 import Image from "next/image"
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchProperties, selectProperties, selectStatus } from "@/lib/features/agentData/agentData"
 import Link from "next/link"
-import { Offer } from "@prisma/client"
-import { AgentPropertyData } from "@/_actions/agent/actions"
+import { useState } from "react"
 
-
+const initialColumns = [
+  { key: 'image', label: 'Image' },
+  { key: 'property', label: 'Property' },
+  { key: 'state', label: 'State' },
+  { key: 'price', label: 'Price' },
+  { key: 'status', label: 'Availability' },
+  { key: 'date', label: 'Date' },
+  { key: 'actions', label: 'Actions' },
+]
 export default function MainTableComponent({properties}:{properties:AgentPropertyData[]}) {
   
+
+  const [visibleColumns, setVisibleColumns] = useState(initialColumns.map(col => col.key))
+  const toggleColumn = (columnKey: string) => {
+    setVisibleColumns(prev => 
+      prev.includes(columnKey)
+        ? prev.filter(key => key !== columnKey)
+        : [...prev, columnKey]
+    )
+  }
   const [selectedProperty, setSelectedProperty] = useState<AgentPropertyData | null>(null);
 
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
 
   const handleViewProperty = (property: AgentPropertyData) => {
@@ -70,25 +82,43 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
-  
- 
   if (properties.length === 0) return <p>No products found</p>
+
+  const handleDelete = async (id: string) => {
+    console.log(id)
+    await deletePropertyById(id);
+};
   return (
     <div className="w-full overflow-auto">
+
+              <div className="mb-4 flex flex-wrap gap-4">
+          {initialColumns.map(column => (
+            <div key={column.key} className="flex items-center space-x-2">
+              <Checkbox
+                id={`column-${column.key}`}
+                checked={visibleColumns.includes(column.key)}
+                onCheckedChange={() => toggleColumn(column.key)}
+              />
+              <Label htmlFor={`column-${column.key}`}>{column.label}</Label>
+            </div>
+          ))}
+        </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Image</TableHead>
-            <TableHead>Property</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+          {initialColumns.map(column => 
+                  visibleColumns.includes(column.key) && (
+                    <TableHead key={column.key} className="whitespace-nowrap">
+                      {column.label}
+                    </TableHead>
+                  )
+                )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {paginatedProperties.map((property, index) => (
             <TableRow key={index}>
+                {visibleColumns.includes("image") && 
               <TableCell>
                 <Image
                   src={property?.images?.split(",")[0] || ""}
@@ -97,12 +127,14 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                   height={500}
                   className="w-12 h-12 object-cover rounded"
                 />
-              </TableCell>
-              <TableCell className="font-medium">{property?.type}</TableCell>
-              <TableCell>{property?.status}</TableCell>
-              <TableCell>{property?.price}</TableCell>
-              <TableCell>{new Date(property.createdAt).toLocaleDateString()}</TableCell>
-              <TableCell className="text-right">
+              </TableCell>}
+              
+              {visibleColumns.includes("property") && <TableCell>{property?.type}</TableCell>}
+              {visibleColumns.includes("status") && <TableCell>{property?.state}</TableCell>}
+              {visibleColumns.includes("status") && <TableCell>{property?.price}</TableCell>}
+              {visibleColumns.includes("price") && <TableCell>{property?.status}</TableCell>}
+              {visibleColumns.includes("date") && <TableCell>{new Date(property.createdAt).toLocaleDateString()}</TableCell>}
+              {visibleColumns.includes("actions") && <TableCell className="text-right">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
@@ -116,20 +148,20 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                       <Eye className="mr-2 h-4 w-4" />
                       <span>View</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                     <Link className="hover:cursor-pointer" href={`/agent/properties/${property.id}/edit`}>
                       <Pencil className="mr-2 h-4 w-4" />
                       <span>Edit</span>
                       </Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-destructive">
+                    <DropdownMenuItem className="text-destructive hover:cursor-pointer" onClick={()=> handleDelete(property.id)}>
                       <Trash2 className="mr-2 h-4 w-4" />
                       <span>Delete</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </TableCell>
+              </TableCell>}
             </TableRow>
           ))}
         </TableBody>
@@ -155,9 +187,10 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              />
+            <Button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1} >
+                   <ArrowLeft className='h-4 w-4'/>
+                </Button>
             </PaginationItem>
             {[...Array(totalPages)].map((_, i) => (
               <PaginationItem key={i}>
@@ -170,10 +203,10 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
               </PaginationItem>
             ))}
             <PaginationItem>
-              <PaginationNext
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                
-              />
+            <Button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}>
+                   <ArrowRight className='h-4 w-4'/>
+                </Button>
             </PaginationItem>
           </PaginationContent>
         </Pagination>
@@ -189,19 +222,22 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
               <TableHeader>
                 <TableRow>
                   <TableHead>Customer Number</TableHead>
-                  <TableHead>Offer Amount</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Period</TableHead>
                   <TableHead>Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-
+              
                   {selectedProperty?.offers && selectedProperty.offers.length > 0 ? (
                     selectedProperty.offers.map((interaction, index) => (
                       <TableRow key={index}>
-                        {/* <TableCell>{interaction.number ?? 'N/A'}</TableCell> */}
-                        <TableCell>{interaction.amount ?? 'N/A'}</TableCell>
-                        {/* Ensure these fields are relevant and exist in `interaction` */}
-                      </TableRow>
+                {/* @ts-ignore */}
+                <TableCell className="">{interaction.client?.phone ?? 'N/A'}</TableCell>
+                <TableCell>{interaction.amount ?? 'N/A'}</TableCell>
+                <TableCell>{interaction.period ?? 'N/A'}</TableCell>
+                <TableCell>{interaction.createdAt ? new Date(interaction.createdAt).toLocaleDateString() : 'N/A'}</TableCell>
+              </TableRow>
                     ))
                   ) : (
                     <p>You don t have any offers</p>
@@ -212,16 +248,7 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit: {selectedProperty?.type}</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <p>Edit functionality would go here.</p>
-          </div>
-        </DialogContent>
-      </Dialog>
+
     </div>
   )
 }

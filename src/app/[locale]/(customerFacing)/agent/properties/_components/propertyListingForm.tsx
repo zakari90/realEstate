@@ -1,30 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Plus, Minus, HelpCircle } from "lucide-react"
-import { useFormState, useFormStatus } from "react-dom"
-import { addProperty, updateProperty } from '@/_actions/agent/actions'
+import { HelpCircle, Minus, Plus } from "lucide-react"
+import { useState } from 'react'
+import { useFormState } from "react-dom"
+
+import { addProperty, AgentPropertyData, updateProperty, utapi } from '@/_actions/agent/actions'
+import UploadImagesButton from '@/components/uploadImagesButton'
 import UploadVideoButton from '@/components/uploadvideoButton'
 import Image from 'next/image'
-import UploadImagesButton from '@/components/uploadImagesButton'
 
 const initialState = {
     message: "",
@@ -33,25 +27,30 @@ const initialState = {
     id: number;
     value: string;
   }
-export default function PropertyListingForm({property} : { property?: any | null }) {
+export default function PropertyListingForm({property} : { property?: AgentPropertyData | null }) {
     
   const[error, action ] = useFormState(property == null ? addProperty : updateProperty.bind(null,property.id) ,initialState)
 
   const [videoUrl, setVideoUrl] = useState("");
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [panoramaUrl, setPanoramaUrl] = useState<string>("");
-  const [propertyType, setPropertyType] = useState<string>("")
-  const [propertyStatus, setPropertyStatus] = useState<string>("")
-  const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&description=&landmark=&price=&propertyStatus=&propertyType=&streetAddress=&zip="
+  const examlepost = "http://localhost:3000/en/agent/properties/new?area=&city=&description=&landmark=&price=&propertyState=&propertyType=&streetAddress=&zip="
   const examplePanoramaUrl = "https://3dwarehouse.sketchup.com/embed/ca842bc2-6275-4a17-8e58-7d04f72b66be?token=JV26vmLOK4g=&binaryName=s22"
   const exampleVideoUrl = "https://utfs.io/f/814e6598-026c-49a8-8039-d6eac77fcc9c-castku.mp4"
   const handleVideoUpload = (url: string) => {
     console.log(url);
-    setVideoUrl(url);
+    const videoUrl = url ? url : property?.video || ""
+    setVideoUrl(videoUrl);
   };
-
+  const handlePanorama = (url: string) => {
+    console.log(url);
+    const panoramaUrl = url ? url : property?.panorama || ""
+    setPanoramaUrl(panoramaUrl);
+  };
+  
   const handleImagesUpload = (urls: string[]) => {
     console.log(urls);
+    // const imagesUrl = urls ? urls : property?.images
     setImagesUrl(urls);
   };
 
@@ -73,18 +72,21 @@ export default function PropertyListingForm({property} : { property?: any | null
       field.id === id ? { ...field, value } : field
     ))
   }
+  const cancelUpload = async () => {
+    
+    if (imagesUrl.length > 0) {
+        // const images = .split(",").map((image: string) => image.replace("https://utfs.io/f/", "").trim()).filter(Boolean);  
+        for (const image of imagesUrl) {
+          await utapi.deleteFiles(image);
+          console.log("Deleting images successfully:", image);
+        }
+      console.log(imagesUrl)
+      console.log(typeof imagesUrl)
+    // await utapi.deleteFiles(imagesUrl);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const newValues = fields.map(field => field.value).filter(value => value.trim() !== '')
-    setStoredValues(prevValues => [...prevValues, ...newValues])
-    setFields([{ id: 0, value: '' }]) // Reset to a single empty field after submission
-  }
-  const [selectedValue, setSelectedValue] = useState("")
-
-  const handleValueChange = (value: string) => {
-    setSelectedValue(value)
-  }
+    }
+    ;
+};
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -109,17 +111,17 @@ export default function PropertyListingForm({property} : { property?: any | null
                   </Tooltip>
                 </TooltipProvider>
               </span>
-
           <Input
               placeholder="Property Type..."
               name='propertyType'
-              value={propertyType}
-              onChange={(e)=>setPropertyType(e.target.value)}
+              defaultValue={property?.type || ""}
           />
+          {error.name && <div className="text-destructive">{error.name} </div>}
+
           </div>
           <div className="space-y-2">
           <span className='flex gap-2'>
-          <Label htmlFor="propertyStatus">Property Status</Label>
+          <Label htmlFor="propertyState">Property State</Label>
             <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -133,36 +135,36 @@ export default function PropertyListingForm({property} : { property?: any | null
               </span>
 
             <Input
-              placeholder="Property Status..."
-              name='propertyStatus'
-              value={propertyStatus}
-              onChange={(e)=>setPropertyStatus(e.target.value)}
+              placeholder="Property State..."
+              name='propertyState'
+              defaultValue={property?.state || ""}
+              
           />
           </div>
           <div className="space-y-2">
             <Label htmlFor="price">Price</Label>
-            <Input  id="price" name='price' type="number" placeholder="450000 DH" required />
+            <Input  id="price" name='price' type="number" placeholder="450000 DH" defaultValue={property?.price || ""} required />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="address">Address</Label>
-            <Input id="address" name="address" placeholder="123 Main St, Anytown, USA 12345" required />
+            <Input id="address" name="address" placeholder="n 3 sect , Rue, Casablanca" required defaultValue={property?.address || ""} />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="bedrooms">Bedrooms</Label>
-              <Input id="bedrooms" name="bedrooms" type="number" placeholder="3"  />
+              <Input id="bedrooms" name="bedrooms" type="number" placeholder="3" defaultValue={property?.bedrooms || ""} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="bathrooms">Bathrooms</Label>
-              <Input id="bathrooms" name="bathrooms" type="number" placeholder="2" />
+              <Input id="bathrooms" name="bathrooms" type="number" placeholder="2" defaultValue={property?.bathrooms || ""}/>
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="area">area m<sup>2</sup></Label>
-            <Input id="area" name='area' type="number" placeholder="1500" />
+            <Input id="area" name='area' type="number" placeholder="1500" defaultValue={property?.area || ""} />
           </div> 
           {/*
         TODO: when changing the uploadThing service 
@@ -194,7 +196,7 @@ export default function PropertyListingForm({property} : { property?: any | null
           */}
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" name='description' placeholder="Describe the property..." />
+            <Textarea id="description" name='description' placeholder="Describe the property..." defaultValue={property?.description || ""} />
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
               <Card className="overflow-hidden">
@@ -204,9 +206,7 @@ export default function PropertyListingForm({property} : { property?: any | null
                   <CardContent>
                   {imagesUrl?.length ? (
                   <div className="grid gap-2">
-              <Input type="url" id="imagesUrls" name="imagesUrls" className="hidden w-0 h-0" 
-                    value={imagesUrl.join(', ')}
-                  />
+              <Input type="url" id="imagesUrls" name="imagesUrls" className="hidden w-0 h-0" value={imagesUrl.join(', ')}/>
               <Image
                 alt="Product image"
                 className="aspect-square w-full rounded-md object-cover"
@@ -230,10 +230,10 @@ export default function PropertyListingForm({property} : { property?: any | null
     </div>
   ) : (
     <div className="space-y-2 flex flex-col items-center justify-center">
-      <UploadImagesButton onImagesUpload={handleImagesUpload} />
+      <UploadImagesButton onImagesUpload={handleImagesUpload} cancelUpload={cancelUpload} />
     </div>
   )}
-                  </CardContent>
+      </CardContent>
                 </Card>
                 <Card
                   className="overflow-hidden"
@@ -261,9 +261,7 @@ export default function PropertyListingForm({property} : { property?: any | null
                   </div>
                   </CardContent>
                 </Card>
-                <Card
-                  className="overflow-hidden"
-                >
+                <Card className="overflow-hidden">
                   <CardHeader >
                     <div className='flex gap-3'>
                     <CardTitle>3D Presetation</CardTitle>
@@ -282,7 +280,7 @@ export default function PropertyListingForm({property} : { property?: any | null
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-2">
-                    <Input className={panoramaUrl ? `` : `hidden w-0 h-0`}  type="url" id="panorama" name="panorama" value={panoramaUrl} onChange={(event) => setPanoramaUrl(event.target.value)}/>
+                    <Input className={panoramaUrl ? `` : `hidden w-0 h-0`}  type="url" id="panorama" name="panorama" value={panoramaUrl} onChange={(event) => handlePanorama(event.target.value)}/>
 
                     {panoramaUrl ? 
                     <div className="aspect-square rounded-md ">
@@ -292,7 +290,7 @@ export default function PropertyListingForm({property} : { property?: any | null
                     :    
                       <div className="space-y-2 flex flex-col items-center justify-center">
                       <Label htmlFor="panorama">3D Presetation Link</Label>
-                      <Input type="url" id="panorama" name="panorama" value={panoramaUrl} onChange={(event) => setPanoramaUrl(event.target.value)}/>
+                      <Input type="url" id="panorama" name="panorama" value={panoramaUrl} onChange={(event) => handlePanorama(event.target.value)}/>
                     </div>}
                   </div>
                   </CardContent>
@@ -362,67 +360,5 @@ export default function PropertyListingForm({property} : { property?: any | null
         </form>
       </CardContent>
     </Card>
-  )
-}
-
-
-interface Option {
-  value: string
-  label: string
-}
-
-interface InputWithDropdownProps {
-  options?: Option[]
-  placeholder?: string
-  name?: string
-}
-
-export function InputWithDropdown({
-  options = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
-  ],
-  placeholder = "Enter or select an option...",
-  name = "name",
-}: InputWithDropdownProps) {
-  const [value, setValue] = useState("")
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
-  }
-
-  const handleSelectChange = (newValue: string) => {
-    setValue(newValue)
-  }
-
-  const displayValue = options.find(option => option.value === value)?.label || value
-
-  return (
-    <div className="space-y-4">
-      <div className="flex space-x-2">
-        <Input
-          type="text"
-          name={name}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-          value={displayValue}
-          className="flex-grow"
-          aria-label={placeholder}
-        />
-        <Select value={value} onValueChange={handleSelectChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select option" />
-          </SelectTrigger>
-          <SelectContent>
-            {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
   )
 }

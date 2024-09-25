@@ -1,3 +1,4 @@
+git commit -m "commit"
 -- CreateTable
 CREATE TABLE "Agents" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -14,7 +15,8 @@ CREATE TABLE "Agents" (
 CREATE TABLE "Property" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "type" TEXT,
-    "status" TEXT,
+    "state" TEXT,
+    "status" BOOLEAN,
     "address" TEXT,
     "mapUrl" TEXT,
     "description" TEXT,
@@ -45,7 +47,6 @@ CREATE TABLE "Client" (
 -- CreateTable
 CREATE TABLE "Offer" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "status" BOOLEAN,
     "amount" INTEGER NOT NULL,
     "period" TEXT NOT NULL,
     "propertyId" TEXT,

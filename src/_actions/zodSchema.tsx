@@ -1,29 +1,15 @@
 import { z } from "zod"
 
 export const propertyFormSchema = z.object({
-  propertyType: z.string().min(1, { message: "Property type is required" }),
-  propertyStatus: z.string().min(1, { message: "Property status is required" }),
-  address: z.string().min(1, { message: "Address is required" }),
+  propertyType: z.string().min(1),
+  propertyState: z.string().optional(),
+  propertyStatus: z.boolean().optional().nullable(),
+  address: z.string().optional(),
   mapLink: z.string().nullable().optional(),
-  price: z.string()
-    .transform((val) => val ? parseInt(val, 10) : undefined)
-    .refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Price must be a positive number" })
-    .optional(),
-  area: z.string()
-    .optional()
-    .transform((val) => val ? parseInt(val, 10) : undefined)
-    .refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Area must be a positive number" })
-    .nullable(),
-  bedrooms: z.string()
-    .optional()
-    .transform((val) => val ? parseInt(val, 10) : undefined)
-    .refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Bedrooms must be a positive number" })
-    .nullable(),
-  bathrooms: z.string()
-    .optional()
-    .transform((val) => val ? parseInt(val, 10) : undefined)
-    .refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Bathrooms must be a positive number" })
-    .nullable(),
+  price: z.string().transform((val) => val ? parseInt(val, 10) : undefined).refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Price must be a positive number" }).optional(),
+  area: z.string().optional().transform((val) => val ? parseInt(val, 10) : undefined).refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Area must be a positive number" }).nullable(),
+  bedrooms: z.string().optional().transform((val) => val ? parseInt(val, 10) : undefined).refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Bedrooms must be a positive number" }).nullable(),
+  bathrooms: z.string().optional().transform((val) => val ? parseInt(val, 10) : undefined).refine((val) => val === undefined || (!isNaN(val) && val > 0), { message: "Bathrooms must be a positive number" }).nullable(),
   description: z.string().nullable().optional(),
   imagesUrls: z.string().nullable().optional(),
   video: z.string().nullable().optional(),

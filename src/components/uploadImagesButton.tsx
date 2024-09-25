@@ -1,16 +1,20 @@
 import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { utapi } from "@/_actions/agent/actions";
 
-interface UploadImagesButtonProps {
-  onImagesUpload: (urls: string[]) => void;
-}
-function UploadImagesButton({ onImagesUpload }: UploadImagesButtonProps) {
+
+function UploadImagesButton({ onImagesUpload, cancelUpload }: {onImagesUpload: (urls: string[]) => void, cancelUpload: () => void}) {
 
 
   return (
-      <div className="bg-blue-600 p-2 w-[120px] h-[90px] hover:cursor-pointer rounded-sm">
-      <UploadButton<OurFileRouter,"imagesUploader">
+    <Dialog>
+    <DialogTrigger asChild>
+      <Button variant="outline">Upload Images</Button>
+    </DialogTrigger>
+    <DialogContent className="sm:max-w-md">
+        <UploadButton<OurFileRouter,"imagesUploader">
           endpoint="imagesUploader"
           onClientUploadComplete={(res) => {
             const newUrls = res.map((file) => file.url);
@@ -23,7 +27,16 @@ function UploadImagesButton({ onImagesUpload }: UploadImagesButtonProps) {
             alert(`ERROR! ${error.message}`);
           }}
         />
-      </div>
+      <DialogFooter className="sm:justify-start">
+        <DialogClose asChild>
+          <Button onClick={cancelUpload} type="button" variant="secondary">
+            Cancel
+          </Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+
   );
 }
 export default UploadImagesButton

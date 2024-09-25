@@ -1,7 +1,5 @@
- // Replace with your actual import
  import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
- import { UploadButton } from "@uploadthing/react";
-import { Button } from "./ui/button";
+import { UploadButton } from "@uploadthing/react";
  
 interface UploadVideoButtonProps {
   onVideoUpload: (url: string) => void;

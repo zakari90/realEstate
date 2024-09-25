@@ -22,7 +22,8 @@ model Agents {
 model Property {
   id              String    @id @default(uuid())
   type            String?
-  status          String?
+  state           String?
+  status          Boolean?
   address         String?
   mapUrl          String?
   description     String?
@@ -57,7 +58,6 @@ model Client {
 
 model Offer {
   id         String    @id @default(uuid())
-  status     Boolean?
   amount     Int
   period     String
   propertyId String?

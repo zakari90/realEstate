@@ -6,7 +6,11 @@ import { revalidatePath } from "next/cache"
 import { notFound, redirect } from "next/navigation"
 import { agentFormSchema, clientFormSchema, offerFormSchema, propertyFormSchema } from "../zodSchema"
 import { Offer, Property } from "@prisma/client"
-import { count } from "console"
+import { count, error } from "console"
+import { UTApi } from "uploadthing/server"
+import { useRouter } from "next/router"
+export const utapi = new UTApi();
+
 
 
 export interface AgentPropertyData {
@@ -25,17 +29,20 @@ export interface AgentPropertyData {
   mapUrl: string | null; 
   offers: Offer[] | null; 
   panorama: string | null; 
-  status: string | null; 
+  status: boolean | null;  // Updated to boolean
+  state: string | null;    // Added state field
   updatedAt: Date;
   video: string | null; 
 }
+
 
 export async function addProperty(
   prevState: { message: string } | undefined,
   formData: FormData
 ): Promise<{ message: string }>{
   const propertyType = formData.get('propertyType') as string | null;
-  const propertyStatus = formData.get('propertyStatus') as string | null;
+  const propertyState = formData.get('propertyState') as string | null;
+  const propertyStatus = formData.get('propertyStatus') as boolean | null;
   const address = formData.get('address') as string | null;
   const mapLink = formData.get('mapLink') as string | null;
   const price = formData.get('price') as string | null;
@@ -48,26 +55,12 @@ export async function addProperty(
   const panorama = formData.get('panorama') as string | null;
   const featureArray = formData.getAll('feature') as string[];
   const feature = featureArray.length > 0 ? featureArray.join(',') : null;
-  const dataToValidate = {
-    propertyType,
-    propertyStatus,
-    price,
-    address,
-    bedrooms,
-    bathrooms,
-    area,
-    video,
-    panorama,
-    feature,
-    mapLink,
-    imagesUrls,
-    description
-  };
-  
+    
   try {
     const result = propertyFormSchema.safeParse(
-      {  
+      {    
         propertyType,
+        propertyState,
         propertyStatus,
         price,
         address,
@@ -79,16 +72,13 @@ export async function addProperty(
         feature,
         mapLink,
         imagesUrls,
-        description}
-    );    
-    
+        description
+      }); 
     if (!result) {
       // Return the errors to be displayed in the form
       return {message:"Failed to create todo"} ;
 
     }
-    console.log(result.success)
-    
     const clerkAgent =  await registerClerkUserAsAgent()
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
       throw new Error('User email not found');
@@ -97,9 +87,6 @@ export async function addProperty(
     if (!data) {
       throw new Error('formdata input error');
     }
-    console.log("----*8*8*-********************************************************")
-    console.log(formData)
-    console.log(feature)
       await db.property.create({
         data: {
           type : data.propertyType,        
@@ -121,36 +108,38 @@ export async function addProperty(
       console.log("property added successfully")
 
       db.$disconnect()
-      
-      // return { message: `property added successfully ${db.property.count}` };
+      return { message: `property added successfully ${db.property.count}` };
 
 
   } catch (error) {
    
-    return {message:"Failed to create todo"} ;
+    return {message:"Failed to create property"} ;
 
-  }
-  redirect("/agent/properties")
+  }finally{  redirect("/agent/properties")}
 } 
 
 export async function updateProperty(propertyId: string, prevState: { message: string } | undefined, formData: FormData): Promise<any>{
+  const propertyType = formData.get('propertyType') as string | null;
+  const propertyState = formData.get('propertyState') as string | null;
+  const propertyStatus = formData.get('propertyStatus') as boolean | null;
+  const address = formData.get('address') as string | null;
+  const mapLink = formData.get('mapLink') as string | null;
+  const price = formData.get('price') as string | null;
+  const area = formData.get('area') as string | null;
+  const bedrooms = formData.get('bedrooms') as string | null;
+  const bathrooms = formData.get('bathrooms') as string | null;
+  const description = formData.get('description') as string | null;
+  const imagesUrls = formData.get('imagesUrls') as string | null;
+  const video = formData.get('video') as string | null;
+  const panorama = formData.get('panorama') as string | null;
+  const featureArray = formData.getAll('feature') as string[];
+  const feature = featureArray.length > 0 ? featureArray.join(',') : null;
     
   try {
-    const propertyType = formData.get('propertyType');
-    const propertyStatus = formData.get('propertyStatus');
-    const price = formData.get('price');
-    const address = formData.get('address');
-    const bedrooms = formData.get('bedrooms');
-    const bathrooms = formData.get('bathrooms');
-    const area = formData.get('area');
-    const video = formData.get('video');
-    const panorama = formData.get('panorama');
-    const feature = formData.getAll('feature');
-    const mapLink = formData.get('mapLink');
-
-    const result = propertyFormSchema.parse(
-      {  
+    const result = propertyFormSchema.safeParse(
+      {    
         propertyType,
+        propertyState,
         propertyStatus,
         price,
         address,
@@ -160,9 +149,10 @@ export async function updateProperty(propertyId: string, prevState: { message: s
         video,
         panorama,
         feature,
-        mapLink,}
-    );
-    console.log(result)
+        mapLink,
+        imagesUrls,
+        description
+      }); 
     if (!result) {
       // Return the errors to be displayed in the form
       return { message: "Failed to update todo" };
@@ -180,7 +170,7 @@ export async function updateProperty(propertyId: string, prevState: { message: s
           throw new Error('agent not found');
         }
 
-        const data = result;
+        const data = result.data;
         if (!data) {
           throw new Error('formdata input error');
         }
@@ -223,6 +213,20 @@ export async function updateProperty(propertyId: string, prevState: { message: s
 
 }
 
+export async function getPropertyById(propertyId: string): Promise<any>{
+  
+  try {
+        const property = await db.property.findUnique({ where: { id: propertyId } });
+        if (!property) {
+          throw new Error('Property not found');
+        }
+        console.log("getPropertyById successfully");
+        return property
+    } catch (error) {
+      return { message: "Failed to update todo" + error };
+    }
+
+}
 export async function registerClerkUserAsAgent() {
   try {
     const user = await currentUser();
@@ -369,20 +373,48 @@ export async function createClientOffer(prevState: { status: string; message: st
 }
 
 
-// TODO: delete files from unploadthing
-export async function deleteProperty(
+export async function deletePropertyById(
   id: string,
-  ){
-  const product = await db.property.delete({ where: { id } })
-  if (product == null) return notFound()
-  revalidatePath("/")
-  revalidatePath("/products")
+){
+  const property = await getPropertyById(id)
+  const images = property.images.split(",").map((image: string) => image.replace("https://utfs.io/f/", "").trim()).filter(Boolean);  
+  const video = property.video ? property.video.replace("https://utfs.io/f/", "") : ""
+
+
+  try {
+    if(video.length > 0){ utapi.deleteFiles(video)
+
+    }if(images.length > 0){ 
+      for (const image of images) {
+        await utapi.deleteFiles(image);
+        console.log("Deleting images successfully:", image);
+      }
+      }else{
+        throw new Error("Failed Deleting images and video")
+        
+      }
+      await db.property.delete({
+        where: { id: property.id }
+      })
+    console.log("deletes successfully")
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return { success: false, error: "Failed to delete file" };
+  }finally{
+    await db.$disconnect()
+    revalidatePath("/agent/properties")
+
   }
 
+}
 export async function getPropertyOffers(propertyId: string): Promise<{ propertyOffers: Offer[] }> {
   try {
     const propertyOffers = await db.offer.findMany({
-      where: { propertyId: propertyId }
+      where: { propertyId: propertyId },
+      include: {
+        client: true,
+      },
     });
 
     return { propertyOffers };
@@ -413,6 +445,7 @@ export async function getAgentProperties(): Promise<{ properties: AgentPropertyD
             client: true,
           },
         },
+        agent: true,
       },
     });
 
@@ -493,3 +526,4 @@ export async function getAgentClients() {
      numberOfOffers : data._count || 0}
    
  }
+
