@@ -379,8 +379,6 @@ export async function deletePropertyById(
   const property = await getPropertyById(id)
   const images = property.images.split(",").map((image: string) => image.replace("https://utfs.io/f/", "").trim()).filter(Boolean);  
   const video = property.video ? property.video.replace("https://utfs.io/f/", "") : ""
-
-
   try {
     if(video.length > 0){ utapi.deleteFiles(video)
 
