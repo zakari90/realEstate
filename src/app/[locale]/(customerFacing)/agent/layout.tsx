@@ -33,12 +33,6 @@ export default function AgentLayout({
     <LangSwitcher />
     
       {/* 
-      <Nav>
-        <NavLink href="/agent">Dashboard</NavLink>
-        <NavLink href="/agent/properties">properties</NavLink>
-        <NavLink href="/agent/customers">Customers</NavLink>
-        <NavLink href="/agent/profile">Profile</NavLink>
-      </Nav>
       <ModeToggle/> */}
       <div className="absolute top-5 right-2">
         <UserButton />
