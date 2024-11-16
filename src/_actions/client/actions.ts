@@ -2,31 +2,8 @@
 
 import db from "@/db/db";
 import { auth } from "@clerk/nextjs/server";
-import { Agents, Property } from "@prisma/client";
+import { Agent } from "@prisma/client";
 import { notFound } from "next/navigation";
-import { boolean } from "zod";
-
-
-
-export type ClientProperty = {
-  id: string
-  type: string | null
-  status: string | null
-  address: string | null
-  mapUrl: string | null
-  description: string | null
-  price: number | null
-  area: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  agentId: string | null
-  video: string | null
-  panorama: string | null
-  images: string | null
-  features: string | null
-  createdAt: Date
-  updatedAt: Date
-}
 
 export async function isAgent(): Promise<boolean> {
   const { userId } = auth();
@@ -34,77 +11,161 @@ export async function isAgent(): Promise<boolean> {
   if (!userId) return false;
   return true;
 }
-const createPropertyDTO = (propertyData:ClientProperty) =>{
-  return{        
-      id: propertyData.id,
-      type: propertyData.type,
-      status: propertyData.status,
-      address: propertyData.address,
-      mapUrl:propertyData.mapUrl,
-      description: propertyData.description,
-      price: propertyData.price,
-      area: propertyData.area,
-      bedrooms: propertyData.bedrooms,
-      bathrooms: propertyData.bathrooms,
-      agentId: propertyData.agentId,
-      video: propertyData.video,
-      panorama: propertyData.panorama,
-      images: propertyData?.images,
-      features: propertyData.features,
 
-      createdAt: propertyData.createdAt,
-      updatedAt: propertyData.updatedAt,
+export type InvestmentDTO = { 
+  id: string;
+  title: string | null;
+  description: string | null;
+  status: boolean | null;
+  price: number | null;
+  contribution: number | null;
+  acceptedContributions: number | null;
+  numContributors: number | null;
+  location: string | null;
+  purpose: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  agent: Agent | null; 
+};
 
+const createInvestmentDTO = (investmentData: InvestmentDTO) => {
+  return {
+    id: investmentData.id,
+    title: investmentData.title,
+    description: investmentData.description,
+    status: investmentData.status,
+    price: investmentData.price,
+    contribution: investmentData.contribution,
+    acceptedContributions: investmentData.acceptedContributions,
+    numContributors: investmentData.numContributors,
+    location: investmentData.location,
+    purpose: investmentData.purpose,
+    createdAt: investmentData.createdAt,
+    updatedAt: investmentData.updatedAt,
+    agent: investmentData.agent,
+  };
+};
+
+export async function getAllInvestments() {
+  try {
+    const investments = await db.investment.findMany({
+      include: {
+        agent: true, 
+      },
+    });
+
+    return investments.map(investment => createInvestmentDTO(investment));
+
+  } catch (error) {
+    console.error('Error fetching investments with details for agent:', error);
+    throw error; 
+  }
+}
+
+export async function getInvestmentWithId(investmentId: string) {
+  try {
+    const investment = await db.investment.findUnique({
+      where: { id: investmentId },
+      include: { agent: true },
+    });
+
+    if (!investment) {
+      return notFound()
     }
-  
+
+    return createInvestmentDTO(investment);
+
+  } catch (error) {
+    console.error('Error fetching investment with details for agent:', error);
+    throw error; 
+  }
+}
+
+
+export type PropertyDTO = {
+  id: string;
+  type: string | null;
+  state: string | null;
+  status: boolean | null;
+  address: string | null;
+  mapUrl: string | null;
+  description: string | null;
+  price: number | null;
+  area: number | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  agentId: string | null;
+  video: string | null;
+  panorama: string | null;
+  images: string | null;
+  features: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  agent: Agent | null;
+};
+
+const createPropertyDTO = (propertyData: PropertyDTO) => {
+  return {
+    id: propertyData.id,
+    type: propertyData.type,
+    state: propertyData.state,
+    status: propertyData.status,
+    address: propertyData.address,
+    mapUrl: propertyData.mapUrl,
+    description: propertyData.description,
+    price: propertyData.price,
+    area: propertyData.area,
+    bedrooms: propertyData.bedrooms,
+    bathrooms: propertyData.bathrooms,
+    agentId: propertyData.agentId,
+    video: propertyData.video,
+    panorama: propertyData.panorama,
+    images: propertyData.images,
+    features: propertyData.features,
+    createdAt: propertyData.createdAt,
+    updatedAt: propertyData.updatedAt,
+    agent: propertyData.agent, // Include agent mapping
+  };
 }
 
 export async function getAllProperties() {
   try {
-    const properties = await db.property.findMany();
+    const properties = await db.property.findMany({
+      include: {
+        agent: true, 
+      },
+    });
 
-    return properties.map(property => (createPropertyDTO(property)
-));
+    return properties.map(property => createPropertyDTO(property));
 
   } catch (error) {
     console.error('Error fetching properties with details for agent:', error);
-    throw error; // Handle the error appropriately
+    throw error; 
   }
 }
 
-export async function getRecentProperties() {
-try {
-  const properties = await db.property.findMany({
-    take:6
-    
-  });
-
-  return properties.map(property => (createPropertyDTO(property)));
-
-} catch (error) {
-  console.error('Error fetching properties with details for agent:', error);
-  throw error; // Handle the error appropriately
-}
-}
-
-export async function getPropertyWithId(propertyyId : string) {
+export async function getPropertyWithId(propertyId: string) {
   try {
-    const property = await db.property.findUnique(
-      {where: {id : propertyyId}});
+    const property = await db.property.findUnique({
+      where: { id: propertyId },
+      include: { agent: true },
+    });
+
     if (!property) {
-      return notFound()
+      return notFound();
     }
-    return (createPropertyDTO(property));
+
+    return createPropertyDTO(property);
 
   } catch (error) {
-    console.error('Error fetching properties with details for agent:', error);
-    throw error; // Handle the error appropriately
+    console.error('Error fetching property with details for agent:', error);
+    throw error; 
   }
 }
 
-export async function getAgentWithPropertyId(agentId : string):Promise<Agents | null> {
+export async function getAgentWithPropertyId(agentId : string):Promise<Agent | null> {
   try {
-    const agent = await db.agents.findUnique(
+    const agent = await db.agent.findUnique(
       {where: {id : agentId}});
     if (!agent) {
       return null;

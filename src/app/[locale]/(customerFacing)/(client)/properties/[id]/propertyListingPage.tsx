@@ -1,9 +1,9 @@
 'use client'
 
+import { PropertyDTO } from "@/_actions/client/actions"
 import EmailLink from "@/components/emailComponent"
 import PhoneCallLink from "@/components/phoneCallComponent"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -14,31 +14,25 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow
-} from "@/components/ui/table"
-import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
 import WhatsAppLink from "@/components/whatsAppComponents"
-import { Agents, Property } from "@prisma/client"
-import { Bath, Bed, Calendar, ChevronRight, Home, Image as ImageIcon, Mail, Map, MapPin, Maximize, Phone, Video } from "lucide-react"
+import { Agent } from "@prisma/client"
+import { Bath, Bed, Image as ImageIcon, MapPin, Maximize, Video } from "lucide-react"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { ContactDialog } from "../../_components/property/contactDialog"
 
 export default function PropertyListingPage({
   property,
-  agent
 }: {
-  property: Property;
-  agent: Agents | null;
+  property: PropertyDTO;
 }) {
+
+  
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const images  = property.images? property.images.split(",") : [];
@@ -56,12 +50,17 @@ export default function PropertyListingPage({
   }, [api])
   const features  = property.features? property.features.split(",") : [];
   
-  const mapIconSize = 40; // Default size for SVG icon
-  const fallbackIconSize =  30; // Default size for fallback icon
+  const mapIconSize = 40; 
+  const fallbackIconSize =  30;
+  const [agent, setAgent] = useState<Agent>();
+  useEffect(() => {
+    if (property && property.agent) {
+      setAgent(property.agent)
+    }
+  }, [property]);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="space-y-4">

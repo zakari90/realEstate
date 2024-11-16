@@ -9,7 +9,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs';
-import { NavBar } from "../(client)/_components/clientNavbar";
+import { NavBar, NavItem } from "../(client)/_components/clientNavbar";
 export const dynamic = "force-dynamic"
 
 //TODO : translate this navigation use my navbar
@@ -18,9 +18,10 @@ export default function AgentLayout({
   }: Readonly<{
     children: React.ReactNode;
   }>) {
-    const navItems = [
-      { href: "/agent", label: "Dashboard" },
-      { href: "/agent/properties", label: "Properties" },
+    const agnetNavItems: NavItem[]  = [
+      { href: "/agent", name: "Dashboard" },
+      { href: "/agent/properties", name: "Properties" },
+      { href: "/agent/investors", name: "Investors" },
       // { href: "/aboutUs", label: "About us" },
     ];
     
@@ -30,14 +31,13 @@ export default function AgentLayout({
    
     <div className="w-full relative">
     <SignedIn>
-    <LangSwitcher />
-    
-      {/* 
-      <ModeToggle/> */}
-      <div className="absolute top-5 right-2">
+    {/* <LangSwitcher /> */}
+    <UserButton />
+  
+      {/* <div className="absolute -bottom-full right-1/2">
         <UserButton />
-      </div>
-      <NavBar navItems={navItems}/>
+      </div> */}
+      <NavBar navItems={agnetNavItems}/>
         {children}
     </SignedIn>
     <div className="m-auto w-1/2 flex justify-center">

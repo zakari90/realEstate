@@ -1,9 +1,9 @@
 import { AgentPropertyData, getAgentProperties, registerClerkUserAsAgent } from '@/_actions/agent/actions'
-import { Agents } from '@prisma/client'
+import { Agent } from '@prisma/client'
 import { create } from 'zustand'
 
 interface AgentState {
-  agent: Agents | null // Replace 'any' with your actual Agent type
+  agent: Agent | null 
   agentProperties: { properties: AgentPropertyData[] }
   error: string | null
   isLoading: boolean

@@ -7,16 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Agents {
-  id         String     @id @default(uuid())
-  clerkId    String?    @unique
-  name       String?
-  email      String?    @unique
-  image      String?    
-  phone      String?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  properties Property[]
+model Agent {
+  id            String       @id @default(uuid())
+  clerkId       String?      @unique
+  name          String?
+  email         String?      @unique
+  image         String?    
+  phone         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  properties    Property[]
+  investments    Investment[]
 }
 
 model Property {
@@ -34,17 +35,31 @@ model Property {
   agentId         String?
   video           String?
   panorama        String?
-  images          String?
-  features        String?
+  images          String?    // Consider using a relation to a separate Image model if needed
+  features        String?    // Could also be an array of strings or a separate model
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  offers          Offer[]
-  agent           Agents?   @relation(fields: [agentId], references: [id])
+  offers          PropertyOffer[]
+  agent           Agent?    @relation(fields: [agentId], references: [id])
 }
 
-
-
-   
+model Investment {
+  id                   String   @id @default(uuid())
+  title                String
+  description          String 
+  status               Boolean?  // Changed to string for compatibility with SQLite
+  price                Int?      // Total property price
+  contribution         Int?      // Contributor's amount
+  acceptedContributions Int?      // Total amount from accepted InvestmentOffers
+  numContributors      Int?      // Number of additional contributors needed
+  location             String?
+  purpose              String?  // Changed to string for compatibility with SQLite
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  offers               InvestmentOffer[]
+  agent                Agent?   @relation(fields: [agentId], references: [id])
+  agentId              String?
+}
 
 model Client {
   id        String   @id @default(uuid())
@@ -53,16 +68,28 @@ model Client {
   phone     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  offers    Offer?
+  offers    PropertyOffer?
+  InvestmentOffer InvestmentOffer[]
 }
 
-model Offer {
+model PropertyOffer {
   id         String    @id @default(uuid())
   amount     Int
   period     String
   propertyId String?
   clientId   String?   @unique
   createdAt  DateTime  @default(now())
-  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model InvestmentOffer {
+  id             String      @id @default(uuid())
+  amount         Int
+  clientId       String?     @unique
+  createdAt      DateTime    @default(now())
+  client         Client?     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  investment     Investment? @relation(fields: [investmentId], references: [id], onDelete: Cascade)
+  investmentId   String
+  accepted       Boolean?    @default(false) // New field to track acceptance status
 }

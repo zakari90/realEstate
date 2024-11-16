@@ -2,35 +2,46 @@ import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { utapi } from "@/_actions/agent/actions";
+import { addPropertyImages} from "@/_actions/agent/actions";
+
+interface UploadImagesButtonProps {
+  onImagesUpload: (urls: string[]) => void;
+  propertyId: string
+}
+function UploadImagesButton({ onImagesUpload, propertyId }: UploadImagesButtonProps) {
 
 
-function UploadImagesButton({ onImagesUpload, cancelUpload }: {onImagesUpload: (urls: string[]) => void, cancelUpload: () => void}) {
-
-
+  const uploadPropertyImages = propertyId ?
+   <UploadButton<OurFileRouter,"imagesUploader">
+    endpoint="imagesUploader"onClientUploadComplete={(res) => {
+    const newUrls = res.map((file) => file.url);
+    addImages(newUrls)
+    onImagesUpload(newUrls);
+    console.log("----------------" + newUrls + "Upload Completed: " +  newUrls.join(', '))
+    // alert("Upload Completed: " + newUrls.join(', '));
+  }}
+  onUploadError={(error: Error) => {
+    // Handle the error
+    alert(`ERROR! ${error.message}`);
+  }}
+/>: 
+""
+  async function addImages(urls: string[]) {
+    const urlString = urls.join(',');
+    await addPropertyImages(propertyId, urlString);
+  }
+  
   return (
     <Dialog>
     <DialogTrigger asChild>
       <Button variant="outline">Upload Images</Button>
     </DialogTrigger>
     <DialogContent className="sm:max-w-md">
-        <UploadButton<OurFileRouter,"imagesUploader">
-          endpoint="imagesUploader"
-          onClientUploadComplete={(res) => {
-            const newUrls = res.map((file) => file.url);
-            onImagesUpload(newUrls); // Send the URLs to the parent component
-            console.log("----------------" + newUrls + "Upload Completed: " +  newUrls.join(', '))
-            // alert("Upload Completed: " + newUrls.join(', '));
-          }}
-          onUploadError={(error: Error) => {
-            // Handle the error
-            alert(`ERROR! ${error.message}`);
-          }}
-        />
+      {uploadPropertyImages}
       <DialogFooter className="sm:justify-start">
         <DialogClose asChild>
-          <Button onClick={cancelUpload} type="button" variant="secondary">
-            Cancel
+          <Button type="button" variant="secondary">
+            Close
           </Button>
         </DialogClose>
       </DialogFooter>

@@ -8,7 +8,7 @@ async function PropertiesPage() {
   return (
     <>
     {/* <PageHeader>PropertiesPage</PageHeader> */}
-    <MainPropertiesSection properties={properties}/>
+    <MainPropertiesSection/>
 </>
 
   )

@@ -17,31 +17,20 @@ import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { isAgent } from "@/_actions/client/actions"
 
-interface NavItem {
+export interface NavItem {
   href: string;
-  label: string;
+  name: string;
 }
 
-interface ClientNavBarProps {
-  navItems?: NavItem[];
-  agentText?: string;
-  agentAddText?: string;
-}
+const defaultItems: NavItem[] = [
+  { name: "Home", href: "/" },
+  { name: "Properties", href: "/properties" },
+  { name: "About us", href: "/aboutUs" },
+]
 
-const defaultNavItems: NavItem[] = [
-  { href: "/", label: "Home" },
-  { href: "/properties", label: "Properties" },
-  { href: "/aboutUs", label: "About us" },
-];
-
-export function NavBar({
-  navItems = defaultNavItems,
-  agentText = "Advertise",
-  agentAddText = "Add Property"
-}: ClientNavBarProps) {
+export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
+  const [isOpen, setIsOpen] = useState(false)
   const [agent, checkAgent] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,18 +45,13 @@ export function NavBar({
     fetchData();
   }, []);
 
-  const handleNavigation = (href: string) => {
-    setIsOpen(false);
-    router.push(href);
-  };
-
   return (
-    <header className="container z-10 top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-      <nav className="hidden text-lg font-medium md:w-full md:flex md:flex-row md:justify-between md:gap-5 md:text-sm lg:gap-6">  
-        <Link
-          href="#"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >                  
+    <header className="bg-white">
+      
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          {/* <div className="flex-1 md:flex md:items-center md:gap-12">
+          <Link href="/" className="flex items-center gap-2 text-lg font-semibold md:text-base">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="rounded-sm ">
@@ -82,74 +66,72 @@ export function NavBar({
             </DropdownMenuContent>
           </DropdownMenu>
         </Link>
+          </div> */}
+          <div className="flex md:flex md:items-center md:gap-12">
+            <LangSwitcher />
+            <ModeToggle />
+          </div>
 
-        <div className="flex w-1/2 justify-between">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
+          <div className="md:flex md:items-center md:gap-12">
+            <nav aria-label="Global" className="hidden md:block">
+              <ul className="flex items-center gap-6 text-sm">
+                {navItems.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className=" transition hover:text-gray-500/75"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-4">
+              <div className="sm:flex sm:gap-4">
+              <Link href="/agent" >
+                {agent ? 
+                <Button variant="default" className="hidden sm:flex">
+                  Add Property
+                </Button>
+                  : 
+                <Button variant="outline" className="bg-teal-600 text-white">
+                  Advertise
+                </Button> }
+              </Link>
+              </div>
+
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="md:hidden"
+                    aria-label="Open menu"
+                  >
+                    <Menu className="h-6 w-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <nav className="flex flex-col gap-4">
+                    {navItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="text-lg font-medium  hover:text-gray-900"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
         </div>
-
-        <Link
-          href="/agent"
-        >
-          {agent ? <p>Add Property</p> : <p>Advertise</p>}
-        </Link>
-      </nav>
-
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="shrink-0 md:hidden"
-          >
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <nav className="grid gap-6 text-lg font-medium">
-            <Link
-              href="#"
-              className="flex items-center gap-2 text-lg font-semibold"
-              onClick={() => setIsOpen(false)}
-            >
-              <LucideHome className="h-6 w-6" />
-              <span className="sr-only">Logo</span>
-            </Link>
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-muted-foreground hover:text-foreground"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation(item.href);
-                }}
-              >
-                {item.label}
-              </a>
-            ))}
-            <Separator />
-            <a
-              href="/agent/properties"
-              className="font-bold text-muted-foreground hover:text-foreground"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigation('/agent/properties');
-              }}
-            >
-              {agent ? <p>Add Property</p> : <p>Advertise</p>}
-            </a>
-            <Separator />
-          </nav>
-        </SheetContent>
-      </Sheet>
+      </div>
     </header>
   )
 }

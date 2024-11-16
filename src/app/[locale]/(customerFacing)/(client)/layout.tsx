@@ -1,14 +1,8 @@
-import Footer from '@/components/footer';
-import Header from '@/components/header';
-import { rubik } from '@/lib/fonts';
-import { cn } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Inter as FontSans } from "next/font/google";
-import Link from 'next/link';
-import { NavBar } from './_components/clientNavbar';
-import { ClientOfferForm } from './_components/property/clientOfferForm';
 import ClientFooter from './_components/clientFootre';
+import { NavBar, NavItem } from './_components/clientNavbar';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,6 +25,8 @@ export default function RootLayout({
 }: Readonly<RootLayoutProps>) {
 
   const Navigation = useTranslations('navigation');
+  console.log("--------------------------------" + Navigation('home'));
+  
   const navLinks:[string, string][] = [
     [Navigation('home'), 'home'],
     [Navigation('services'), 'services'],
@@ -38,15 +34,17 @@ export default function RootLayout({
     [Navigation('about'), 'about'],
     [Navigation('contact'), 'contact']
   ];
-  const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/properties", label: "Properties" },
-    { href: "/aboutUs", label: "About us" },
+  const clientNavItems:NavItem[] = [
+    { href: "/", name: "Home" },
+    { href: "/properties", name: "Properties" },
+    { href: "/investors", name: "Investment" },
+    { href: "/aboutUs", name: "About us" },
+
   ];
   return (
   <>
     {/* <Header locale={locale} navLinks= {navLinks}  />         */}
-    <NavBar navItems={navItems} />
+    <NavBar navItems={clientNavItems} />
       <div className='flex-grow'>{children}</div>
       <ClientFooter/>
     {/* <Footer locale={locale} navLinks= {navLinks} /> */}

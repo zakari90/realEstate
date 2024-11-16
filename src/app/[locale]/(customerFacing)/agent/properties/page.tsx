@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 
 import { updateAgentData } from '@/_actions/agent/actions'
-import { useAgentStore } from '@/context/store'
+import { useAgentStore } from '@/context/propertyStore'
 import MainTableComponent from '../properties/_components/mainTable'
 import { Loader2 } from 'lucide-react'
 
@@ -36,7 +36,7 @@ export default function AgentDashboard() {
 </form>
   return (
     <div className="container">
-              {agentTable}           
+      {agentTable}           
     </div>
   )
 }

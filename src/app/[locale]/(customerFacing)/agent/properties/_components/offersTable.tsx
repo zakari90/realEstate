@@ -98,12 +98,12 @@ export default function OffersTable({properties}:{properties:AgentPropertyData[]
             <TableBody>
               {getCurrentPageData().map((offer) => (
                 <TableRow key={offer.id}>
-                  {visibleColumns.includes('id') && <TableCell className="font-medium">{offer.id}</TableCell>}
+                  {/* {visibleColumns.includes('id') && <TableCell className="font-medium">{offer.id}</TableCell>}
                   {visibleColumns.includes('property') && <TableCell>{offer.property}</TableCell>}
                   {visibleColumns.includes('customer') && <TableCell>0666</TableCell>}
                   {visibleColumns.includes('offerAmount') && <TableCell>${offer.offerAmount.toLocaleString()}</TableCell>}
                   {visibleColumns.includes('paymentPeriod') && <TableCell>{offer.paymentPeriod} months</TableCell>}
-                  {visibleColumns.includes('status') && <TableCell>{offer.status}</TableCell>}
+                  {visibleColumns.includes('status') && <TableCell>{offer.status}</TableCell>} */}
                 </TableRow>
               ))}
             </TableBody>

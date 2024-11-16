@@ -1,8 +1,9 @@
 import ContactSection from '@/components/contactSection';
 import { useTranslations } from 'next-intl';
 import Banner from './_components/banner';
-import PropertiesSectionProvider from './_components/property/propertiesSectionprovider';
 import ServiceSection from '@/components/servicesSection';
+import RecentPropertiesSection from './_components/property/propertiesSection';
+import HeroSection from './_components/heroSection';
 
 
 
@@ -18,9 +19,9 @@ export default function Home({params} :{
   return (
     <>
       {/* hero   */}
-      
-    <Banner/>
-    <PropertiesSectionProvider/>
+      <HeroSection/>
+    {/* <Banner/> */}
+    <RecentPropertiesSection/>
 
       {/* --------------------- */}
       {/* services */}

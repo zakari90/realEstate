@@ -19,11 +19,7 @@ import { Badge } from '@/components/ui/badge'
 import { getAgentClients, getAgentProperties } from '@/_actions/agent/actions'
 import OffersTable from './properties/_components/offersTable'
 import { useEffect } from 'react'
-import { useAgentStore } from '@/context/store'
-
-// Removed getClerkUsertDetails as it's duplicate of getAgentDetails
-
-
+import { useAgentStore } from '@/context/propertyStore'
 
 function AgentPage() {
   const { agent, agentProperties, error, isLoading, fetchAgentData } = useAgentStore()
@@ -34,10 +30,6 @@ function AgentPage() {
 
   if (isLoading) return  <div className="flex justify-center"><Loader2 className="size-24 animate-spin" /></div>
   if (error) return <div>Error: {error}</div>
-  console.log("---------------------------")
-  // console.log( agent?.name, agentProperties, error, isLoading, fetchAgentData  )
-  console.log( agentProperties.properties[0] )
-  console.log("---------------------------")
 
 
   // const numberOfOffers = offers.numberOfOffers ? offers.numberOfOffers + "" : "0"

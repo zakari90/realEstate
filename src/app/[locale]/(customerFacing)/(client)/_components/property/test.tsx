@@ -1,5 +1,5 @@
-"use client"
-import { DialogClose } from '@radix-ui/react-dialog'
+'use client'
+
 import { createPropertyOffer } from "@/_actions/agent/actions"
 import { PropertyDTO } from "@/_actions/client/actions"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { AlertCircle, CheckCircle2, ChevronDown, SendHorizontal } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { DialogClose } from '@radix-ui/react-dialog'
+import { AlertCircle, CheckCircle2, SendHorizontal } from 'lucide-react'
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -18,66 +19,52 @@ const formSchema = z.object({
   clientPhone: z.string().regex(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/, {
     message: "Please enter a valid phone number",
   }),
-  clientOffer: z.string().min(1, "Offer is required").transform(Number).refine((n) => n > 0, {
-    message: "Offer must be greater than 0",
-  }),
-  clientPeriod: z.string().transform(Number).refine((n) => n >= 0, {
-    message: "Payment period must be 0 or greater",
-  }),
+  clientOffer: z.coerce.number().min(1, "Offer must be greater than 0"),
+  clientPeriod: z.coerce.number().min(0, "Payment period must be 0 or greater"),
   clientName: z.string().optional(),
-  clientEmail: z.string().optional(),
+  clientEmail: z.string().email("Invalid email address").optional(),
 })
 
-export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; onClose: () => void }) {
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  
-  // Access to close dialog
+export function InvestorOfferFormT({ property }: { property: PropertyDTO }) {
+  const [investmentOfferState, setInvestmentOfferState] = useState<'success' | 'error' | null>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       propertyId: property.id,
       clientPhone: "",
-      clientOffer: property?.price ?? 0, 
+      clientOffer: property?.price ?? 0,
       clientPeriod: 0,
       clientName: "",
       clientEmail: "",
     },
   })
 
-  useEffect(() => {
-    console.log("Form state:", form.formState.errors);
-  }, [form.formState]);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await createPropertyOffer(values);
-      console.log("Response:", response);
+      const response = await createPropertyOffer(values)
       if (response) {
-        form.reset();
-        setStatus('success');
-        setTimeout(() => {
-          onClose();
-        }, 1500);
+        form.reset()
+        setInvestmentOfferState('success')
       } else {
-        setStatus('error');
+        throw new Error('No response from server')
       }
     } catch (error) {
-      console.error("Error submitting offer", error);
-      setStatus('error');
+      console.error("Error submitting offer", error)
+      setInvestmentOfferState('error')
     }
-  };
+  }
 
   return (
     <div className="space-y-6">
-      {status === 'success' && (
+      {investmentOfferState === 'success' && (
         <Alert variant="default" className="bg-green-50 border-green-200">
           <CheckCircle2 className="h-4 w-4 text-green-500" />
           <AlertTitle>Success</AlertTitle>
           <AlertDescription>Your offer has been submitted successfully!</AlertDescription>
         </Alert>
       )}
-      {status === 'error' && (
+      {investmentOfferState === 'error' && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
@@ -89,6 +76,18 @@ export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
+            name="propertyId"
+            render={({ field }) => (
+              <FormItem className="hidden">
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="clientPhone"
             render={({ field }) => (
               <FormItem>
@@ -96,9 +95,7 @@ export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; 
                 <FormControl>
                   <Input placeholder="Enter your phone number" {...field} />
                 </FormControl>
-                <FormDescription>
-                  Please enter a valid phone number.
-                </FormDescription>
+                <FormDescription>Please enter a valid phone number.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -109,21 +106,7 @@ export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; 
             name="clientOffer"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your offer</FormLabel>
-                <FormControl>
-                  <Input type="number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="clientPeriod"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Payment period in months</FormLabel>
+                <FormLabel>Your Offer</FormLabel>
                 <FormControl>
                   <Input type="number" {...field} />
                 </FormControl>
@@ -136,7 +119,6 @@ export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; 
             <AccordionItem value="optional-fields">
               <AccordionTrigger className="px-4">
                 Optional fields
-                <ChevronDown className="h-4 w-4 ml-2" />
               </AccordionTrigger>
               <AccordionContent className="p-4 space-y-4">
                 <FormField
@@ -152,6 +134,7 @@ export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; 
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="clientEmail"
@@ -174,13 +157,11 @@ export function ClientOfferForm({ property, onClose }: { property: PropertyDTO; 
             className="w-full flex items-center justify-center"
             disabled={form.formState.isSubmitting}
           >
-            <SendHorizontal className="h-4 w-4 ml-2" />
-            {form.formState.isSubmitting ? 'Submitting...' : 'Submit Offer'}
+            <SendHorizontal className="h-4 w-4 mr-2" />
+            {form.formState.isSubmitting ? "Submitting..." : "Submit Offer"}
           </Button>
         </form>
       </Form>
-
-      {status === 'success' && <DialogClose asChild />}
     </div>
   )
 }

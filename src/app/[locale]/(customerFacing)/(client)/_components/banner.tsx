@@ -83,35 +83,6 @@ export default function Banner() {
                 </div>
               </div>
             </div>
-            {/* <div className="lg:w-1/2">
-              <div className=" relative aspect-square overflow-hidden rounded-lg shadow-xl">
-                <Carousel
-                  opts={{
-                    loop: true,
-                    align: "start",
-                  }}
-                  plugins={[
-                    Autoplay({
-                      delay: 5000,
-                    }),
-                  ]} 
-                >
-                  <CarouselContent>
-                    {images.map((img, index) => (
-                      <CarouselItem key={index}>
-                        <Image 
-                          src={img} 
-                          alt={`Slide ${index + 1}`} 
-                          width={1280}
-                          height={720}
-                          className="object-center w-full h-full"
-                        />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
