@@ -11,41 +11,44 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Link from 'next/link';
-import { PropertyCard } from "./propertyCard";
-import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
+import { PropertyCard } from "../../properties/_components/propertyCard";
+import { getAllInvestments, getAllProperties, InvestmentDTO, PropertyDTO } from "@/_actions/client/actions";
 import { useEffect, useState } from "react";
+import InvestmentCard from "./investorsCard";
 
-export default function RecentPropertiesSection() {
-  const [properties, setProperties] = useState<PropertyDTO[]>([]);
+export default function RecentInvestmentSection() {
+  const [investments, setinvestments] = useState<InvestmentDTO[]>([]);
 
   useEffect(() => {
     const fetchProperties = async () => {
-      const p = await getAllProperties();
+      const p = await getAllInvestments();
       if (p.length > 6) {
-        setProperties(p.slice(-6));
+        setinvestments(p.slice(-6));
       }
+      setinvestments(p)
     };
 
     fetchProperties();
   }, []);
 
   return (
-    <section id="properties" className="space-y-4 mt-8 md:mt-16">
+    <section id="investments" className="space-y-4 mt-8 md:mt-16">
       <div className="container mx-auto px-4">
 
         <div className="flex justify-between items-center mb-8">
-          <PageHeader>Recently Added</PageHeader>
+          <PageHeader>Investments</PageHeader>
           <Button asChild size="sm">
-            <Link href="/properties">
+            <Link href="/investments">
               View All
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {properties.map(property => (
-            <div key={property.id}>
-              <PropertyCard property={property} />
+          {investments.map(investment => (
+            <div key={investment.id}>
+              <InvestmentCard investment={investment} />
+              {/* <PropertyCard property={property} /> */}
             </div>
           ))}
         </div>
@@ -62,9 +65,9 @@ export default function RecentPropertiesSection() {
             ]}
           >
             <CarouselContent>
-              {properties.map((property, index) => (
+              {investments.map((investment, index) => (
                 <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/4">
-                  <PropertyCard property={property} />
+                  <InvestmentCard investment={investment} />
                 </CarouselItem>
               ))}
             </CarouselContent>

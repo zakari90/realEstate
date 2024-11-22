@@ -9,7 +9,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs';
-import { NavBar, NavItem } from "../(client)/_components/clientNavbar";
+import { NavBar, NavItem } from "../(client)/properties/_components/clientNavbar";
 export const dynamic = "force-dynamic"
 
 //TODO : translate this navigation use my navbar

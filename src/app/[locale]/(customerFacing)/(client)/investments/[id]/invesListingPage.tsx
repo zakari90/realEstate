@@ -12,7 +12,7 @@ import { Card, CardContent, CardTitle, CardHeader, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { ContactInvestor } from "../_components/contactInvestor"
+import { ContactInvestor } from "../_components/investmentContactDialog"
 import { Agent } from "@prisma/client"
 
 export default function InvestmentListingPage({

@@ -39,6 +39,7 @@ model Property {
   features        String?    // Could also be an array of strings or a separate model
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  visitors        Int      @default(0) 
   offers          PropertyOffer[]
   agent           Agent?    @relation(fields: [agentId], references: [id])
 }
@@ -54,6 +55,7 @@ model Investment {
   numContributors      Int?      // Number of additional contributors needed
   location             String?
   purpose              String?  // Changed to string for compatibility with SQLite
+  visitors             Int      @default(0) 
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   offers               InvestmentOffer[]
@@ -62,34 +64,34 @@ model Investment {
 }
 
 model Client {
-  id        String   @id @default(uuid())
-  name      String
-  email     String?  
-  phone     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  offers    PropertyOffer?
-  InvestmentOffer InvestmentOffer[]
+  id                String   @id @default(uuid())
+  name              String
+  email             String?  
+  phone             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  offers            PropertyOffer?
+  investmentOffer   InvestmentOffer?
 }
 
 model PropertyOffer {
-  id         String    @id @default(uuid())
-  amount     Int
-  period     String
-  propertyId String?
-  clientId   String?   @unique
-  createdAt  DateTime  @default(now())
-  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  id                String    @id @default(uuid())
+  amount            Int
+  period            String
+  propertyId        String?
+  clientId          String?   @unique
+  createdAt         DateTime  @default(now())
+  client            Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  property          Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model InvestmentOffer {
-  id             String      @id @default(uuid())
-  amount         Int
-  clientId       String?     @unique
-  createdAt      DateTime    @default(now())
-  client         Client?     @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  investment     Investment? @relation(fields: [investmentId], references: [id], onDelete: Cascade)
-  investmentId   String
-  accepted       Boolean?    @default(false) // New field to track acceptance status
+  id                String      @id @default(uuid())
+  amount            Int
+  clientId          String?     @unique
+  createdAt         DateTime    @default(now())
+  client            Client?     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  investment        Investment? @relation(fields: [investmentId], references: [id], onDelete: Cascade)
+  investmentId      String
+  accepted          Boolean?    @default(false) // New field to track acceptance status
 }

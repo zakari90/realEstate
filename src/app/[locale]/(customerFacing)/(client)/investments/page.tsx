@@ -9,8 +9,8 @@ import {
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { CardSkeleton } from "../_components/property/propertyCard";
-import PropertyInvestmentCard from "./_components/investorsCard";
+import InvestmentCard from "./_components/investorsCard";
+import CardSkeleton from "./_components/cardSkeleton";
 
 function Page() {
   const rowsPerPage = 12;
@@ -57,17 +57,7 @@ function Page() {
           <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {investmentsData.slice(startIndex, endIndex).map((investment) => (
               <div key={investment.id}>
-                <PropertyInvestmentCard
-                  id={investment.id}
-                  title={investment.title || ""}
-                  description={investment.description || ""}
-                  price={investment.price || 0}
-                  contribution={investment.contribution || 0}
-                  numContributors={investment.numContributors || 0}
-                  location={investment.location || ""}
-                  purpose={investment.purpose || ""}
-                  currentContribution={10}
-                />
+                <InvestmentCard investment={investment}/>
               </div>
             ))}
           </div>

@@ -17,7 +17,9 @@ export function ContactDialog({ property }: { property: PropertyDTO }){
   return(
   <Dialog open={open} onOpenChange={setOpen}>
     <DialogTrigger asChild>
-      <Button className="w-full">Make an offer</Button>
+    <Button size="sm" className="w-full ml-2 text-xs">
+    Make an offer
+    </Button>
       </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

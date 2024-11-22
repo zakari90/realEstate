@@ -38,7 +38,6 @@ interface PropertyOffer {
   } | null;                // The property details, optional if property doesn't exist
 }
 
-
 export interface AgentPropertyData {
   id: string;
   type: string | null; 
@@ -201,6 +200,7 @@ export async function createInvestment(params: InvestmentInfo) {
     await db.$disconnect(); // Ensure disconnection happens regardless of success or failure
   }
 }
+
 export async function createInvestmentOffer(params: any) : Promise<{ message: boolean }> {
   console.log("**********************************************************");
   console.log("createInvestmentOffer function");
@@ -214,7 +214,7 @@ export async function createInvestmentOffer(params: any) : Promise<{ message: bo
       },
     });
 
-    await db.investmentOffer.create({
+    const i = await db.investmentOffer.create({
       data: {
         investmentId: params.investmentId,
         clientId: newClient.id, 
@@ -222,6 +222,9 @@ export async function createInvestmentOffer(params: any) : Promise<{ message: bo
         accepted: false
       },
     });
+
+    console.log("/////////////////////"+ i.amount);
+    
     return { message: true };
   
   } catch (error) {
@@ -233,7 +236,6 @@ export async function createInvestmentOffer(params: any) : Promise<{ message: bo
     await db.$disconnect();
   }
 }
-
 
 async function updateAcceptedContributions(investmentId: string) {
   try {
@@ -730,35 +732,42 @@ export async function updateAgentData(formData: FormData) {
   }
 }
 
-export async function createPropertyOffer( params: any) : Promise<{ message: boolean }> {
+export async function createPropertyOffer(params: any): Promise<{ message: boolean }> {
   console.log("**********************************************************");
   console.log("createPropertyOffer function");
-  console.log(params);
-  try {    
+  console.log("Received params:", typeof params.clientPeriod); // Log the incoming params to make sure they are correct.
+  console.log("**********************************************************");
+
+  try {
+    // First, create the client record.
     const newClient = await db.client.create({
       data: {
         phone: params.clientPhone,
-        email: params.clientEmail || "", 
-        name: params.clientName || "",   
+        email: params.clientEmail || "",
+        name: params.clientName || "",
       },
     });
-
-    await db.propertyOffer.create({
+    console.log("Client created:", newClient);
+    const period = params.clientPeriod + ""
+    // Then, create the property offer.
+    const propertyOffer = await db.propertyOffer.create({
       data: {
         propertyId: params.propertyId,
         clientId: newClient.id,
         amount: params.clientOffer,
-        period: params.clientPeriod
+        period: period,
       },
     });
+    console.log("Property offer created:", propertyOffer);
 
     return { message: true };
   } catch (error) {
-
     console.error("An unexpected error occurred while creating offer:", error);
+    // Return false if anything goes wrong.
     return { message: false };
   }
 }
+
 
 export async function deletePropertyById(id: string) {
 

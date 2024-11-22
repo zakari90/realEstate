@@ -21,8 +21,8 @@ const formSchema = z.object({
   clientOffer: z.string().min(1, "Offer is required").transform(Number).refine((n) => n > 0, {
     message: "Offer must be greater than 0",
   }),
-  clientPeriod: z.string().transform(Number).refine((n) => n >= 0, {
-    message: "Payment period must be 0 or greater",
+  clientPeriod: z.string().transform(Number).refine((n) => n > 0, {
+    message: "Payment period must be 1 or greater",
   }),
   clientName: z.string().optional(),
   clientEmail: z.string().optional(),

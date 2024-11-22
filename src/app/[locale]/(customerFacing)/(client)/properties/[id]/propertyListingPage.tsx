@@ -24,7 +24,7 @@ import { Agent } from "@prisma/client"
 import { Bath, Bed, Image as ImageIcon, MapPin, Maximize, Video } from "lucide-react"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { ContactDialog } from "../../_components/property/contactDialog"
+import { ContactDialog } from "../_components/propertyContactDialog"
 
 export default function PropertyListingPage({
   property,

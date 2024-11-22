@@ -1,9 +1,10 @@
 import ContactSection from '@/components/contactSection';
 import { useTranslations } from 'next-intl';
-import Banner from './_components/banner';
+import Banner from './properties/_components/banner';
 import ServiceSection from '@/components/servicesSection';
-import RecentPropertiesSection from './_components/property/propertiesSection';
-import HeroSection from './_components/heroSection';
+import RecentPropertiesSection from './properties/_components/recentPropertiesSection';
+import HeroSection from './properties/_components/heroSection';
+import RecentInvestmentSection from './investments/_components/recentInvestementSection';
 
 
 
@@ -15,14 +16,14 @@ export default function Home({params} :{
   const servicesSection = useTranslations('servicesSection');
   const contactSection = useTranslations("contactSection");
   const productsSection = useTranslations('productsSection');
-
+  // middlewareTest()
   return (
     <>
       {/* hero   */}
       <HeroSection/>
     {/* <Banner/> */}
     <RecentPropertiesSection/>
-
+    <RecentInvestmentSection/>
       {/* --------------------- */}
       {/* services */}
       <ServiceSection/>

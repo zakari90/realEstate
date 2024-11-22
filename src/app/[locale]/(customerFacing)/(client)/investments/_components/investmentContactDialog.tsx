@@ -17,7 +17,8 @@ export function ContactInvestor({ investment }: { investment: InvestmentDTO }){
     return(
       <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full">Make an offer</Button>
+      <Button size="sm" className="w-full ml-2 text-xs">
+          Make an offer</Button>
         </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

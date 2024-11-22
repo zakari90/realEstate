@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Inter as FontSans } from "next/font/google";
-import ClientFooter from './_components/clientFootre';
-import { NavBar, NavItem } from './_components/clientNavbar';
+import ClientFooter from './properties/_components/clientFootre';
+import { NavBar, NavItem } from './properties/_components/clientNavbar';
 
 const fontSans = FontSans({
   subsets: ["latin"],

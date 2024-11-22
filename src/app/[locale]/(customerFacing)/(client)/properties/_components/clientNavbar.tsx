@@ -31,12 +31,19 @@ const defaultItems: NavItem[] = [
 export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
   const [isOpen, setIsOpen] = useState(false)
   const [agent, checkAgent] = useState(false);
+  const router = useRouter();
 
+  const handleAdvertise = () => {
+    if (agent) {
+      router.push('/agent');
+    } else {
+      router.push('/login');
+    }
+  } 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await isAgent();
-        console.log(response)
         checkAgent(response);
       } catch (err) {
         // Handle error
@@ -91,14 +98,14 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
             <div className="flex items-center gap-4">
               <div className="sm:flex sm:gap-4">
               <Link href="/agent" >
-                {agent ? 
-                <Button variant="default" className="hidden sm:flex">
-                  Add Property
+              <Button 
+                  onClick={handleAdvertise}
+                  variant={agent ? "default" : "outline"} 
+                  className={agent ? "hidden sm:flex bg-teal-600 text-white" : "bg-red-700 text-white"}
+                >
+                  {/* TODO : CHANGE THE TEXT BELOW */}
+                  {agent ? "Advertise" : "Login to Advertise"}
                 </Button>
-                  : 
-                <Button variant="outline" className="bg-teal-600 text-white">
-                  Advertise
-                </Button> }
               </Link>
               </div>
 

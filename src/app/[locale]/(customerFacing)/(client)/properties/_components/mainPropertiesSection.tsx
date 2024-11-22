@@ -1,7 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/components/pageHeader";
-import { PropertyCard, CardSkeleton } from "./propertyCard";
+import { PropertyCard } from "./propertyCard";
 import {
   Pagination,
   PaginationContent,
@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import CardSkeleton from "../../investments/_components/cardSkeleton";
 
 export default function MainPropertiesSection() {
   const rowsPerPage = 12;

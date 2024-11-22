@@ -46,6 +46,24 @@ const createInvestmentDTO = (investmentData: InvestmentDTO) => {
   };
 };
 
+export const searchInvestmentsByLocation = async (location: string) => {
+  console.log("---------------------");
+  console.log("searchInvestmentsByLocation ")
+  
+  const investments = await db.investment.findMany({
+      where: {
+          location: {
+              contains: location,
+          },
+      },
+      include:{
+        agent: true, 
+      }
+  });
+  return investments.map(investment => createInvestmentDTO(investment));
+
+};
+
 export async function getAllInvestments() {
   try {
     const investments = await db.investment.findMany({
@@ -80,7 +98,7 @@ export async function getInvestmentWithId(investmentId: string) {
     throw error; 
   }
 }
-
+// -----------------------------------------------Property
 
 export type PropertyDTO = {
   id: string;
@@ -103,7 +121,6 @@ export type PropertyDTO = {
   updatedAt: Date;
   agent: Agent | null;
 };
-
 const createPropertyDTO = (propertyData: PropertyDTO) => {
   return {
     id: propertyData.id,
@@ -127,6 +144,25 @@ const createPropertyDTO = (propertyData: PropertyDTO) => {
     agent: propertyData.agent, // Include agent mapping
   };
 }
+
+export const searchPropertiesByLocation = async (location: string) => {
+  console.log("-------------------------------");
+  console.log("searchPropertiesByLocation");
+  
+  const properties = await db.property.findMany({
+      where: {
+          address: {
+              contains: location,
+              // mode: 'insensitive',
+          },
+      }, 
+      include :{
+        agent : true
+      }
+  });
+  return properties.map(property => createPropertyDTO(property));
+
+};
 
 export async function getAllProperties() {
   try {
