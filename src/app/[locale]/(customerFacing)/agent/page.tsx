@@ -37,7 +37,7 @@ function AgentPage() {
 console.log("**************************************************");
 console.log(agentInvestments.investment)
 console.log("**************************************************");
-
+"test "
   // const numberOfOffers = offers.numberOfOffers ? offers.numberOfOffers + "" : "0"
   const numberOfInvestments = agentInvestments.investment.length ? agentInvestments.investment.length + "" : "0"
   const numberOfProprties = agentProperties.properties.length ? agentProperties.properties.length + "" : "0"
