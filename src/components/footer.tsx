@@ -78,23 +78,23 @@ export default function Footer({ locale, navLinks }: NavBarProps) {
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
         <div className="text-center sm:text-left">
           <Link className="text-lg font-medium hover:text-secondary"
-          href={`${domaine}${locale}/#${navLinks[0][1]}`}
-          >{navLinks[0][0]}</Link>
+          href={`${domaine}${locale}/#${navLinks[0]?.[1]}`}
+          >{navLinks[0]?.[0]}</Link>
         </div>
         <div className="text-center sm:text-left">
         <Link className="text-lg font-medium hover:text-secondary"
-          href={`${domaine}${locale}/#${navLinks[1][1]}`} >
-            {navLinks[1][0]}</Link>
+          href={`${domaine}${locale}/#${navLinks[1]?.[1]}`} >
+            {navLinks[1]?.[0]}</Link>
         </div>
         <div className="text-center sm:text-left">
         <Link className="text-lg font-medium hover:text-secondary"
-        href={`${domaine}${locale}/#${navLinks[2][1]}`}
-        >{navLinks[2][0]}</Link>
+        href={`${domaine}${locale}/#${navLinks[2]?.[1]}`}
+        >{navLinks[2]?.[0]}</Link>
         </div>
         <div className="text-center sm:text-left">
           <Link className="text-lg font-medium hover:text-secondary"
-          href={`${domaine}${locale}/#${navLinks[3][1]}`}
-          >{navLinks[3][0]}</Link>
+          href={`${domaine}${locale}/#${navLinks[3]?.[1]}`}
+          >{navLinks[3]?.[0]}</Link>
           <ul className="mt-8 space-y-4 text-sm">
           <li>
             <WhatsAppLink/>

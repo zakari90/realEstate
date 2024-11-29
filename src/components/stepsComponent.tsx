@@ -74,12 +74,12 @@ export default function StepsComponent() {
               <CardHeader>
                 <CardTitle className="ml-2 flex items-center text-2xl font-semibold">
                   
-                  { steps[currentStep].title}
+                  { steps[currentStep]?.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-grow overflow-hidden">
                 <ScrollArea className="h-full">
-                  <p className="text-muted-foreground">{steps[currentStep].content}</p>
+                  <p className="text-muted-foreground">{steps[currentStep]?.content}</p>
                 </ScrollArea>
               </CardContent>
             </Card>

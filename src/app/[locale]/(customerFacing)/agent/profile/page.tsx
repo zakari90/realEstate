@@ -2,6 +2,7 @@
 import React from 'react'
 
 import { useOrganization, useSession, useUser } from "@clerk/nextjs";
+import Image from 'next/image';
 
 function page() {
   return (
@@ -65,7 +66,7 @@ function formatDateWithNumbers(date: Date): string {
   });
 }
 
-export function UserDetails() {
+function UserDetails() {
   const { user } = useUser();
   const { session } = useSession();
   const { organization } = useOrganization();
@@ -77,7 +78,12 @@ export function UserDetails() {
       <div className="p-8 rounded-xl bg-white shadow-[0_5px_15px_rgba(0,0,0,0.08),0_15px_35px_-5px_rgba(25,28,33,0.2)] ring-1 ring-gray-950/5 max-w-[25rem]">
         <div className="flex flex-col items-center gap-2 mb-6">
           <div className="w-full relative flex justify-center">
-            <img src={user.imageUrl} className="size-20 rounded-full" />
+            <Image
+              width={200}
+              height={200}
+              src={user.imageUrl || ""}
+              className="size-20 rounded-full" 
+              alt={'agent image'} />
           </div>
           {user.firstName && user.lastName ? (
             <h1 className="text-[1.0625rem] font-semibold relative w-full text-center">
