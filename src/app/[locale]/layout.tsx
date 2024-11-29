@@ -1,12 +1,10 @@
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
 import { rubik } from '@/lib/fonts';
-import { cn, websiteVisitsTracker } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
-import { useEffect } from 'react';
-import { NextRequest } from 'next/server';
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -21,14 +19,13 @@ interface RootLayoutProps {
   params: {
     locale: string;
   };
-  req:NextRequest
 }
 
 
 export default function RootLayout({
   children,
   params: { locale },
-}: Readonly<RootLayoutProps>) {
+}: RootLayoutProps) {
 
   const font = locale === 'ar' ? rubik.className :  fontSans.variable;
   const documentDirection = locale === 'ar' ? "rtl" :  "ltr";
