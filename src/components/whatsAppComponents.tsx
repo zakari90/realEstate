@@ -8,7 +8,7 @@ const WhatsAppLink = ({productName, phone, offer}:{
 }) => {
   const handleWhatsAppClick = () => {
     // e.preventDefault();
-    const phoneNumber = {phone} || '1234567890';
+    const phoneNumber = {phone} ;
     const message = productName ? `Hello! I'm interested in ${productName}` : "Hello! I'm interested in your product";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.location.href = url;
