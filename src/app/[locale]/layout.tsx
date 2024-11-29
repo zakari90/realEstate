@@ -31,10 +31,7 @@ export default function RootLayout({
   const documentDirection = locale === 'ar' ? "rtl" :  "ltr";
 
   return (
-
-
     <html lang={locale} dir={documentDirection} suppressHydrationWarning>
-
       <body 
       className={cn(
         "min-h-screen bg-background font-sans antialiased ",
