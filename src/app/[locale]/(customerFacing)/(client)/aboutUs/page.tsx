@@ -20,7 +20,7 @@ export default function AboutUs() {
   Welcome to Zproperty, your innovative partner in ethical real estate investment. As a new player in the market, we empower buyers to take control by allowing them to submit their own offers and preferred payment terms, creating a more transparent and personalized buying experience.
 </p>
 <p className="text-lg">
-  Whether you're looking to buy, sell, or invest, our dedicated team is here to guide you through the process, ensuring it aligns with your values and goals. Join us in reshaping the future of real estate with thoughtful investments that benefit both you and the community.
+  Whether you are looking to buy, sell, or invest, our dedicated team is here to guide you through the process, ensuring it aligns with your values and goals. Join us in reshaping the future of real estate with thoughtful investments that benefit both you and the community.
 </p>
       </section>
 
@@ -48,7 +48,7 @@ export default function AboutUs() {
       <section className="py-16 px-4 md:px-8 max-w-4xl mx-auto">
       <h2 className="text-3xl font-semibold mb-6 text-center">Our Mission</h2>
         <blockquote className="text-xl italic text-center">
-        "To empower clients to make informed real estate choices with exceptional service and sustainable solutions."
+        To empower clients to make informed real estate choices with exceptional service and sustainable solutions.
         </blockquote>
       </section>
 

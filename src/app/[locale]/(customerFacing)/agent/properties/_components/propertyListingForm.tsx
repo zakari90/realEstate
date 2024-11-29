@@ -268,7 +268,7 @@ function MediaForm({property, propertyId, setstep} : { property?: AgentPropertyD
             alt="Product image"
             className="aspect-square w-full rounded-md object-cover"
             height="300"
-            src={imagesUrl[0]}
+            src={imagesUrl[0] || ""}
             width="300"
           />
           <div className="grid grid-cols-3 gap-2">

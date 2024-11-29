@@ -37,7 +37,7 @@ export default function RootLayout({
   const clientNavItems:NavItem[] = [
     { href: "/", name: "Home" },
     { href: "/properties", name: "Properties" },
-    { href: "/investors", name: "Investment" },
+    { href: "/investments", name: "Investment" },
     { href: "/aboutUs", name: "About us" },
 
   ];

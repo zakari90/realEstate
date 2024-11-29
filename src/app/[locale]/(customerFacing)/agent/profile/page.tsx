@@ -78,7 +78,6 @@ export function UserDetails() {
         <div className="flex flex-col items-center gap-2 mb-6">
           <div className="w-full relative flex justify-center">
             <img src={user.imageUrl} className="size-20 rounded-full" />
-
           </div>
           {user.firstName && user.lastName ? (
             <h1 className="text-[1.0625rem] font-semibold relative w-full text-center">
@@ -91,7 +90,7 @@ export function UserDetails() {
         </div>
 
         <div className="px-2.5 bg-[#FAFAFB] rounded-lg divide-y divide-[#EEEEF0]">
-          <Row desc="Email" value={user.emailAddresses[0].emailAddress}>
+          <Row desc="Email" value={user.emailAddresses[0]?.emailAddress || ""}>
             <PointerC label="user.emailAddresses[0].emailAddress" />
           </Row>
           <Row desc="Last signed in" value={formatDate(user.lastSignInAt!)}>

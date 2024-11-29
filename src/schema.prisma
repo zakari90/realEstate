@@ -1,12 +1,14 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL_P")
+  provider  = "mongodb"
+  url =  env("MONGO_DB")
+    // url       = env("mongodb://zakariazinedine1:@ac-acgjuvk-shard-00-00.qafqmhs.mongodb.net:27017,ac-acgjuvk-shard-00-01.qafqmhs.mongodb.net:27017,ac-acgjuvk-shard-00-02.qafqmhs.mongodb.net:27017/?ssl=true&replicaSet=atlas-i1w4eq-shard-0&authSource=admin&retryWrites=true&w=majority&appName=memory")
 }
-
+        
 
 model Agent {
   id            String       @id @default(uuid())  @map("_id")

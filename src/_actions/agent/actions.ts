@@ -674,7 +674,7 @@ export async function registerClerkUserAsAgent() {
     if (!user || !user.emailAddresses || user.emailAddresses.length === 0) {
       throw new Error('User email not found');
     }
-    const email = user.emailAddresses[0].emailAddress;
+    const email = user.emailAddresses[0]?.emailAddress;
     let agent = await db.agent.findUnique({
       where: { email: email }
     });

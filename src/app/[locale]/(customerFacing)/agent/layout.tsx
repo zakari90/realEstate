@@ -10,6 +10,7 @@ import {
   UserButton
 } from '@clerk/nextjs';
 import { NavBar, NavItem } from "../(client)/properties/_components/clientNavbar";
+import AnalyticsTracker from "@/components/analyticsTracker";
 export const dynamic = "force-dynamic"
 
 //TODO : translate this navigation use my navbar
@@ -45,7 +46,6 @@ export default function AgentLayout({
         <SignIn routing="hash" />
       </SignedOut>
     </div>
-
     </div>
     </ClerkProvider>
 
