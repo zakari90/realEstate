@@ -18,11 +18,8 @@ export const config = {
 
 export default clerkMiddleware((auth, req) => {
   try {
-    // First, attempt locale middleware
     const result = intlMiddleware(req);
     if (result) return result;
-
-    // Protect non-public routes
     if (!req.nextUrl.pathname.match(/^\/?(en|fr|ar)?$/)) {
       auth().protect();
     }
