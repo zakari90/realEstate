@@ -9,7 +9,6 @@
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "lint": "next lint"
-    
   },
   "dependencies": {
     "@clerk/nextjs": "^5.3.1",
