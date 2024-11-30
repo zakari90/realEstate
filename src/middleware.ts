@@ -1,6 +1,8 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
+import { trackPageVisit } from './_actions/admin/admin';
+
 
 const intlMiddleware = createMiddleware({
   locales: ['en', 'fr', 'ar'],
@@ -16,17 +18,24 @@ export const config = {
   ]
 };
 
-export default clerkMiddleware((auth, req) => {
-  try {
-    const result = intlMiddleware(req);
-    if (result) return result;
-    if (!req.nextUrl.pathname.match(/^\/?(en|fr|ar)?$/)) {
-      auth().protect();
-    }
+const isPublicRoute = createRouteMatcher(['/', '/(fr|en|ar)/:path*']);
 
-    return NextResponse.next();
-  } catch (error) {
-    console.error('Middleware Error:', error);
-    return NextResponse.error();
+export default clerkMiddleware(async (auth, req) => {
+  // Track page visit
+  try {
+    await trackPageVisit(req.nextUrl.pathname);
+  } catch (trackingError) {
+    console.error('Tracking failed:', trackingError);
   }
+
+  // Internationalization middleware
+  const localeResponse = intlMiddleware(req);
+  if (localeResponse) return localeResponse;
+
+  // Authentication for non-public routes
+  if (!isPublicRoute(req)) {
+    auth().protect();
+  }
+
+  return NextResponse.next();
 });
