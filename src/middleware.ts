@@ -9,13 +9,20 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'always',
   defaultLocale: 'en', 
 });
+export const config = {
+  matcher: [
+    '/', 
+    '/(en|fr|ar)/:path*', 
+    '/((?!api|_next/static|_next/image|favicon.ico).*)'
+  ],
+};
 
 const isPublicRoute = createRouteMatcher(['/', '/(fr|en|ar)/:path*']);
 
 export default clerkMiddleware(async (auth, req) => {
   try {
     // First, handle internationalization
-    const localeResponse = await intlMiddleware(req);
+    const localeResponse =  intlMiddleware(req);
     if (localeResponse) return localeResponse;
 
     // Then handle authentication for non-public routes
@@ -41,10 +48,3 @@ export default clerkMiddleware(async (auth, req) => {
   }
 });
 
-export const config = {
-  matcher: [
-    '/', 
-    '/(en|fr|ar)/:path*', 
-    '/((?!api|_next/static|_next/image|favicon.ico).*)'
-  ],
-};
