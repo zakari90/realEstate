@@ -20,26 +20,23 @@ export const config = {
 const isPublicRoute = createRouteMatcher(['/', '/(fr|en|ar)/:path*']);
 
 export default clerkMiddleware(async (auth, req) => {
+  intlMiddleware
+  if (!isPublicRoute(req)) {
+    auth().protect();
+  }
   try {
-    // First, handle internationalization
-    const localeResponse =  intlMiddleware(req);
-    if (localeResponse) return localeResponse;
-
-    // Then handle authentication for non-public routes
-    if (!isPublicRoute(req)) {
-      auth().protect();
-    }
-
-    // Track analytics for supported locales
     const supportedLocales = ['fr', 'en', 'ar'];
-    if (supportedLocales.some(locale => req.nextUrl.pathname.startsWith(`/${locale}/`))) {
-      await analytics.track('pageview', {
-        page: req.nextUrl.pathname,
-        country: req.geo?.country,
-      }).catch(error => {
-        console.error("Analytics tracking error", error);
-      });
-    }
+    console.log("********************");
+    console.log(req.body)
+    
+    // if (supportedLocales.some(locale => req.nextUrl.pathname.startsWith(`/${locale}/`))) {
+    //   await analytics.track('pageview', {
+    //     page: req.nextUrl.pathname,
+    //     country: req.geo?.country,
+    //   }).catch(error => {
+    //     console.error("Analytics tracking error", error);
+    //   });
+    // }
 
     return NextResponse.next();
   } catch (error) {
