@@ -10,27 +10,28 @@ import { PageHeader } from './pageHeader'
 
 const services = [
   {
-    title: "Sell Your Property",
+    title: "بيع عقارك",
     icon: DollarSign,
-    description: "List your property and reach thousands of potential buyers.",
-    action: "List Now",
-    href:"/agent"
+    description: "قم بإدراج عقارك وابدأ في الوصول إلى الآلاف من المشترين المحتملين.",
+    action: "إدراج الآن",
+    href: "/agent"
   },
   {
-    title: "Buy a Property",
+    title: "شراء عقار",
     icon: Home,
-    description: "Find your dream home with our extensive listings and make custom offers.",
-    action: "Search Homes",
-    href:"/properties"
+    description: "ابحث عن منزل أحلامك من خلال قوائمنا الواسعة وقدم عروض مخصصة.",
+    action: "ابحث عن منازل",
+    href: "/properties"
   },
   {
-    title: "Find investor",
+    title: "البحث عن مستثمر",
     icon: Key,
-    description: "Discover the perfect rental property for your needs.",
-    action: "View Investor",
-    href:"/investors"
+    description: "اكتشف العقار المثالي للإيجار الذي يلبي احتياجاتك.",
+    action: "عرض المستثمرين",
+    href: "/investors"
   }
 ]
+
 
 export default function ServiceSection() {
   return (
@@ -48,7 +49,6 @@ export default function ServiceSection() {
               <Card key={service.title} className="max-w-xs w-full flex flex-col mb-4">
                 <CardHeader>
                   <CardTitle className="flex items-center text-2xl font-semibold">
-                    <service.icon aria-hidden="true" className="mr-2 h-6 w-6" />
                     {service.title}
                   </CardTitle>
                 </CardHeader>

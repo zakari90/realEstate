@@ -90,10 +90,10 @@ export default function StepsComponent() {
 
           <div className="flex justify-between mt-8">
             <Button onClick={prevStep} disabled={currentStep === 0}>
-              <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+              <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
             <Button onClick={nextStep} disabled={currentStep === steps.length - 1}>
-              Next <ChevronRight className="ml-2 h-4 w-4" />
+            <ChevronLeft className="mr-2 h-4 w-4" />
             </Button>
           </div>
         </CardContent>

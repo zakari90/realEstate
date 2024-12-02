@@ -35,10 +35,10 @@ export default function RootLayout({
     [Navigation('contact'), 'contact']
   ];
   const clientNavItems:NavItem[] = [
-    { href: "/", name: "Home" },
-    { href: "/properties", name: "Properties" },
-    { href: "/investments", name: "Investment" },
-    { href: "/aboutUs", name: "About us" },
+    { href: "/", name: "الرئيسية" },
+    { href: "/properties", name: "العقارات" },
+    { href: "/investments", name: "الاستثمارات" },
+    { href: "/aboutUs", name: "من نحن" },
 
   ];
   return (

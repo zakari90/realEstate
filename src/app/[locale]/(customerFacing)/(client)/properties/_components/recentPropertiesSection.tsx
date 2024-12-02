@@ -31,9 +31,8 @@ export default function RecentPropertiesSection() {
   }, []);
 
   return (
-    <section id="properties" className="space-y-4 mt-8 md:mt-16">
+    <section id="properties" className="min-h-52 mt-2">
       <div className="container mx-auto px-4">
-
         <div className="flex justify-between items-center mb-8">
           <PageHeader>ملكيات</PageHeader>
           <Button asChild size="sm">

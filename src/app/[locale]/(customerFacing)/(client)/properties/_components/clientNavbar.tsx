@@ -23,9 +23,10 @@ export interface NavItem {
 }
 
 const defaultItems: NavItem[] = [
-  { name: "Home", href: "/" },
-  { name: "Properties", href: "/properties" },
-  { name: "About us", href: "/aboutUs" },
+  { name: "الرئيسية", href: "/" },
+  { name: "الملكيات", href: "/properties" },
+  { name: "الاستثمارات", href: "/investments" },
+  { name: "من نحن", href: "/aboutUs" },
 ]
 
 export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
@@ -57,29 +58,6 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
       
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* <div className="flex-1 md:flex md:items-center md:gap-12">
-          <Link href="/" className="flex items-center gap-2 text-lg font-semibold md:text-base">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="rounded-sm ">
-                <LucideHome className="h-6 w-6" />
-                <span className="sr-only">Logo</span> 
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="flex flex-col items-center" >
-              <DropdownMenuItem><LangSwitcher /></DropdownMenuItem>
-              <DropdownMenuItem><span className="sr-only">dark-light mode</span><ModeToggle /></DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </Link>
-          </div> */}
-          <div className="flex md:flex md:items-center md:gap-12">
-            <LangSwitcher />
-            <ModeToggle />
-          </div>
-
-          <div className="md:flex md:items-center md:gap-12">
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
                 {navItems.map((item) => (
@@ -96,18 +74,7 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
             </nav>
 
             <div className="flex items-center gap-4">
-              <div className="sm:flex sm:gap-4">
-              <Link href="/agent" >
-              <Button 
-                  onClick={handleAdvertise}
-                  variant={agent ? "default" : "outline"} 
-                  className={agent ? "hidden sm:flex bg-teal-600 text-white" : "bg-red-700 text-white"}
-                >
-                  {/* TODO : CHANGE THE TEXT BELOW */}
-                  {agent ? "Advertise" : "Login to Advertise"}
-                </Button>
-              </Link>
-              </div>
+
 
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
@@ -135,10 +102,22 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
                   </nav>
                 </SheetContent>
               </Sheet>
+              <div className="sm:flex sm:gap-4">
+              <Link href="/agent" >
+              <Button 
+                  onClick={handleAdvertise}
+                  variant={agent ? "default" : "outline"} 
+                  className={agent ? "hidden sm:flex bg-teal-600 text-white" : "bg-red-700 text-white"}
+                >
+                  {/* TODO : CHANGE THE TEXT BELOW */}
+                  {agent ? "Advertise" : "Login to Advertise"}
+                </Button>
+              </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+     
     </header>
   )
 }

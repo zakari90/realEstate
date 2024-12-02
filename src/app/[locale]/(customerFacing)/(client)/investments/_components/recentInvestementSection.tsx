@@ -32,7 +32,7 @@ export default function RecentInvestmentSection() {
   }, []);
 
   return (
-    <section id="investments" className="space-y-4 mt-8 md:mt-16">
+    <section id="investments" className="min-h-52 space-y-4  bg-[#FFF1E6]">
       <div className="container mx-auto px-4">
 
         <div className="flex justify-between items-center mb-8">

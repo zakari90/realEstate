@@ -65,52 +65,9 @@ export default function AboutUs() {
    
             </div>
             </CardContent>
-          </Card>
-
+      </Card>
       </section>
-      {/* <section className="py-16 px-4 md:px-8 bg-secondary">
-        <h2 className="text-3xl font-semibold mb-10 text-center">Our Team</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {[
-            { name: "Jane Doe", role: "Founder & CEO", image: "/placeholder.svg?height=200&width=200" },
-            { name: "John Smith", role: "Senior Agent", image: "/placeholder.svg?height=200&width=200" },
-            { name: "Emily Brown", role: "Marketing Director", image: "/placeholder.svg?height=200&width=200" },
-          ].map((member) => (
-            <Card key={member.name} className="overflow-hidden">
-              <Image
-               src={member.image} 
-               alt={member.name} 
-               width={200}
-               height={200}
-               className="w-full h-48 object-cover" />
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-lg">{member.name}</h3>
-                <p className="text-muted-foreground">{member.role}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section> */}
-
-      {/* Mission Statement */}
-      {/* <section className="py-16 px-4 md:px-8 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold mb-6 text-center">Our Mission</h2>
-        <blockquote className="text-xl italic text-center">
-          To empower clients to make informed real estate choices with exceptional service and sustainable solutions.
-        </blockquote>
-      </section> */}
-
-      {/* Footer */}
       <StepsComponent />
-      <footer className="bg-primary text-primary-foreground py-8 px-4 md:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <EmailjsComponent />
-          <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
-          <p>123 Real Estate Street, Cityville, State 12345</p>
-          <p>Phone: (123) 456-7890</p>
-          <p>Email: info@horizonrealty.com</p>
-        </div>
-      </footer>
     </div>
   );
 }

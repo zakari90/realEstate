@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function ClientFooter() {
   return (
-    <footer >
+    <footer className='bg-[#E2ECE9]' >
       <Separator className='container m-4'/>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -14,7 +14,7 @@ export default function ClientFooter() {
             <h3 className="text-lg font-semibold mb-4">About Us</h3>
             <div className="text-sm">
               <LogoComponent/>
-              We are a company dedicated to providing excellent services and products to our customers.
+              We are a company dedicated to providing excellent services to our customers.
             </div>
           </div>
           <div className="text-center md:text-left">
