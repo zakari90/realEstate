@@ -7,7 +7,7 @@ import { trackPageVisit } from './_actions/admin/admin';
 const intlMiddleware = createMiddleware({
   locales: ['en', 'fr', 'ar'],
   localePrefix: 'always',
-  defaultLocale: 'en'
+  defaultLocale: 'ar'
 });
 
 export const config = {

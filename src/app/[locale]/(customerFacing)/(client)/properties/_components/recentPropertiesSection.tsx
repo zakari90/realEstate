@@ -35,10 +35,10 @@ export default function RecentPropertiesSection() {
       <div className="container mx-auto px-4">
 
         <div className="flex justify-between items-center mb-8">
-          <PageHeader>Properties</PageHeader>
+          <PageHeader>ملكيات</PageHeader>
           <Button asChild size="sm">
             <Link href="/properties">
-              View All
+            عرض الكل
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>

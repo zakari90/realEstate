@@ -11,29 +11,32 @@ type Step = {
     icon: LucideIcon;
     content: string;
   };
-const steps : Step[]= [
-  {
-    // TODO:create a page to educate the use on how to purchase a property leagy paperwork
-    title: "Learn What You Need to Know",
-    icon: Book,
-    content: "Before you begin your home-buying journey, it's essential to educate yourself about the process. Start by researching the local real estate market and familiarizing yourself with the legal conditions of real estate transactions. Watching informative YouTube videos or consulting with a real estate professional can provide you with valuable insights. This preparation will help you make informed decisions along the way."
-  },
-  {
-    title: "Choose the Property You Like",
-    icon: Home,
-    content: "Once you're informed, start exploring available properties. Create a list of must-have features and desired amenities. Use online real estate platforms, work with a real estate agent. Don't rush this process - take the time to find a home that truly fits your needs and budget."
-},
-  {
-    title: "Make Your Offer to the Seller",
-    icon: FileText,
-    content: "When you've found the right property, it s time to make an offer. Your offer—specifying the price and payment period—should reflect a fair value based on comparable properties in the area. Once submitted, the seller will typically contact you within three to five days to inform you if they accept your offer."
-  },
-  {
-    title: "Complete the Purchase",
-    icon: Handshake,
-    content: "If the seller accepts your offer, you'll proceed with the purchase. This stage involves several steps: scheduling a property inspection, reviewing and signing legal documents, and potentially negotiating repairs or canceling the deal based on the inspection results. Once all conditions are met, you'll attend the closing, where you'll sign the final paperwork and officially receive the property."  
-}
-]
+
+  const steps : Step[] = [
+          // TODO:create a page to educate the use on how to purchase a property leagy paperwork
+
+      {
+        title: "تعلم ما تحتاج إلى معرفته",
+        icon: Book,
+        content: "قبل أن تبدأ رحلتك في شراء المنزل، من الضروري أن تقوم بتثقيف نفسك حول العملية. ابدأ بالبحث عن سوق العقارات المحلي وتعرف على الشروط القانونية للمعاملات العقارية. يمكنك مشاهدة مقاطع فيديو تعليمية على يوتيوب أو استشارة مختص في العقارات للحصول على رؤى قيمة. ستساعدك هذه التحضيرات على اتخاذ قرارات مدروسة أثناء العملية."
+      },
+      {
+        title: "اختر العقار الذي يعجبك",
+        icon: Home,
+        content: "بمجرد أن تكون على دراية بالمعلومات، ابدأ في استكشاف العقارات المتاحة. قم بإنشاء قائمة بالميزات الأساسية والمرافق التي ترغب فيها. استخدم منصات العقارات عبر الإنترنت أو تعاون مع وكيل عقاري. لا تتعجل في هذه العملية - خصص وقتًا للعثور على منزل يناسب احتياجاتك وميزانيتك."
+      },
+      {
+        title: "قدم عرضك للبائع",
+        icon: FileText,
+        content: "عندما تجد العقار المناسب، حان الوقت لتقديم عرضك. يجب أن يعكس عرضك—الذي يحدد السعر وفترة الدفع—قيمة عادلة بناءً على العقارات المماثلة في المنطقة. بعد تقديم العرض، سيتواصل معك البائع عادةً في غضون ثلاثة إلى خمسة أيام لإبلاغك ما إذا كان قد قبل عرضك."
+      },
+      {
+        title: "إتمام عملية الشراء",
+        icon: Handshake,
+        content: "إذا قبل البائع عرضك، ستستمر في عملية الشراء. تتضمن هذه المرحلة عدة خطوات: جدولة فحص للعقار، مراجعة وتوقيع الوثائق القانونية، وربما التفاوض بشأن الإصلاحات أو إلغاء الصفقة بناءً على نتائج الفحص. بمجرد تلبية جميع الشروط، ستحضر عملية الإغلاق، حيث ستوقع الوثائق النهائية وتستلم العقار رسميًا."
+      }
+    ]
+    
 
 export default function StepsComponent() {
   const [currentStep, setCurrentStep] = useState(0)

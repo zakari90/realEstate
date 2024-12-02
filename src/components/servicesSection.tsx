@@ -36,7 +36,7 @@ export default function ServiceSection() {
   return (
     <section className="py-12 bg-background">
       <div className="container mx-auto px-4">
-        <PageHeader>Services</PageHeader>
+        <PageHeader>الخدمات</PageHeader>
         <div className="flex flex-col justify-center items-center md:flex-row  md:gap-8">
           {services.map((service, index) => (
             // <motion.div

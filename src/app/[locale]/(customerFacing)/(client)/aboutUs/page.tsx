@@ -1,7 +1,11 @@
+import EmailLink from "@/components/emailComponent";
 import EmailjsComponent from "@/components/emailjsComponent";
+import PhoneCallLink from "@/components/phoneCallComponent";
 import StepsComponent from "@/components/stepsComponent";
 import { Card, CardContent } from "@/components/ui/card";
+import WhatsAppLink from "@/components/whatsAppComponents";
 import Head from 'next/head'; // Import the Head component
+import Image from "next/image";
 
 export default function AboutUs() {
   return (
@@ -28,17 +32,43 @@ export default function AboutUs() {
 
       {/* Company Description */}
       <section className="py-16 px-4 md:px-8 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold mb-6">ZProperty</h2>
-        <p className="text-lg mb-4">
-          Welcome to Zproperty, your innovative partner in ethical real estate investment. As a new player in the market, we empower buyers to take control by allowing them to submit their own offers and preferred payment terms, creating a more transparent and personalized buying experience.
-        </p>
-        <p className="text-lg">
-          Whether you are looking to buy, sell, or invest, our dedicated team is here to guide you through the process, ensuring it aligns with your values and goals. Join us in reshaping the future of real estate with thoughtful investments that benefit both you and the community.
-        </p>
+        <h3 className="text-3xl font-semibold mb-6">هل تبحث عن ملكية بالتقسيط؟</h3>
+        <p className="text-lg mb-4"> نحن في Zproperty نقدم لك الحل الأمثل لتحقيق حلمك بامتلاك العقار الذي ترغب فيه مع خيارات دفع مرنة ومريحة. نحن نساعدك في تأمين أفضل العروض التي تناسب ميزانيتك، حيث يمكنك تحديد شروط الدفع التي تناسبك. سواء كنت تبحث عن شقة سكنية، فيلا، أو عقار تجاري، لدينا العديد من الخيارات التي تتيح لك التملك بالتقسيط بسهولة وأمان. دعنا نكون شريكك في رحلتك العقارية لتحقيق استثمار آمن وناجح.        </p>
+        <h3 className="text-3xl font-semibold mb-6">هل تبحث عن ملكية مشتركة؟</h3>
+        <p className="text-lg mb-4"> في Zproperty، نقدم لك فرصًا رائعة للاستثمار في العقارات بنظام الملكية المشتركة. من خلال هذه الخدمة، يمكنك شراكة مع مستثمرين آخرين لامتلاك عقار مشترك، مما يتيح لك الاستفادة من عوائد استثمارية مربحة مع تقاسم المخاطر والتكاليف. سواء كنت تبحث عن عقار سكني أو تجاري، لدينا العديد من الخيارات التي تناسب احتياجاتك. نحن هنا لمساعدتك في العثور على شريك مناسب وتقديم كل الدعم اللازم لتحقيق استثمار ناجح وآمن.</p>
+        <h3 className="text-3xl font-semibold mb-6">هل تبحث عن مستثمر أو شريك؟</h3>
+        <p className="text-lg mb-4"> في Zproperty، نساعدك في العثور على الشريك المثالي أو المستثمر الذي يدعم مشروعك العقاري. سواء كنت تخطط لتطوير مشروع جديد أو تحتاج إلى تمويل لمشروع قائم، نحن هنا لتوفير الفرص التي تتيح لك النجاح. من خلال شبكة واسعة من المستثمرين والشركاء المحتملين، يمكننا مساعدتك في تحقيق أهدافك وتحقيق النمو والتوسع في قطاع العقارات. دعنا نكون شريكك الموثوق في كل خطوة نحو تحقيق النجاح المشترك.</p>      
       </section>
 
       {/* Team Section */}
-      <section className="py-16 px-4 md:px-8 bg-secondary">
+
+      <section className="ml-auto mr-auto">
+      <Card className="max-w-sm">
+            <CardContent className="p-6 space-y-4">
+              <h2 className="text-xl text-center font-semibold">المؤسس</h2>
+              <Image
+                width={200}
+                height={200}
+                src={"https://utfs.io/f/5fc9f0eb-0403-4072-9003-ca31cdab076d-24goo2.jpg"}
+                alt="Agent"
+                className="w-24 h-24 rounded-full mx-auto"
+              />
+              <div className="text-center">
+                <p className="font-semibold"></p>
+                {/* TODO: add agent description to db */}
+                {/* <p className="text-sm text-muted-foreground">Luxury Real Estate Specialist</p> */}
+              </div>
+              <div className="space-y-2 flex justify-around items-center">
+                <PhoneCallLink phone={ ""}/>
+                <WhatsAppLink productName={ " "} />
+                <EmailLink />
+   
+            </div>
+            </CardContent>
+          </Card>
+
+      </section>
+      {/* <section className="py-16 px-4 md:px-8 bg-secondary">
         <h2 className="text-3xl font-semibold mb-10 text-center">Our Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {[
@@ -47,7 +77,12 @@ export default function AboutUs() {
             { name: "Emily Brown", role: "Marketing Director", image: "/placeholder.svg?height=200&width=200" },
           ].map((member) => (
             <Card key={member.name} className="overflow-hidden">
-              <img src={member.image} alt={member.name} className="w-full h-48 object-cover" />
+              <Image
+               src={member.image} 
+               alt={member.name} 
+               width={200}
+               height={200}
+               className="w-full h-48 object-cover" />
               <CardContent className="p-4">
                 <h3 className="font-semibold text-lg">{member.name}</h3>
                 <p className="text-muted-foreground">{member.role}</p>
@@ -55,15 +90,15 @@ export default function AboutUs() {
             </Card>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Mission Statement */}
-      <section className="py-16 px-4 md:px-8 max-w-4xl mx-auto">
+      {/* <section className="py-16 px-4 md:px-8 max-w-4xl mx-auto">
         <h2 className="text-3xl font-semibold mb-6 text-center">Our Mission</h2>
         <blockquote className="text-xl italic text-center">
           To empower clients to make informed real estate choices with exceptional service and sustainable solutions.
         </blockquote>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <StepsComponent />
