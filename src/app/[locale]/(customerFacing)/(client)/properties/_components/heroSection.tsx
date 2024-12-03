@@ -53,7 +53,7 @@ export default function HeroSection() {
             <Card className="  relative z-10 w-full max-w-lg mx-4 bg-white/80 backdrop-blur-sm">
                 <CardHeader>
                     <CardTitle className="text-3xl font-extrabold sm:text-5xl">
-                    تبحث عن :
+                    تبحث عن
                     <ReactTyped className="block mt-3 font-extrabold text-rose-700" 
                     strings={["ملكية بالتقسيط", "ملكية مشتركة", "مستثمر او شريك"]} 
                     loop typeSpeed={100} />
@@ -61,12 +61,6 @@ export default function HeroSection() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Image
-                    src="/images/house.jpg"
-                    alt=""
-                    width={200}
-                    height={200}
-                    />
                     <div>
                     <div className="flex-col justify-around md:flex-row items-center m-auto space-y-2 ">
                     <div className="flex w-2/3 ">

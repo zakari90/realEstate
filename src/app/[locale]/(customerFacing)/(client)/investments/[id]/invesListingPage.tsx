@@ -28,17 +28,17 @@ export default function InvestmentListingPage({
     }
   }, [investment]);
   if (!investment) {
-    return <div className="container mx-auto px-4 py-8">Investment not found</div>
+    return <div className="container mx-auto px-4 py-8">الاستثمار غير موجود</div>
   }
 
   const progressPercentage = investment.price ? (investment.acceptedContributions || 0 / investment.price) * 100 : 0
 
   const capitalizedPurpose = investment.purpose 
     ? investment.purpose.charAt(0).toUpperCase() + investment.purpose.slice(1) 
-    : 'Not specified'
+    : 'غير محدد'
 
   const formatCurrency = (value: number | undefined) => {
-    return value !== undefined ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : 'N/A'
+    return value !== undefined ? value.toLocaleString('ar-SA', { style: 'currency', currency: 'SAR' }) : 'N/A'
   }
 
   const getBackgroundColor = (price: number | undefined) => {
@@ -80,21 +80,21 @@ export default function InvestmentListingPage({
                 <div className="flex items-center">
                   <Target className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-medium">Total Value</p>
+                    <p className="text-sm font-medium">القيمة الإجمالية</p>
                     <p className="font-bold">{formatCurrency(investment.price || 0)}</p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <Banknote className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-medium">Investor Contribution</p>
+                    <p className="text-sm font-medium">مساهمة المستثمر</p>
                     <p className="font-bold">{formatCurrency(investment.contribution || 0)}</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Investment Progress</span>
+                  <span className="text-sm font-medium">تقدم الاستثمار</span>
                   <span className="text-sm font-medium">{progressPercentage.toFixed(0)}%</span>
                 </div>
                 <Progress value={progressPercentage} className="w-full h-2" />
@@ -102,7 +102,7 @@ export default function InvestmentListingPage({
               <div className="flex items-center">
                 <Users className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
                 <span className="text-sm text-muted-foreground">
-                  {investment.numContributors} contributor{investment.numContributors !== 1 ? 's' : ''} needed
+                  {investment.numContributors} مساهم{investment.numContributors !== 1 ? 'ين' : ''} مطلوب
                 </span>
               </div>
               <p className="text-muted-foreground">{investment.description}</p>
@@ -115,29 +115,29 @@ export default function InvestmentListingPage({
         <div className="space-y-6 m-auto">
           <Card className="bg-yellow-200 max-w-lg">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">Make an offer</CardTitle>
+              <CardTitle className="text-xl font-semibold">قدّم عرضًا</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                You can make an offer that suits you best in terms of price and payment period.
+                يمكنك تقديم عرض يتناسب معك من حيث السعر وفترة الدفع.
               </p>
               <ContactInvestor investment={investment} />
             </CardContent>
           </Card>
           <Card className='max-w-lg'>
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">Contact Publisher</CardTitle>
+              <CardTitle className="text-xl font-semibold">اتصل بالناشر</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Image
                 width={96}
                 height={96}
                 src={agent?.image || "/placeholder.svg?height=96&width=96"}
-                alt={agent?.name || "Agent"}
+                alt={agent?.name || "الوكيل"}
                 className="w-24 h-24 rounded-full mx-auto object-cover"
               />
               <div className="text-center">
-                <p className="font-semibold">{agent?.name || "Agent Name Not Available"}</p>
+                <p className="font-semibold">{agent?.name || "اسم الوكيل غير متوفر"}</p>
               </div>
               <div className="flex justify-around items-center">
                 <PhoneCallLink phone={agent?.phone || ""} />

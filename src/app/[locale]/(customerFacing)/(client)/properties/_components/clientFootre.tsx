@@ -6,49 +6,31 @@ import Link from 'next/link'
 
 export default function ClientFooter() {
   return (
-    <footer className='bg-[#E2ECE9]' >
-      <Separator className='container m-4'/>
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-semibold mb-4">About Us</h3>
-            <div className="text-sm">
-              <LogoComponent/>
-              We are a company dedicated to providing excellent services to our customers.
-            </div>
-          </div>
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-sm hover:underline">Home</Link></li>
-              <li><Link href="/about" className="text-sm hover:underline">About</Link></li>
-              <li><Link href="/services" className="text-sm hover:underline">Services</Link></li>
-              <li><Link href="/contact" className="text-sm hover:underline">Contact</Link></li>
-            </ul>
-          </div>
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
-            <div className="flex justify-center md:justify-start space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <Twitter className="h-6 w-6" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <Instagram className="h-6 w-6" />
-              </a>
-            </div>
-            <EmailjsComponent/>
-          </div>
+    <footer className="bg-gray-800 text-white py-8" dir="rtl">
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 className="text-lg font-semibold mb-4">عن الشركة</h3>
+          <p className="text-gray-300">
+            <LogoComponent/>
+          موقع مخصص لمساعدتك في العثور على الملكية المناسبة وإجراء استثمارات ذكية.          </p>
         </div>
-        <Separator className='container m-4'/>
-        <div className=" border-t border-primary-foreground/10 text-center">
-          <p className="text-sm">
-            © {new Date().getFullYear()} Zproprty All rights reserved.
-          </p>
+        <div>
+          <h3 className="text-lg font-semibold mb-4">روابط سريعة</h3>
+          <ul className="space-y-2">
+            <li><Link href="/properties" className="hover:text-blue-400 transition duration-300">العقارات</Link></li>
+            <li><Link href="/investments" className="hover:text-blue-400 transition duration-300">الاستثمارات</Link></li>
+            <li><Link href="/about" className="hover:text-blue-400 transition duration-300">من نحن</Link></li>
+          </ul>
+        </div>
+        <div>
+            <EmailjsComponent/>
         </div>
       </div>
-    </footer>
+      <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
+        <p>جميع الحقوق محفوظة © {new Date().getFullYear()} شركة العقارات الخاصة بك</p>
+      </div>
+    </div>
+  </footer>
   )
 }

@@ -24,10 +24,10 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
 
   const capitalizedPurpose = investment.purpose 
     ? investment.purpose.charAt(0).toUpperCase() + investment.purpose.slice(1) 
-    : 'Not specified'
+    : 'غير محدد'
 
   const formatCurrency = (value: number | undefined) => {
-    return value !== undefined ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : 'N/A'
+    return value !== undefined ? value.toLocaleString('ar-SA', { style: 'currency', currency: 'SAR' }) : 'غير متاح'
   }
 
   const getBackgroundColor = (price: number | undefined) => {
@@ -62,7 +62,7 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
         </div>
         <div className="space-y-1">
           <div className="flex justify-between items-center">
-            <span className="text-xs font-medium">Investment Progress</span>
+            <span className="text-xs font-medium">تقدم الاستثمار</span>
             <span className="text-xs font-medium">{progressPercentage.toFixed(0)}%</span>
           </div>
           <Progress value={progressPercentage} className="w-full h-2" />
@@ -71,14 +71,14 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
           <div className="flex items-center space-x-1">
             <DollarSign className="w-3 h-3 text-muted-foreground" />
             <div>
-              <p className="font-medium">Total Price</p>
+              <p className="font-medium">السعر الإجمالي</p>
               <p className="text-sm font-bold">{formatCurrency(investment.price || 0)}</p>
             </div>
           </div>
           <div className="flex items-center space-x-1">
             <Target className="w-3 h-3 text-muted-foreground" />
             <div>
-              <p className="font-medium">Goal</p>
+              <p className="font-medium">الهدف</p>
               <p className="text-sm font-bold">{formatCurrency(investment.contribution || 0)}</p>
             </div>
           </div>
@@ -86,19 +86,19 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
         <div className="flex items-center space-x-1">
           <Users className="w-3 h-3 text-muted-foreground" />
           <span className="text-xs text-muted-foreground">
-            {investment.numContributors} contributor{investment.numContributors !== 1 ? 's' : ''} needed
+            {investment.numContributors} مساهم{investment.numContributors !== 1 ? 'ين' : ''} مطلوبين
           </span>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between p-3 pt-0">
         <Button variant="outline" size="sm" className="w-full text-xs">
-        <Link href={`/investments/${investment.id}`}>
-          Learn More
-        </Link>
+          <Link href={`/investments/${investment.id}`}>
+            اعرف المزيد
+          </Link>
         </Button>
         <ContactInvestor investment={investment}/>
         {/* <Button size="sm" className="w-full ml-2 text-xs">
-          Invest Now
+          استثمر الآن
         </Button> */}
       </CardFooter>
     </Card>

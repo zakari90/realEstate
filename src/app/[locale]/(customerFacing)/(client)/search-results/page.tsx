@@ -74,7 +74,7 @@ export default function SearchResultsPage() {
             {/* Show Properties Section */}
             {isProperty && properties.length > 0 && (
               <div>
-                <h2 className="text-2xl font-semibold mb-4">Properties</h2>
+                <h2 className="text-2xl font-semibold mb-4">ملكيات</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {properties.slice(startIndex, endIndex).map((property) => (
                     <div key={property.id}>
@@ -88,7 +88,7 @@ export default function SearchResultsPage() {
             {/* Show Investments Section */}
             {isInvestment && investments.length > 0 && (
               <div>
-                <h2 className="text-2xl font-semibold mb-4">Investments</h2>
+                <h2 className="text-2xl font-semibold mb-4">الاستثمارات</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {investments.slice(startIndex, endIndex).map((investment) => (
                     <div key={investment.id}>
@@ -102,7 +102,7 @@ export default function SearchResultsPage() {
             {/* No results */}
             {properties.length === 0 && investments.length === 0 && (
               <div className="text-center">
-                <p>No results found.</p>
+                <p>لم يتم العثور على نتائج.</p>
               </div>
             )}
           </>

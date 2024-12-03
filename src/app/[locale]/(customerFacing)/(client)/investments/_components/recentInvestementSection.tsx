@@ -32,14 +32,15 @@ export default function RecentInvestmentSection() {
   }, []);
 
   return (
-    <section id="investments" className="min-h-52 space-y-4  bg-[#FFF1E6]">
+    <section id="investments" className="space-y-4 mt-8 bg-[#FFF8EF] md:mt-16">
       <div className="container mx-auto px-4">
 
         <div className="flex justify-between items-center mb-8">
-          <PageHeader>الاستثمارات</PageHeader>
+          <PageHeader>الاستثمارات
+          </PageHeader>
           <Button asChild size="sm">
             <Link href="/investments">
-            عرض الكل
+              عرض الكل
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>

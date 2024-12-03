@@ -107,10 +107,10 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
               <Button 
                   onClick={handleAdvertise}
                   variant={agent ? "default" : "outline"} 
-                  className={agent ? "hidden sm:flex bg-teal-600 text-white" : "bg-red-700 text-white"}
+                  className={agent ? "sm:flex bg-teal-600 text-white" : "bg-red-700 text-white"}
                 >
                   {/* TODO : CHANGE THE TEXT BELOW */}
-                  {agent ? "Advertise" : "Login to Advertise"}
+                  {agent ? "إنشاء إعلان" : "أعلن"}
                 </Button>
               </Link>
               </div>

@@ -89,190 +89,188 @@ export default function PropertyOpportunityForm() {
       console.log("Response from createInvestment:", response);
   
       toast({
-        title: "Opportunity Posted",
-        description: "Your property opportunity has been successfully posted.",
+        title: "تم نشر الفرصة",
+        description: "تم نشر فرصة الاستثمار العقاري بنجاح.",
         duration: 5000,
         variant: "default",
-        // action: <CustomToast title="Success!" description="Your investment opportunity is now live." />,
       });
       router.push("/")
     } catch (error) {
       console.error("Error posting opportunity:", error);
       toast({
-        title: "Error",
-        description: "Failed to post opportunity. Please try again.",
+        title: "خطأ",
+        description: "فشل نشر الفرصة. يرجى المحاولة مرة أخرى.",
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
-  }
-  
+  } 
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>Post Property Opportunity</CardTitle>
-        <CardDescription>
-          Share a new property investment opportunity with potential contributors.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Property Title</FormLabel>
+    <CardHeader>
+      <CardTitle>نشر فرصة عقارية</CardTitle>
+      <CardDescription>
+        شارك فرصة استثمار عقاري جديدة مع المساهمين المحتملين.
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>عنوان العقار</FormLabel>
+                <FormControl>
+                  <Input placeholder="أدخل عنوان العقار" {...field} />
+                </FormControl>
+                <FormDescription>
+                  قدم عنوانًا موجزًا لفرصة العقار.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>الوصف</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="وصف العقار"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  قدم وصفًا تفصيليًا للعقار وفرصة الاستثمار.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>السعر الإجمالي للعقار</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="أدخل السعر الإجمالي للعقار"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormDescription>
+                  أدخل السعر الإجمالي للعقار بالدولار.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contribution"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>مساهمتك</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="أدخل مساهمتك"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormDescription>
+                  أدخل المبلغ الذي ترغب في المساهمة به بالدولار.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="numContributors"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>المساهمين الإضافيين المطلوبين</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="أدخل عدد المساهمين الإضافيين المطلوبين"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormDescription>
+                  حدد عدد المساهمين الإضافيين الذين تبحث عنهم.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>موقع العقار</FormLabel>
+                <FormControl>
+                  <Input placeholder="أدخل موقع العقار" {...field} />
+                </FormControl>
+                <FormDescription>
+                  قدم موقع العقار (على سبيل المثال: المدينة، الولاية).
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="purpose"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>الغرض من الاستثمار</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Input placeholder="Enter property title" {...field} />
+                    <SelectTrigger>
+                      <SelectValue placeholder="اختر الغرض من هذا الاستثمار" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormDescription>
-                    Provide a concise title for the property opportunity.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Describe the property"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Provide a detailed description of the property and investment opportunity.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Total Property Price</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter total property price"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the total price of the property in dollars.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="contribution"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Contribution</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter your contribution"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the amount you are willing to contribute in dollars.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="numContributors"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Additional Contributors Needed</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter number of additional contributors needed"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Specify how many additional contributors you are looking for.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Property Location</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter property location" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Provide the location of the property (e.g., city, state).
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="purpose"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Investment Purpose</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select the purpose of this investment" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="housing">For Housing</SelectItem>
-                      <SelectItem value="investment">For Investment</SelectItem>
-                      <SelectItem value="commercial">For Commercial Use</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Choose the primary purpose for this property investment.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Posting..." : "Post Opportunity"}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <p className="text-sm text-muted-foreground">
-          All fields are required. Please ensure the information is accurate.
-        </p>
-      </CardFooter>
-    </Card>
+                  <SelectContent>
+                    <SelectItem value="housing">للسكن</SelectItem>
+                    <SelectItem value="investment">للاستثمار</SelectItem>
+                    <SelectItem value="commercial">للاستخدام التجاري</SelectItem>
+                    <SelectItem value="other">أخرى</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  اختر الغرض الرئيسي لهذا الاستثمار العقاري.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "جارٍ النشر..." : "نشر الفرصة"}
+          </Button>
+        </form>
+      </Form>
+    </CardContent>
+    <CardFooter className="flex justify-between">
+      <p className="text-sm text-muted-foreground">
+        جميع الحقول مطلوبة. يرجى التأكد من دقة المعلومات.
+      </p>
+    </CardFooter>
+  </Card>
   );
 }
 
@@ -283,4 +281,3 @@ const CustomToast = ({ title, description }: { title: string; description: strin
     <p className="text-sm text-gray-500">{description}</p>
   </div>
 );
-

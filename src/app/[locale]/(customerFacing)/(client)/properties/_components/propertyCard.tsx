@@ -36,7 +36,7 @@ export function PropertyCard({ property }: { property: PropertyDTO }) {
   const images = property.images ? property.images.split(",") : [];
 
   return (
-<Card className="w-full max-w-[300px] mx-auto overflow-hidden">
+    <Card className="w-full max-w-[300px] mx-auto overflow-hidden">
       <div className="relative h-40">
         <Carousel setApi={setApi} className="w-full">
           <CarouselContent>
@@ -47,7 +47,7 @@ export function PropertyCard({ property }: { property: PropertyDTO }) {
                     src={src || "/placeholder-image.jpg"}
                     width={300}
                     height={160}
-                    alt={`Property image ${index + 1}`}
+                    alt={`صورة العقار ${index + 1}`}
                     className="w-full h-40 object-cover"
                   />
                 </CarouselItem>
@@ -58,7 +58,7 @@ export function PropertyCard({ property }: { property: PropertyDTO }) {
                   src="/placeholder-image.jpg"
                   width={300}
                   height={160}
-                  alt="Placeholder image"
+                  alt="صورة بديلة"
                   className="w-full h-40 object-cover"
                 />
               </CarouselItem>
@@ -102,22 +102,22 @@ export function PropertyCard({ property }: { property: PropertyDTO }) {
         <div className="grid grid-cols-3 gap-2 text-xs">
           <div className="flex items-center">
             <Bed className="w-3 h-3 mr-1 text-muted-foreground" />
-            <span>{property.bedrooms} Beds</span>
+            <span>{property.bedrooms} غرف نوم</span>
           </div>
           <div className="flex items-center">
             <Bath className="w-3 h-3 mr-1 text-muted-foreground" />
-            <span>{property.bathrooms} Baths</span>
+            <span>{property.bathrooms} حمام</span>
           </div>
           <div className="flex items-center">
             <Maximize className="w-3 h-3 mr-1 text-muted-foreground" />
-            <span>{property.area} m²</span>
+            <span>{property.area} م²</span>
           </div>
         </div>
       </CardContent>
       <CardFooter className="p-3 pt-0 flex justify-between">
-      <Button variant="outline" size="sm" className="w-full text-xs">
+        <Button variant="outline" size="sm" className="w-full text-xs">
           <Link href={`/properties/${property.id}`}>
-            View Details
+            عرض التفاصيل
           </Link>
         </Button>
         <ContactDialog property={property} />

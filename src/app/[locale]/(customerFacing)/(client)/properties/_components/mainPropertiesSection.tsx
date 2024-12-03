@@ -59,7 +59,7 @@ export default function MainPropertiesSection() {
           </div>
         ) : (
           <div className="text-center">
-            <p>No properties available.</p>
+            <p>لا توجد عقارات</p>
           </div>
         )}
 
