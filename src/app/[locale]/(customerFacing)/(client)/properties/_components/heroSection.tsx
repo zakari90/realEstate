@@ -53,40 +53,25 @@ export default function HeroSection() {
             <Card className="  relative z-10 w-full max-w-lg mx-4 bg-white/80 backdrop-blur-sm">
                 <CardHeader>
                     <CardTitle className="text-3xl font-extrabold sm:text-5xl">
-                    تبحث عن
-                    <div>
-                    <ReactTyped className="block font-extrabold text-rose-700" 
+                    تبحث عن :
+                    <ReactTyped className="block mt-3 font-extrabold text-rose-700" 
                     strings={["ملكية بالتقسيط", "ملكية مشتركة", "مستثمر او شريك"]} 
                     loop typeSpeed={100} />
-                    {/* <ReactTyped strings={["Here you can find anything"]} loop typeSpeed={40} /> */}
-    {/* <ReactTyped
-      strings={[
-        "Search for products",
-        "Search for categories",
-        "Search for brands",
-      ]}
-      typeSpeed={40}
-      backSpeed={50}
-      attr="placeholder"
-      loop
-    >
-      <input type="text" />
-    </ReactTyped> */}
-                </div>
                         {/* <span className="block font-extrabold text-rose-700"> Forever Home. </span> */}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {/* <p className="mt-4 text-lg text-gray-700 sm:text-xl text-center sm:text-left">
-                        sale a property in installments
-                    </p>
-                    <p className="mt-4 text-lg text-gray-700 sm:text-xl text-center sm:text-left">
-                        Looking for investors
-                    </p> */}
+                    <Image
+                    src="/images/house.jpg"
+                    alt=""
+                    width={200}
+                    height={200}
+                    />
                     <div>
-                    <div className="flex-col md:flex-row items-center m-auto space-y-2 ">
+                    <div className="flex-col justify-around md:flex-row items-center m-auto space-y-2 ">
                     <div className="flex w-2/3 ">
                         <Input
+                        
                         id="input-20"
                         className="-me-px flex-1 rounded-e-none shadow-none focus-visible:z-10"
                         placeholder="المكان"
@@ -103,6 +88,7 @@ export default function HeroSection() {
                     <div className=" flex items-center ml-4 gap-3">
                       <div >
                           <input
+                          
                               type="checkbox"
                               checked={property}
                               onChange={() => setProperty(!property)}
