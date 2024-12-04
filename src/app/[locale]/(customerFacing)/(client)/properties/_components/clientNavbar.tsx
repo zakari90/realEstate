@@ -31,6 +31,7 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
   const [isOpen, setIsOpen] = useState(false)
   const [agent, checkAgent] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("")
+  const pathname = usePathname()
   const router = useRouter();
 
   const handleAdvertise = () => {
@@ -44,7 +45,7 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setCurrentUrl(usePathname);  // Use router.asPath to get the current path
+        setCurrentUrl(pathname);  // Use router.asPath to get the current path
         const response = await isAgent();
         checkAgent(response);
       } catch (err) {
@@ -52,7 +53,7 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
       } 
     };
     fetchData();
-  }, []);  // Add router.asPath to dependencies to re-trigger when the URL changes
+  }, [pathname]);  // Add router.asPath to dependencies to re-trigger when the URL changes
 
   // Check if "agent" is part of the current URL
   const shouldHideButton = currentUrl.includes("agent");
@@ -106,7 +107,7 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
 
             <div className="sm:flex sm:gap-4">
               {/* Conditionally render the button if the URL does not contain "agent" */}
-              {!shouldHideButton && (
+              {!shouldHideButton ? (
                 <Link href="/agent" >
                   <Button 
                     onClick={handleAdvertise}
@@ -116,7 +117,12 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
                     {agent ? "إنشاء إعلان" : "أعلن"}
                   </Button>
                 </Link>
-              )}
+              )
+              :
+              <Link href="/" >
+              Home
+            </Link>
+              }
             </div>
           </div>
         </div>
