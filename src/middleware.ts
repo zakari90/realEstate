@@ -5,7 +5,7 @@ import { trackPageVisit } from './_actions/admin/admin';
 
 
 const intlMiddleware = createMiddleware({
-  locales: ['en', 'fr', 'ar'],
+  locales: ['ar', 'fr', 'en'],
   localePrefix: 'always',
   defaultLocale: 'ar'
 });
@@ -13,12 +13,12 @@ const intlMiddleware = createMiddleware({
 export const config = {
   matcher: [
     '/', 
-    '/(en|fr|ar)/:path*', 
+    '/(ar|fr|en)/:path*', 
     '/((?!api|_next/static|_next/image|favicon.ico).*)'
   ]
 };
 
-const isPublicRoute = createRouteMatcher(['/', '/(fr|en|ar)/:path*']);
+const isPublicRoute = createRouteMatcher(['/', '/(ar|en|fr)/:path*']);
 
 export default clerkMiddleware(async (auth, req) => {
   // Track page visit
