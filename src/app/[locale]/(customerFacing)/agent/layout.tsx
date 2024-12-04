@@ -20,9 +20,9 @@ export default function AgentLayout({
     children: React.ReactNode;
   }>) {
     const agnetNavItems: NavItem[]  = [
-      { href: "/agent", name: "Dashboard" },
-      { href: "/agent/properties", name: "Properties" },
-      { href: "/agent/investors", name: "Investors" },
+      { href: "/agent", name: "لوحة المعلومات" },
+      { href: "/agent/properties", name: "الملكيات" },
+      { href: "/agent/investors", name: "الاستثمار" },
       // { href: "/aboutUs", label: "About us" },
     ];
     

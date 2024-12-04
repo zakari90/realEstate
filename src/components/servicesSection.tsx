@@ -35,7 +35,7 @@ const services = [
 
 export default function ServiceSection() {
   return (
-    <section className="py-12 bg-background">
+    <section className="py-12 mt-3 mb-3 bg-background">
       <div className="container mx-auto px-4">
         <PageHeader>الخدمات</PageHeader>
         <div className="flex flex-col justify-center items-center md:flex-row  md:gap-8">
