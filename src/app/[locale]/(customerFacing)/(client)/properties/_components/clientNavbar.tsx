@@ -4,7 +4,6 @@ import {
   Menu
 } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from 'next/navigation'
 import LangSwitcher from "@/components/lang-switcher"
 import { ModeToggle } from "@/components/modeToggle"
 import { Button } from "@/components/ui/button"
@@ -15,6 +14,7 @@ import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { isAgent } from "@/_actions/client/actions"
 import { usePathname } from 'next/navigation'
+import { useRouter } from "next/router"
 export interface NavItem {
   href: string;
   name: string;
