@@ -26,8 +26,9 @@ export default function InvestmentPage() {
     </div>
     <InvestmentMainTableComponent investments={agentInvestments.investment}/>
   </div> 
-  : <form action={updateAgentData} className="m-auto md:w-1/3">
-  <div className='flex justify-center items-center ml-auto mr-auto w-2/3'>
+  : 
+  <form action={updateAgentData} className="m-auto md:w-1/3">
+    <div className='flex justify-center items-center ml-auto mr-auto w-2/3'>
     <Input type="text" id="phoneNumber" name="phoneNumber" placeholder='رقم الهاتف'/>   
     <Button className='ml-3' type="submit">إرسال</Button>
   </div>

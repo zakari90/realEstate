@@ -257,7 +257,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Customer Number</TableHead>
+                  {/* <TableHead>Customer Number</TableHead> */}
                   <TableHead>Amount</TableHead>
                   <TableHead>Accepted</TableHead>
                   <TableHead>Date</TableHead>
@@ -327,10 +327,9 @@ function InvestmentDetails({ offer, index }: investmenOfferProps) {
 
   return (
     <>
-      <TableCell>{offer.clientPhone}</TableCell>
+      {/* <TableCell>{offer.clientPhone}</TableCell> */}
       <TableCell>{offer.offerAmount}</TableCell>
       <TableCell>
-        <div className="flex items-center space-x-2">
           <Switch
             checked={offerStatus}
             onCheckedChange={(checked) => {
@@ -340,11 +339,7 @@ function InvestmentDetails({ offer, index }: investmenOfferProps) {
             }}
             id={`offer-accepted-${index}`}
             disabled={isPending}
-          />
-          <Label htmlFor={`offer-accepted-${index}`}>
-            {isPending ? "Updating..." : "Accept Offer"}
-          </Label>
-        </div>
+          />        
       </TableCell>
       <TableCell>
         {new Date(offer.createdAt).toLocaleDateString()}
