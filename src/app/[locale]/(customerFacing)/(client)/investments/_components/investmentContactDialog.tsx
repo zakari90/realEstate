@@ -17,20 +17,22 @@ export function ContactInvestor({ investment }: { investment: InvestmentDTO }){
     return(
       <Dialog>
       <DialogTrigger asChild>
-      <Button size="sm" className="w-full ml-2 text-xs">
-          Make an offer</Button>
-        </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Contact the seller</DialogTitle>
-              {/* <DialogDescription>
-              Never send money in advance to the seller for goods on the site.          
-              </DialogDescription> */}
-            </DialogHeader>
-            <InvestorOfferForm 
-            investment={investment}
-            onClose={() => setOpen(false)}/>
-          </DialogContent>
-      </Dialog>
+        <Button size="sm" className="w-full ml-2 text-xs">
+          قدم عرضاً
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>اتصل بالبائع</DialogTitle>
+          {/* <DialogDescription>
+          لا ترسل المال مقدماً للبائع مقابل السلع على الموقع.
+          </DialogDescription> */}
+        </DialogHeader>
+        <InvestorOfferForm 
+          investment={investment}
+          onClose={() => setOpen(false)} />
+      </DialogContent>
+    </Dialog>
+    
     )
   }

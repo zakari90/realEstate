@@ -15,23 +15,24 @@ import { useState } from "react";
 export function ContactDialog({ property }: { property: PropertyDTO }){
   const [open, setOpen] = useState(false)
   return(
-  <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
     <DialogTrigger asChild>
-    <Button size="sm" className="w-full ml-2 text-xs">
-    Make an offer
-    </Button>
-      </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Contact the seller</DialogTitle>
-            {/* <DialogDescription>
-            Never send money in advance to the seller for goods on the site.          
-            </DialogDescription> */}
-          </DialogHeader>
-          
-          <ClientOfferForm property={property} 
-          onClose={() => setOpen(false)}/>
-      </DialogContent>
+      <Button size="sm" className="w-full ml-2 text-xs">
+        قدم عرضاً
+      </Button>
+    </DialogTrigger>
+    <DialogContent className="sm:max-w-[425px]">
+      <DialogHeader>
+        <DialogTitle>اتصل بالبائع</DialogTitle>
+        {/* <DialogDescription>
+        لا ترسل المال مقدماً للبائع مقابل السلع على الموقع.
+        </DialogDescription> */}
+      </DialogHeader>
+  
+      <ClientOfferForm property={property} 
+      onClose={() => setOpen(false)} />
+    </DialogContent>
   </Dialog>
+  
   )
 }
