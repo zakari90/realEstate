@@ -42,6 +42,7 @@ import { InvestmentActionsItem } from "./investorsActions";
 import { Switch } from "@/components/ui/switch";
 import { DeleteDropdownItem } from "../../properties/_components/propertyActions";
 import { InvestmentOffer } from "@prisma/client";
+import PhoneCallLink from "@/components/phoneCallComponent";
 
 const initialColumns = [
   { key: "status", label: "Status" },
@@ -83,30 +84,26 @@ export default function InvestmentMainTableComponent({ investments }: { investme
   };
 
   const handleToggleAccepted = async (id: string, checked: boolean) => {
-    // Update the status immediately for UI feedback
     setOfferStatusMap(prev => new Map(prev).set(id, checked));
 
     try {
-      // Call the API to update the offer status on the backend
       const result = await updateInvestementOfferStatus(id, checked);
       if (result.success) {
         router.refresh();
         return true;
       } else {
-        // Revert the status if the update failed
-        setOfferStatusMap(prev => new Map(prev).set(id, !checked)); // Revert to previous state
+        setOfferStatusMap(prev => new Map(prev).set(id, !checked)); 
         return false;
       }
     } catch (error) {
       console.error("Error updating investment offer status:", error);
-      setOfferStatusMap(prev => new Map(prev).set(id, !checked)); // Revert to previous state
+      setOfferStatusMap(prev => new Map(prev).set(id, !checked)); 
       return false;
     }
   };
 
   return (
     <div className="w-full overflow-auto">
-      {/* Column visibility toggle */}
       <div className="mb-4 flex flex-wrap gap-4">
         {initialColumns.map(column => (
           <div key={column.key} className="flex items-center space-x-2">
@@ -120,7 +117,6 @@ export default function InvestmentMainTableComponent({ investments }: { investme
         ))}
       </div>
 
-      {/* Table component */}
       <Table>
         <TableHeader>
           <TableRow>
@@ -130,15 +126,12 @@ export default function InvestmentMainTableComponent({ investments }: { investme
                   <TableHead key={column.key} className="whitespace-nowrap">
                     {column.label}
                   </TableHead>
-                )
-            )}
+                ))}
           </TableRow>
         </TableHeader>
-
         <TableBody>
           {paginatedInvestments.map((investment, index) => (
             <TableRow key={index}>
-              {/* Status */}
               {visibleColumns.includes("status") && (
                 <TableCell>
                   {investment.status ? (
@@ -148,11 +141,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
                   )}
                 </TableCell>
               )}
-
-              {/* Title */}
               {visibleColumns.includes("title") && <TableCell>{investment.title}</TableCell>}
-
-              {/* Price */}
               {visibleColumns.includes("price") && <TableCell>{investment.price}</TableCell>}
 
               {/* Location */}
@@ -257,7 +246,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
             <Table>
               <TableHeader>
                 <TableRow>
-                  {/* <TableHead>Customer Number</TableHead> */}
+                  <TableHead>Customer Number</TableHead>
                   <TableHead>Amount</TableHead>
                   <TableHead>Accepted</TableHead>
                   <TableHead>Date</TableHead>
@@ -321,14 +310,14 @@ function InvestmentDetails({ offer, index }: investmenOfferProps) {
       }
     } catch (error) {
       console.error("Error updating investment offer status:", error);
-      setOfferStatus(!checked); // Revert on error
+      setOfferStatus(!checked);
     }
   };
 
   return (
     <>
-      {/* <TableCell>{offer.clientPhone}</TableCell> */}
-      <TableCell>{offer.offerAmount}</TableCell>
+    <TableCell> {offer.accepted === true ? ( <PhoneCallLink phone={offer.clientPhone || ""} />) : ( <p>not accepted</p> )} </TableCell>      
+    <TableCell>{offer.offerAmount}</TableCell>
       <TableCell>
           <Switch
             checked={offerStatus}
