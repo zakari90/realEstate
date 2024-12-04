@@ -14,8 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { isAgent } from "@/_actions/client/actions"
-import { usePathname } from 'next/navigation'
-import { useRouter } from "next/router"
+import { usePathname, useRouter } from 'next/navigation'
 export interface NavItem {
   href: string;
   name: string;
