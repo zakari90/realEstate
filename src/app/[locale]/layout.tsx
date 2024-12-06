@@ -38,11 +38,6 @@ export default function RootLayout({
         "min-h-screen bg-background font-sans antialiased ",
         font
       )}
-      style={{
-        backgroundImage: "/bg.png", // Replace with the path to your image
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
       >
           <ThemeProvider
             attribute="class"
