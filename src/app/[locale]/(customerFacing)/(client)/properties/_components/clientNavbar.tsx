@@ -78,7 +78,7 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 m-3">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -121,7 +121,9 @@ export function NavBar({navItems = defaultItems } : {navItems? : NavItem[]}) {
               )
               :
               <Link href="/" >
-              Home
+                <Button>
+                    الرئيسية    
+                </Button>
             </Link>
               }
             </div>
