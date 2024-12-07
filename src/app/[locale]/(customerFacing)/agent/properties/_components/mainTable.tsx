@@ -47,13 +47,13 @@ import { useState } from "react"
 import { ActiveToggleDropdownItem, DeleteDropdownItem } from "./propertyActions"
 
 const initialColumns = [
-  { key: 'status', label: 'Availability' },
-  { key: 'image', label: 'Image' },
-  { key: 'property', label: 'Property' },
-  { key: 'state', label: 'State' },
-  { key: 'price', label: 'Price' },
-  { key: 'date', label: 'Date' },
-  { key: 'actions', label: 'Actions' },
+  { key: 'status', label: 'التوفر' },
+  { key: 'image', label: 'الصورة' },
+  { key: 'property', label: 'العقار' },
+  { key: 'state', label: 'الحالة' },
+  { key: 'price', label: 'السعر' },
+  { key: 'date', label: 'التاريخ' },
+  { key: 'actions', label: 'الإجراءات' },
 ]
 
 export default function MainTableComponent({properties}:{properties:AgentPropertyData[]}) { 
@@ -65,7 +65,7 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         : [...prev, columnKey]
     )
   }
-  const [propertie, setProperties] = useState<PropertyDTO[]>([]);
+  const [propertie, setProperties] = useState<PropertyDTO[]>([]);  
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
   const router = useRouter();
   const [selectedProperty, setSelectedProperty] = useState<AgentPropertyData | null>(null);
@@ -84,11 +84,7 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
     currentPage * itemsPerPage
   )
 
-  if (properties.length === 0) return <p>No property found</p>
-
-
-
-
+  if (properties.length === 0) return <p>لا توجد نتائج</p>
 
   const handleCheckedChange = async (id: string, checked: boolean) => {
     setIsUpdating(prev => ({ ...prev, [id]: true }));
@@ -102,11 +98,11 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         );
         
       } else {
-        console.log( "Error updating state" + result.message,);
+        console.log("حدث خطأ أثناء تحديث الحالة" + result.message);
       
       }
     } catch (error) {
-      console.error("Error updating property status:", error);
+      console.error("خطأ في تحديث حالة العقار:", error);
 
     } finally {
       setIsUpdating(prev => ({ ...prev, [id]: false }));
@@ -145,12 +141,12 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
             <TableRow key={index}>
               {property.status ? (
               <TableCell>
-                  <span className="sr-only">Available</span>
+                  <span className="sr-only">متوفر</span>
                   <CheckCircle2 />
                 </TableCell>
               ) : (
                 <TableCell>
-                  <span className="sr-only">Unavailable</span>
+                  <span className="sr-only">غير متوفر</span>
                   <XCircle className="stroke-destructive" />
                   </TableCell>
                 
@@ -174,21 +170,15 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
+                      <span className="sr-only">فتح القائمة</span>
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
                     <Button className="w-full" variant="outline" onClick={() => handleViewProperty(property)}>
-                      <span>Details</span>
+                      <span>التفاصيل</span>
                     </Button>
-                    {/* <DropdownMenuItem>
-                    <Link className="hover:cursor-pointer" href={`/agent/properties/${property.id}/edit`}>
-                      <Pencil className="mr-2 h-4 w-4" />
-                      <span>Edit</span>
-                      </Link>
-                    </DropdownMenuItem> */}
                     <DropdownMenuSeparator />
                     <ActiveToggleDropdownItem
                     id={property.id}
@@ -198,7 +188,6 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                   <DeleteDropdownItem
                     id={property.id}
                   />
-
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>}
@@ -216,12 +205,12 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select rows per page" />
+            <SelectValue placeholder="حدد عدد السطور لكل صفحة" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="5">5 rows per page</SelectItem>
-            <SelectItem value="10">10 rows per page</SelectItem>
-            <SelectItem value="20">20 rows per page</SelectItem>
+            <SelectItem value="5">5 سطور </SelectItem>
+            <SelectItem value="10">10 سطور </SelectItem>
+            <SelectItem value="20">20 سطور </SelectItem>
           </SelectContent>
         </Select>
         <Pagination>
@@ -254,32 +243,30 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
-            <DialogTitle>{selectedProperty?.type} - Customer Interactions</DialogTitle>
+            <DialogTitle>{selectedProperty?.type} - تفاعلات العملاء</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Customer Number</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Period</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead>رقم العميل</TableHead>
+                  <TableHead>المبلغ</TableHead>
+                  <TableHead>الفترة</TableHead>
+                  <TableHead>التاريخ</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-              
                   {selectedProperty?.offers && selectedProperty.offers.length > 0 ? (
                     selectedProperty.offers.map((interaction, index) => (
                       <TableRow key={index}>
-                {/* @ts-ignore */}
-                <TableCell className="">{interaction.client?.phone ?? 'N/A'}</TableCell>
-                <TableCell>{interaction.amount ?? 'N/A'}</TableCell>
-                <TableCell>{interaction.period ?? 'N/A'}</TableCell>
-                <TableCell>{interaction.createdAt ? new Date(interaction.createdAt).toLocaleDateString() : 'N/A'}</TableCell>
+                <TableCell>{interaction.client?.phone ?? 'غير متاح'}</TableCell>
+                <TableCell>{interaction.amount ?? 'غير متاح'}</TableCell>
+                <TableCell>{interaction.period ?? 'غير متاح'}</TableCell>
+                <TableCell>{interaction.createdAt ? new Date(interaction.createdAt).toLocaleDateString() : 'غير متاح'}</TableCell>
               </TableRow>
                     ))
                   ) : (
-                    <p>You don t have any offers</p>
+                    <p>ليس لديك أي عروض</p>
                   )}
               </TableBody>
             </Table>
@@ -302,8 +289,6 @@ export function SwitchButton({
   checked = false, 
   onCheckedChange 
 }: SwitchButtonProps) {
-
-
   return (
     <div className="flex items-center space-x-2">
       <Switch

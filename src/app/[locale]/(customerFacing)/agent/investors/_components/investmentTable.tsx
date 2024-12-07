@@ -1,4 +1,5 @@
 "use client";
+
 import {
   investmentData,
   updateInvestementOfferStatus,
@@ -34,28 +35,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, ArrowRight, CheckCircle2, Eye, MoreVertical, Trash2, XCircle } from "lucide-react";
-import Image from "next/image";
+import { ArrowLeft, ArrowRight, CheckCircle2, Eye, MoreVertical, Trash2, XCircle } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { InvestmentActionsItem } from "./investorsActions";
 import { Switch } from "@/components/ui/switch";
 import { DeleteDropdownItem } from "../../properties/_components/propertyActions";
-import { InvestmentOffer } from "@prisma/client";
 import PhoneCallLink from "@/components/phoneCallComponent";
 
 const initialColumns = [
-  { key: "status", label: "Status" },
-  { key: "title", label: "Title" },
-  { key: "price", label: "Price" },
-  { key: "location", label: "Location" },
-  { key: "numContributors", label: "Contributors" },
-  { key: "date", label: "Date" },
-  { key: "actions", label: "Actions" },
+  { key: "status", label: "الحالة" },
+  { key: "title", label: "العنوان" },
+  { key: "price", label: "السعر" },
+  { key: "location", label: "الموقع" },
+  { key: "numContributors", label: "المساهمون" },
+  { key: "date", label: "التاريخ" },
+  { key: "actions", label: "الإجراءات" },
 ];
 
 export default function InvestmentMainTableComponent({ investments }: { investments: investmentData[] }) {
   const [visibleColumns, setVisibleColumns] = useState(initialColumns.map(col => col.key));
+
   const toggleColumn = (columnKey: string) => {
     setVisibleColumns(prev => 
       prev.includes(columnKey)
@@ -69,7 +69,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
   const [selectedInvestment, setSelectedInvestment] = useState<investmentData | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [offerStatusMap, setOfferStatusMap] = useState<Map<string, boolean | null>>(new Map()); // Track status by offer ID
+  const [offerStatusMap, setOfferStatusMap] = useState<Map<string, boolean | null>>(new Map());
   const router = useRouter();
 
   const totalPages = investments.length > 0 ? Math.ceil(investments.length / itemsPerPage) : 0;
@@ -77,6 +77,8 @@ export default function InvestmentMainTableComponent({ investments }: { investme
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  if (investments.length === 0) return <p>لا توجد نتائج</p>
+
 
   const handleViewInvestment = (investment: investmentData) => {
     setSelectedInvestment(investment);
@@ -85,7 +87,6 @@ export default function InvestmentMainTableComponent({ investments }: { investme
 
   const handleToggleAccepted = async (id: string, checked: boolean) => {
     setOfferStatusMap(prev => new Map(prev).set(id, checked));
-
     try {
       const result = await updateInvestementOfferStatus(id, checked);
       if (result.success) {
@@ -96,14 +97,14 @@ export default function InvestmentMainTableComponent({ investments }: { investme
         return false;
       }
     } catch (error) {
-      console.error("Error updating investment offer status:", error);
+      console.error("خطأ في تحديث حالة عرض الاستثمار:", error);
       setOfferStatusMap(prev => new Map(prev).set(id, !checked)); 
       return false;
     }
   };
 
   return (
-    <div className="w-full overflow-auto">
+    <div className="w-full overflow-auto" dir="rtl">
       <div className="mb-4 flex flex-wrap gap-4">
         {initialColumns.map(column => (
           <div key={column.key} className="flex items-center space-x-2">
@@ -143,33 +144,25 @@ export default function InvestmentMainTableComponent({ investments }: { investme
               )}
               {visibleColumns.includes("title") && <TableCell>{investment.title}</TableCell>}
               {visibleColumns.includes("price") && <TableCell>{investment.price}</TableCell>}
-
-              {/* Location */}
               {visibleColumns.includes("location") && <TableCell>{investment.location}</TableCell>}
-
-              {/* Contributors */}
               {visibleColumns.includes("numContributors") && <TableCell>{investment.numContributors}</TableCell>}
-
-              {/* Date */}
               {visibleColumns.includes("date") && (
-                <TableCell>{new Date(investment.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell>{new Date(investment.createdAt).toLocaleDateString('ar-SA')}</TableCell>
               )}
-
-              {/* Actions */}
               {visibleColumns.includes("actions") && (
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
+                        <span className="sr-only">فتح القائمة</span>
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel className="sr-only">Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel className="sr-only">الإجراءات</DropdownMenuLabel>
                       <Button className="w-full" variant="outline" onClick={() => handleViewInvestment(investment)}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        <span>Details</span>
+                        <Eye className="ml-2 h-4 w-4" />
+                        <span>التفاصيل</span>
                       </Button>
                       <DropdownMenuSeparator />
                       <InvestmentActionsItem
@@ -187,7 +180,6 @@ export default function InvestmentMainTableComponent({ investments }: { investme
         </TableBody>
       </Table>
 
-      {/* Pagination */}
       <div className="flex items-center justify-between space-x-2 py-4">
         <Select
           value={itemsPerPage.toString()}
@@ -197,19 +189,19 @@ export default function InvestmentMainTableComponent({ investments }: { investme
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select rows per page" />
+            <SelectValue placeholder="اختر عدد الصفوف لكل صفحة" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="5">5 rows per page</SelectItem>
-            <SelectItem value="10">10 rows per page</SelectItem>
-            <SelectItem value="20">20 rows per page</SelectItem>
+            <SelectItem value="5">5 صفوف لكل صفحة</SelectItem>
+            <SelectItem value="10">10 صفوف لكل صفحة</SelectItem>
+            <SelectItem value="20">20 صف لكل صفحة</SelectItem>
           </SelectContent>
         </Select>
 
-        <Pagination>
+        <Pagination dir="ltr">
           <PaginationContent>
             <PaginationItem>
-              <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+              <Button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </PaginationItem>
@@ -225,10 +217,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
               </PaginationItem>
             ))}
             <PaginationItem>
-              <Button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-              >
+              <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </PaginationItem>
@@ -236,20 +225,19 @@ export default function InvestmentMainTableComponent({ investments }: { investme
         </Pagination>
       </div>
 
-      {/* Investment Details Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="sm:max-w-[625px]">
+        <DialogContent className="sm:max-w-[625px]" dir="rtl">
           <DialogHeader>
-            <DialogTitle>{selectedInvestment?.title} - Customer Interactions</DialogTitle>
+            <DialogTitle>{selectedInvestment?.title} - تفاعلات العملاء</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Customer Number</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Accepted</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead>رقم العميل</TableHead>
+                  <TableHead>المبلغ</TableHead>
+                  <TableHead>مقبول</TableHead>
+                  <TableHead>التاريخ</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -262,7 +250,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
                 : 
                 (
                 <TableRow>
-                <TableCell colSpan={4}>No offers available</TableCell>
+                <TableCell colSpan={4}>لا توجد عروض متاحة</TableCell>
               </TableRow>
             )}
               </TableBody>
@@ -273,7 +261,6 @@ export default function InvestmentMainTableComponent({ investments }: { investme
     </div>
   );
 }
-
 
 interface investmenOfferProps {
   offer: {
@@ -309,30 +296,31 @@ function InvestmentDetails({ offer, index }: investmenOfferProps) {
         router.refresh();
       }
     } catch (error) {
-      console.error("Error updating investment offer status:", error);
+      console.error("خطأ في تحديث حالة عرض الاستثمار:", error);
       setOfferStatus(!checked);
     }
   };
 
   return (
     <>
-    <TableCell> {offer.accepted === true ? ( <PhoneCallLink phone={offer.clientPhone || ""} />) : ( <p>not accepted</p> )} </TableCell>      
-    <TableCell>{offer.offerAmount}</TableCell>
+      <TableCell>{offer.accepted === true ? (<PhoneCallLink phone={offer.clientPhone || ""} />) : (<p>غير مقبول</p>)}</TableCell>      
+      <TableCell>{offer.offerAmount}</TableCell>
       <TableCell>
-          <Switch
-            checked={offerStatus}
-            onCheckedChange={(checked) => {
-              startTransition(async () => {
-                await handleToggleAccepted(offer.id, checked);
-              });
-            }}
-            id={`offer-accepted-${index}`}
-            disabled={isPending}
-          />        
+        <Switch
+          checked={offerStatus}
+          onCheckedChange={(checked) => {
+            startTransition(async () => {
+              await handleToggleAccepted(offer.id, checked);
+            });
+          }}
+          id={`offer-accepted-${index}`}
+          disabled={isPending}
+        />        
       </TableCell>
       <TableCell>
-        {new Date(offer.createdAt).toLocaleDateString()}
+        {new Date(offer.createdAt).toLocaleDateString('ar-SA')}
       </TableCell>
     </>
   );
 }
+

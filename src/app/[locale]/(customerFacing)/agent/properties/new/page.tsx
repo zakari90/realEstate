@@ -9,10 +9,7 @@ function NewProductPage() {
     <PageHeader>
     إضافة المنتج
     </PageHeader>
-    {/* <PropertyForm /> */}
-    <PropertyListingForm/>
-    {/* <FormProperty/> */}
-    
+    <PropertyListingForm/>    
     </div>
 
     </>

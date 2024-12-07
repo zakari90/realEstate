@@ -147,7 +147,7 @@ function InfoForm({property, getPropertyId , setstep } : { property?: AgentPrope
                       width={200}
                       height={200}
                       src="/mapHelper/phonemap2.png" 
-                      alt="مساعد الخريطة"                    />
+                      alt="مساعد الخريطة" />
                     <p>أضف رابطًا إلى خرائط جوجل أو خدمة خرائط أخرى توضح موقع العقار</p>
                   </TooltipContent>
                 </Tooltip>
@@ -305,7 +305,7 @@ function MediaForm({property, propertyId, setstep} : { property?: AgentPropertyD
         <source 
         src={videoUrl}
         type="video/mp4" />
-        متصفحك لا يدعم وسم الفيديو.
+        متصفحك لا يدعم الفيديو.
       </video>
         :    
           <div className="space-y-2 flex flex-col items-center justify-center">

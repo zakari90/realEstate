@@ -11,9 +11,10 @@ export default function ClientFooter() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <h3 className="text-lg font-semibold mb-4">عن الشركة</h3>
-          <p className="text-gray-300">
+          <div className="text-gray-300">
             <LogoComponent/>
-          موقع مخصص لمساعدتك في العثور على الملكية المناسبة وإجراء استثمارات ذكية.          </p>
+          موقع مخصص لمساعدتك في العثور على الملكية المناسبة وإجراء استثمارات ذكية.          
+          </div>
         </div>
         <div>
           <h3 className="text-lg font-semibold mb-4">روابط سريعة</h3>

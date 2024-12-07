@@ -29,7 +29,7 @@ export function ActiveToggleDropdownItem({id, status}:{
             router.refresh()           
         })
     }}>
-        {status ? "Deactivate" : "Activate"}
+      {status ? "تعطيل" : "تفعيل"}
     </Button>
 }
 
@@ -58,7 +58,7 @@ export function DeleteDropdownItem(
     onClick={()=>{
         startTransition(async () => {
             await handleDelete(id) }) }}>
-    Delete
+    حذف
     </Button>
 
 }
