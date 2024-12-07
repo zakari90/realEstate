@@ -1,3 +1,4 @@
+"use client"
 import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
