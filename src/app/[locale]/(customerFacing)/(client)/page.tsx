@@ -5,6 +5,8 @@ import ServiceSection from '@/components/servicesSection';
 import RecentPropertiesSection from './properties/_components/recentPropertiesSection';
 import HeroSection from './properties/_components/heroSection';
 import RecentInvestmentSection from './investments/_components/recentInvestementSection';
+import { UploadButton } from '@uploadthing/react';
+import { OurFileRouter } from '../../api/uploadthing/core';
 
 
 
@@ -20,6 +22,11 @@ export default function Home({params} :{
   return (
     <>
       {/* hero   */}
+      <UploadButton<OurFileRouter, "imagesUploader">
+  endpoint="imagesUploader"
+  onClientUploadComplete={(res) => console.log(res)}
+  onUploadError={(err) => console.log(err)}
+/>
       <HeroSection/>
     {/* <Banner/> */}
     <RecentPropertiesSection/>

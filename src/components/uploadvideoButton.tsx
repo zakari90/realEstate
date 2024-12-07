@@ -50,14 +50,13 @@ export default function UploadVideoButton({ onVideoUpload, propertyId }: UploadV
         Upload Video
       </button>
 
-      {/* UploadButton integration for uploading the video */}
       <UploadButton<OurFileRouter, "videoUploader">
         endpoint="videoUploader"
         onClientUploadComplete={(res) => {
           if (res && res.length > 0 && res[0]) {
             const videoUrl = res[0].url;
-            addVideo(videoUrl); // Store video URL to property
-            onVideoUpload(videoUrl); // Notify the parent component with the URL
+            addVideo(videoUrl); 
+            onVideoUpload(videoUrl);
             console.log("Upload Completed: " + videoUrl);
           } else {
             console.error("No files uploaded.");
