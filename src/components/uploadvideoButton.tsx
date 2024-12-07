@@ -7,32 +7,43 @@ interface UploadVideoButtonProps {
   propertyId: string;
 }
 
-function UploadVideoButton({ onVideoUpload, propertyId }: UploadVideoButtonProps) {
+import { useRef } from "react";
 
-  async function addVideo(videoUrl: string) {
-    await addPropertyVideos(propertyId, videoUrl);
-  }
+export default function UploadVideoButton({ onVideoUpload, propertyId }: UploadVideoButtonProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle file selection
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log("Video selected:", file);
+      // You can use the file URL or handle the upload
+      onVideoUpload(URL.createObjectURL(file)); // Example: using file URL locally
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // Manually triggering file input click
+    }
+  };
 
   return (
     <div className="bg-blue-600 p-2 w-[120px] h-[80px] hover:cursor-pointer rounded-sm">
-      <UploadButton<OurFileRouter, "videoUploader">
-        endpoint="videoUploader"
-        onClientUploadComplete={(res) => {
-          if (res && res.length > 0  && res[0]) { // Check if `res` is not empty
-            const videoUrl = res[0].url;
-            addVideo(videoUrl);
-            onVideoUpload(videoUrl); // Send the URL to the parent component
-            console.log("----------------" + res + " Upload Completed: " + videoUrl);
-          } else {
-            console.error("No files uploaded.");
-          }
-        }}
-        onUploadError={(error: Error) => {
-          alert(`ERROR! ${error.message}`);
-        }}
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden" // Hide default input element
+        accept="video/*"
+        onChange={handleFileSelect}
       />
+      <button
+        onClick={handleButtonClick}
+        className="w-full h-full bg-blue-600 text-white rounded-sm"
+      >
+        Upload Video
+      </button>
     </div>
   );
 }
 
-export default UploadVideoButton;

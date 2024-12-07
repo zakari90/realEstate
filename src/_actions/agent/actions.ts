@@ -697,28 +697,22 @@ export async function registerClerkUserAsAgent() {
   }
 }
 
-export async function updateAgentData(formData: FormData) {
-  console.log(formData);
-
+export async function updateAgentData(phoneNumber: string) {
+  console.log("//////////////////////////////////////////////");
+  console.log(phoneNumber);
+  
   try {
     const user = await currentUser();
-    const phoneNumber = formData?.get("phoneNumber") as string; // Ensure it's treated as a string
-
     if (!phoneNumber) {
       throw new Error('Phone number is missing');
     }
-
     console.log(user);
-
-    // Validate phoneNumber using agentFormSchema
     const result = agentFormSchema.safeParse({ phoneNumber });
 
     if (!result.success) {
       console.log("Agent phone number error:", result.error);
       throw new Error('Invalid phone number');
     }
-
-    // Proceed with updating the database
     await db.agent.update({
       where: { clerkId: user?.id },
       data: {

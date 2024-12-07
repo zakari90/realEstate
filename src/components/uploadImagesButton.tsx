@@ -10,7 +10,6 @@ interface UploadImagesButtonProps {
 }
 function UploadImagesButton({ onImagesUpload, propertyId }: UploadImagesButtonProps) {
 
-
   const uploadPropertyImages = propertyId ?
    <UploadButton<OurFileRouter,"imagesUploader">
     endpoint="imagesUploader"onClientUploadComplete={(res) => {
@@ -31,23 +30,9 @@ function UploadImagesButton({ onImagesUpload, propertyId }: UploadImagesButtonPr
     await addPropertyImages(propertyId, urlString);
   }
   
-  return (
-    <Dialog>
-    <DialogTrigger asChild>
-      <Button variant="outline">Upload Images</Button>
-    </DialogTrigger>
-    <DialogContent className="sm:max-w-md">
-      {uploadPropertyImages}
-      <DialogFooter className="sm:justify-start">
-        <DialogClose asChild>
-          <Button type="button" variant="secondary">
-            Close
-          </Button>
-        </DialogClose>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
-
-  );
+  return ( 
+  <div>
+    {uploadPropertyImages}
+  </div>);
 }
 export default UploadImagesButton
