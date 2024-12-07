@@ -1,13 +1,12 @@
 import { addPropertyVideos } from "@/_actions/agent/actions";
 import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";
+import { useRef } from "react";
 
 interface UploadVideoButtonProps {
   onVideoUpload: (url: string) => void;
   propertyId: string;
 }
-
-import { useRef } from "react";
 
 export default function UploadVideoButton({ onVideoUpload, propertyId }: UploadVideoButtonProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -17,7 +16,7 @@ export default function UploadVideoButton({ onVideoUpload, propertyId }: UploadV
     const file = event.target.files?.[0];
     if (file) {
       console.log("Video selected:", file);
-      // You can use the file URL or handle the upload
+      // You can use the file URL locally or process the file here
       onVideoUpload(URL.createObjectURL(file)); // Example: using file URL locally
     }
   };
@@ -28,8 +27,14 @@ export default function UploadVideoButton({ onVideoUpload, propertyId }: UploadV
     }
   };
 
+  // Function to handle adding the video to the property
+  async function addVideo(videoUrl: string) {
+    await addPropertyVideos(propertyId, videoUrl);
+  }
+
   return (
     <div className="bg-blue-600 p-2 w-[120px] h-[80px] hover:cursor-pointer rounded-sm">
+      {/* Hidden file input triggered by the button click */}
       <input
         type="file"
         ref={fileInputRef}
@@ -37,13 +42,31 @@ export default function UploadVideoButton({ onVideoUpload, propertyId }: UploadV
         accept="video/*"
         onChange={handleFileSelect}
       />
+      {/* Custom button that triggers the file input */}
       <button
         onClick={handleButtonClick}
         className="w-full h-full bg-blue-600 text-white rounded-sm"
       >
         Upload Video
       </button>
+
+      {/* UploadButton integration for uploading the video */}
+      <UploadButton<OurFileRouter, "videoUploader">
+        endpoint="videoUploader"
+        onClientUploadComplete={(res) => {
+          if (res && res.length > 0 && res[0]) {
+            const videoUrl = res[0].url;
+            addVideo(videoUrl); // Store video URL to property
+            onVideoUpload(videoUrl); // Notify the parent component with the URL
+            console.log("Upload Completed: " + videoUrl);
+          } else {
+            console.error("No files uploaded.");
+          }
+        }}
+        onUploadError={(error: Error) => {
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
     </div>
   );
 }
-
