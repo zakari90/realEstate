@@ -1,4 +1,3 @@
-"use client"
 import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
@@ -32,7 +31,7 @@ function UploadImagesButton({ onImagesUpload, propertyId }: UploadImagesButtonPr
   }
   
   return ( 
-  <div>
+    <div className="bg-blue-600 p-2 w-[120px] h-[80px] hover:cursor-pointer rounded-sm">
     {uploadPropertyImages}
   </div>);
 }
