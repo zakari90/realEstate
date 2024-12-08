@@ -22,11 +22,11 @@ const isPublicRoute = createRouteMatcher(['/', '/(ar)/:path*']);
 
 export default clerkMiddleware(async (auth, req) => {
   // Track page visit
-  try {
-    await trackPageVisit(req.nextUrl.pathname);
-  } catch (trackingError) {
-    console.error('Tracking failed:', trackingError);
-  }
+  // try {
+  //   await trackPageVisit(req.nextUrl.pathname);
+  // } catch (trackingError) {
+  //   console.error('Tracking failed:', trackingError);
+  // }
 
   // Internationalization middleware
   const localeResponse = intlMiddleware(req);
