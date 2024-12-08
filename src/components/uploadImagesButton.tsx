@@ -12,7 +12,8 @@ function UploadImagesButton({ onImagesUpload, propertyId }: UploadImagesButtonPr
 
   const uploadPropertyImages = propertyId ?
    <UploadButton<OurFileRouter,"imagesUploader">
-    endpoint="imagesUploader"onClientUploadComplete={(res) => {
+    endpoint="imagesUploader"
+    onClientUploadComplete={(res) => {
     const newUrls = res.map((file) => file.url);
     addImages(newUrls)
     onImagesUpload(newUrls);

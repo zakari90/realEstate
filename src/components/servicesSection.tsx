@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Home, DollarSign, Key } from 'lucide-react'
 import Link from 'next/link'
 import { PageHeader } from './pageHeader'
+import { UploadButton } from '@uploadthing/react'
+import { OurFileRouter } from '@/app/[locale]/api/uploadthing/core'
 
 const services = [
   {
@@ -36,6 +38,13 @@ const services = [
 export default function ServiceSection() {
   return (
     <section className="py-12 mt-3 mb-3 bg-background">
+         <UploadButton<OurFileRouter,"imagesUploader">
+    endpoint="imagesUploader"
+    onClientUploadComplete={(res) => {console.log(res); }}
+  onUploadError={(error: Error) => {
+    // Handle the error
+    alert(`ERROR! ${error.message}`);
+  }}/>
       <div className="container mx-auto px-4">
         <PageHeader>الخدمات</PageHeader>
         <div className="flex flex-col justify-center items-center md:flex-row  md:gap-8">
