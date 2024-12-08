@@ -40,14 +40,15 @@ export default function ServiceSection() {
     <section className="py-12 mt-3 mb-3 bg-background">
          
       <div className="container mx-auto px-4">
-        <PageHeader>الخدمات hhhh</PageHeader>
-        <UploadButton<OurFileRouter,"imagesUploader">
+        <PageHeader>الخدمات</PageHeader>
+       <Button>
+         <UploadButton<OurFileRouter,"imagesUploader">
     endpoint="imagesUploader"
     onClientUploadComplete={(res) => {console.log(res); }}
   onUploadError={(error: Error) => {
     // Handle the error
     alert(`ERROR! ${error.message}`);
-  }}/>
+  }}/></Button>
         <div className="flex flex-col justify-center items-center md:flex-row  md:gap-8">
           {services.map((service, index) => (
             // <motion.div
