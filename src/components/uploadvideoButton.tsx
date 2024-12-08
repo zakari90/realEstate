@@ -1,3 +1,5 @@
+"use client"
+
 import { addPropertyVideos } from "@/_actions/agent/actions";
 import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";

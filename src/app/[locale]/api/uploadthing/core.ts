@@ -5,13 +5,12 @@ import type { NextApiRequest } from 'next';
 
 const f = createUploadthing();
 
-// Define the file router with Clerk authentication
 export const ourFileRouter = {
   imagesUploader: f({
     image: { maxFileSize: "1MB", maxFileCount: 4 },
   })
     .middleware(async ({ req }) => {
-      const { userId } = getAuth(req); // Get user ID from Clerk
+      const { userId } = getAuth(req);
       
       if (!userId) throw new UploadThingError("Unauthorized");
 
