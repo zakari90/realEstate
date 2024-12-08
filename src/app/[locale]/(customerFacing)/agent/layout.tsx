@@ -11,6 +11,10 @@ import {
 } from '@clerk/nextjs';
 import { NavBar, NavItem } from "../(client)/properties/_components/clientNavbar";
 import AnalyticsTracker from "@/components/analyticsTracker";
+import { ourFileRouter } from "@/app/[locale]/api/uploadthing/core";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+
 export const dynamic = "force-dynamic"
 
 //TODO : translate this navigation use my navbar
@@ -39,6 +43,15 @@ export default function AgentLayout({
         <UserButton />
       </div> */}
       <NavBar navItems={agnetNavItems}/>
+      <NextSSRPlugin
+          /**
+           * The `extractRouterConfig` will extract **only** the route configs
+           * from the router to prevent additional information from being
+           * leaked to the client. The data passed to the client is the same
+           * as if you were to fetch `/api/uploadthing` directly.
+           */
+          routerConfig={extractRouterConfig(ourFileRouter)}
+        />
         {children}
     </SignedIn>
     <div className="m-auto w-1/2 flex justify-center">
