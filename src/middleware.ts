@@ -1,24 +1,18 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import createMiddleware from 'next-intl/middleware';
-import { NextResponse } from 'next/server';
-import { trackPageVisit } from './_actions/admin/admin';
-
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import createMiddleware from 'next-intl/middleware'
+import { NextResponse } from 'next/server'
 
 const intlMiddleware = createMiddleware({
-  locales: ['ar'],
+  locales: ["ar"],
   localePrefix: 'always',
-  defaultLocale: 'ar'
-});
+  defaultLocale: 'ar',
+})
+
+const isPublicRoute = createRouteMatcher(['/:path*'])
 
 export const config = {
-  matcher: [
-    '/', 
-    '/(ar)/:path*', 
-    '/((?!api|_next/static|_next/image|favicon.ico).*)'
-  ]
-};
-
-const isPublicRoute = createRouteMatcher(['/', '/(ar)/:path*']);
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+}
 
 export default clerkMiddleware(async (auth, req) => {
   // Track page visit
