@@ -37,7 +37,7 @@ export default function EmailjsComponent() {
 }
 
   return (
-    <form onSubmit={sendEmail} className="w-full space-y-4">
+    <form onSubmit={sendEmail} className=" space-y-4 w-80">
     <div>
       <label htmlFor="email" className="sr-only">Email</label>
       <div className="relative">

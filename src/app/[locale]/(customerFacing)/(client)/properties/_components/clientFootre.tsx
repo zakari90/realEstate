@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function ClientFooter() {
   return (
-    <footer className="bg-gray-800 text-white py-8" dir="rtl">
+    <footer className="bg-gray-800 text-white py-8 flex text-center">
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
@@ -24,7 +24,7 @@ export default function ClientFooter() {
             <li><Link href="/about" className="hover:text-blue-400 transition duration-300">من نحن</Link></li>
           </ul>
         </div>
-        <div>
+        <div className='m-auto'>
             <EmailjsComponent/>
         </div>
       </div>

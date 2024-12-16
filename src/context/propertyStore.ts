@@ -20,6 +20,7 @@ export const useAgentStore = create<AgentState>((set) => ({
     try {
       const agent = await registerClerkUserAsAgent()
       set({ agent })
+      
       if (agent) {
         const agentProperties = await getAgentProperties()
         set({ agentProperties })

@@ -1,16 +1,13 @@
 "use server"
 
+import { investementForm } from "@/app/[locale]/(customerFacing)/agent/investors/new/page"
+import { PropertyFormData } from "@/components/_1inUseComponents/propertyInfoForm"
 import db from "@/db/db"
 import { currentUser } from "@clerk/nextjs/server"
-import { revalidatePath } from "next/cache"
-import { notFound, redirect } from "next/navigation"
-import { agentFormSchema, clientFormSchema, offerFormSchema, propertyFormSchema } from "../zodSchema"
 import { Client, Investment, InvestmentOffer } from "@prisma/client"
-import { count, error } from "console"
+import { notFound, redirect } from "next/navigation"
 import { UTApi } from "uploadthing/server"
-import { useRouter } from "next/router"
-import { boolean } from "zod"
-import { title } from "process"
+import { agentFormSchema, propertyFormSchema } from "../zodSchema"
 const utapi = new UTApi();
 
 interface PropertyOffer {
@@ -39,25 +36,30 @@ interface PropertyOffer {
 }
 
 export interface AgentPropertyData {
-  id: string;
-  type: string | null; 
-  description: string | null; 
-  price: number | null;
-  agentId: string | null;
-  address: string | null; 
-  area: number | null; 
-  bathrooms: number | null; 
-  bedrooms: number | null; 
-  createdAt: Date;
-  features: string | null; 
-  images: string | null; 
-  mapUrl: string | null; 
-  offers: PropertyOffer[] | null; 
-  panorama: string | null; 
-  status: boolean | null;  
-  state: string | null;
-  updatedAt: Date;
-  video: string | null; 
+    id: string;
+    type: string | null;
+    sellingBy: string | null; 
+    available: boolean | null; 
+    numContributors: number | null;
+    address: string | null;
+    mapUrl: string | null;
+    description: string | null;
+    price: number | null;
+    area: number | null;
+    bedrooms: number | null;
+    bathrooms: number | null;
+    agentId: string | null;
+    video: string | null;
+    ytVideo: string | null;
+    panorama: string | null;
+    images: string | null;
+    features: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    offers: PropertyOffer[] | null; 
+    status: boolean | null;  
+    state: string | null;
+
 }
 
 //-----------------------------------------------------------investment-------------------------------
@@ -153,17 +155,8 @@ export async function getAgentInvestments(): Promise<{ investment: investmentDat
   }
 }
 
-interface InvestmentInfo {
-  title: string;
-  description: string;
-  price: number;
-  contribution: number;
-  numContributors: number;
-  location: string;
-  purpose: string;
-}
 
-export async function createInvestment(params: InvestmentInfo) {
+export async function createInvestment(params: investementForm) {
   console.log("**********************************************************");
   console.log("createInvestment function");
   console.log(typeof params.price);
@@ -186,16 +179,12 @@ export async function createInvestment(params: InvestmentInfo) {
         acceptedContributions: 0, // Initialize acceptedContributions
       },
     });
-
-    console.log("Investment created successfully:", investment);
-
     return { message: `${investment.id}` };
 
-  } catch (error) {
-    console.log("/////////////////////////////////////////////////////////");
-    
-    console.error("Error creating investment:", error);
+  } catch (error) {    
+
     return { message: "Failed to create investment", error };
+  
   } finally {
     await db.$disconnect(); // Ensure disconnection happens regardless of success or failure
   }
@@ -309,97 +298,50 @@ export async function deleteInvestementById(id: string) : Promise<{success : boo
 }
 
  //------------------------------------------------------------- property------------------------------------
-export async function addProperty(
-  prevState: { message: string } | undefined,
-  formData: FormData
-): Promise<{ message: string }>{
+export async function addProperty(params : PropertyFormData){
   console.log("**********************************************************")
   console.log("addProperty function")
-
-  const propertyType = formData.get('propertyType') as string | null;
-  const propertyState = formData.get('propertyState') as string | null;
-  const propertyStatus = formData.get('propertyStatus') as boolean | null;
-  const address = formData.get('address') as string | null;
-  const mapLink = formData.get('mapLink') as string | null;
-  const price = formData.get('price') as string | null;
-  const area = formData.get('area') as string | null;
-  const bedrooms = formData.get('bedrooms') as string | null;
-  const bathrooms = formData.get('bathrooms') as string | null;
-  const description = formData.get('description') as string | null;
-  const imagesUrls = formData.get('imagesUrls') as string | null;
-  const video = formData.get('video') as string | null;
-  const panorama = formData.get('panorama') as string | null;
-  const featureArray = formData.getAll('feature') as string[];
-  const feature = featureArray.length > 0 ? featureArray.join(',') : null;
-    console.log(formData)
   try {
-    const result = propertyFormSchema.safeParse(
-      {    
-        propertyType,
-        propertyState,
-        propertyStatus,
-        price,
-        address,
-        bedrooms,
-        bathrooms,
-        area,
-        video,
-        panorama,
-        feature,
-        mapLink,
-        imagesUrls,
-        description
-      }); 
-    if (!result) {
-      // Return the errors to be displayed in the form
-      return {message:"Failed to create property"} ;
-    }
+ 
     const clerkAgent =  await registerClerkUserAsAgent()
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
       throw new Error('User email not found');
     }
-    const data = result.data
-    if (!data) {
-      throw new Error('formdata input error');
-    }
+
     const property =  await db.property.create({
         data: {
-          type : data.propertyType,        
-          status :data.propertyStatus   ,  
-          address :data.address ,   
-          mapUrl    :data.mapLink  ,
-          description :data.description,
-          price       :data.price ,
-          area       :data.area,
-          agentId     :clerkAgent.id,
-          video       :data.video,
-          panorama    :data.panorama,
-          images   :data.imagesUrls,
-          features    :data.feature,
-          bedrooms: data.bedrooms,
-          bathrooms : data.bathrooms
+          type        : params.type,        
+          sellingBy   : params.sellingBy,  
+          address     : params.address,   
+          numContributors : params.numContributors,   
+          mapUrl      : params.mapLink,
+          description : params.description,
+          price       : params.price ,
+          area        : params.area,
+          agentId     : clerkAgent.id,
+          bedrooms    : params.bedrooms,
+          bathrooms   : params.bathrooms,
+          video       : "",
+          panorama    : "",
+          images      : "",
+          features    : "",
+          available   : false //TODO: change status to availability  
         },
-      });
-
-      console.log("property added successfully")
-
-      db.$disconnect()
-      
+      });      
       // return { message: `property added successfully ${db.property.count}` };
-      return { message: `-${property.id}` };
-
-
+      return { message: property.id};
   } catch (error) {
    
-    return {message:"Failed to create todo"} ;
+    return { message: "Failed to create investment", error };
 
   }finally{
     // redirect("/agent/properties")
+    await db.$disconnect();
   }
   
 } 
 
-export async function updatePropertyStatus(propertyId: string, status: boolean) {
+export async function updatePropertyStatus(propertyId: string, available: boolean) {
   console.log("-----------------------------------------------------");
   console.log("updatePropertyStatus");
   
@@ -413,13 +355,13 @@ export async function updatePropertyStatus(propertyId: string, status: boolean) 
     if (!property) {
       throw new Error('Property not found');
     }
-    console.log(property.status);
+    console.log(property.available);
     
     const updatedProperty = await db.property.update({
       where: { id: propertyId },
-      data: { status },
+      data: { available },
     });
-    console.log(property.status);
+    console.log(property.available);
     console.log("-----------------------------------------------------");
 
     console.log("Property updated successfully");
@@ -470,6 +412,40 @@ export async function addPropertyPanorama(propertyId: string, panoramaUrl: strin
   }
 }
 
+export async function addytVideo(propertyId: string, ytVideo: string) {
+  try {
+    if (!ytVideo) {
+      return { message: "Panorama URL is required." };
+    }
+
+    const clerkAgent = await registerClerkUserAsAgent();
+    if (!clerkAgent || !clerkAgent.email) {
+      throw new Error('User email not found');
+    }
+
+    const property = await db.property.findUnique({ where: { id: propertyId } });
+    if (!property) {
+      throw new Error('Property not found');
+    }
+
+    await db.$transaction(async (tx) => {
+      await db.property.update({
+        where: { id: propertyId },
+        data: { ytVideo: ytVideo },
+      });
+
+      console.log("Property updated successfully");
+    });
+
+    return { message: "Property updated successfully." };
+
+  } catch (error) {
+    console.error("Error updating property:", error); // Log the error for debugging
+    return { message: "Failed to update property: " + error }; // Return error message
+  } finally {
+    redirect("/agent/properties");
+  }
+}
 export async function addPropertyImages(propertyId: string, imagesUrls : string){
   try {
     if (!imagesUrls) {
@@ -624,7 +600,7 @@ export async function updateProperty(propertyId: string, prevState: { message: s
           where: { id: propertyId },
           data: {
             type : data.propertyType,        
-            status :data.propertyStatus   ,  
+            available :data.propertyStatus   ,  
             address :data.address ,   
             mapUrl    :data.mapLink  ,
             description :data.description,
@@ -818,16 +794,13 @@ export async function getPropertyOffers(propertyId: string): Promise<{ propertyO
   }
 }
 
-export async function getAgentProperties(): Promise<{ properties: AgentPropertyData[] }> {
+export async function getAgentProperties(): Promise<{ properties: any[] }> {
   try {
-    // Register the clerk user as an agent and handle the case where the agent is not found
     const agent = await registerClerkUserAsAgent();
     if (!agent) {
       console.log("Agent not found");
-      return { properties: [] }; // Returning an empty array for consistency
+      return { properties: [] };
     }
-
-    // Fetch properties associated with the agent
     const properties = await db.property.findMany({
       where: { agentId: agent.id },
       include: {
@@ -840,41 +813,12 @@ export async function getAgentProperties(): Promise<{ properties: AgentPropertyD
       },
     });
 
-    // Process and format the properties
-    const formattedProperties = properties.map(property => ({
-      id: property.id,
-      type: property.type,
-      description: property.description,
-      price: property.price,
-      agentId: property.agentId,
-      status: property.status,
-      video: property.video,
-      panorama: property.panorama,
-      createdAt: property.createdAt,
-      updatedAt: property.updatedAt,
-      features: property.features,
-      address: property.address,
-      bedrooms: property.bedrooms,
-      bathrooms: property.bathrooms,
-      images: property.images,
-      mapUrl: property.mapUrl || null, // Ensure mapUrl is included
-      area: property.area || null, // Ensure area is included
-      offers: property.offers.map(offer => ({
-        id: offer.id,
-        amount: offer.amount,
-        createdAt: offer.createdAt,
-        clientName: offer.client?.name || null,
-        clientEmail: offer.client?.email || null,
-      })),
-    }));
 
-    // Return the formatted properties
     return { properties };
 
   } catch (error) {
-    // Log the error and handle it as needed
     console.error('Error fetching properties with details for agent:', error);
-    throw new Error('Error fetching properties'); // Optionally customize error handling
+    throw new Error('Error fetching properties'); 
   }
 }
 

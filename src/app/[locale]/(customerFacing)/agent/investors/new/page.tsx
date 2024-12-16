@@ -1,9 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { createInvestment } from "@/_actions/agent/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,7 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -31,40 +27,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { createInvestment } from "@/_actions/agent/actions";
-import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string().min(10, {
-    message: "Description must be at least 10 characters.",
-  }),
-  price: z.number().positive({
-    message: "Price must be a positive number.",
-  }),
-  contribution: z.number().positive({
-    message: "Contribution must be a positive number.",
-  }),
-  numContributors: z.number().int().positive({
-    message: "Number of contributors must be a positive integer.",
-  }),
-  location: z.string().min(2, {
-    message: "Location must be at least 2 characters.",
-  }),
-  purpose: z.enum(["housing", "investment", "commercial", "other"], {
-    required_error: "Please select a purpose for this investment.",
-  }),
+const investementFormSchema = z.object({
+  title           : z.string().min(2, { message: "يجب أن يكون العنوان مكونًا من حرفين على الأقل.",}),
+  description     : z.string().min(10, { message: "يجب أن يكون الوصف مكونًا من 10 أحرف على الأقل.",}),
+  price           : z.number().positive({ message: "يجب أن يكون السعر رقمًا إيجابيًا.",}),
+  contribution    : z.number().positive({ message: "يجب أن تكون المساهمة رقمًا إيجابيًا.",}),
+  numContributors : z.number().int().positive({ message: "يجب أن يكون عدد المساهمين عددًا صحيحًا إيجابيًا.",}),
+  location        : z.string().min(2, {message: "يجب أن يكون الموقع مكونًا من حرفين على الأقل.",}),
+  purpose         :  z.string().min(1, { message: "يرجى اختيار غرض لهذا الاستثمار" }),
 });
 
+const selectItems = {
+  housing: "للسكن",
+  investment: "للاستثمار",
+  commercial: "للاستخدام التجاري",
+  other: "أخرى"
+};
+export type investementForm = z.infer<typeof investementFormSchema>
+
 export default function PropertyOpportunityForm() {
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+
+  const form = useForm<investementForm>({
+    resolver: zodResolver(investementFormSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -76,27 +71,25 @@ export default function PropertyOpportunityForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof investementFormSchema>) {
     setLoading(true);
-    console.log("------------------------");
-    
+
     try {
       const investmentData = {
         ...values,
       };
   
       const response = await createInvestment(investmentData);
-      console.log("Response from createInvestment:", response);
   
       toast({
         title: "تم نشر الفرصة",
-        description: "تم نشر فرصة الاستثمار العقاري بنجاح.",
+        description: "تم نشر فرصة الاستثمار ي بنجاح.",
         duration: 5000,
         variant: "default",
       });
       router.push("/")
     } catch (error) {
-      console.error("Error posting opportunity:", error);
+      console.error("خطأ أثناء نشر الفرصة:", error);
       toast({
         title: "خطأ",
         description: "فشل نشر الفرصة. يرجى المحاولة مرة أخرى.",
@@ -110,9 +103,9 @@ export default function PropertyOpportunityForm() {
   return (
     <Card className="w-full max-w-2xl mx-auto">
     <CardHeader>
-      <CardTitle>نشر فرصة عقارية</CardTitle>
+      <CardTitle>نشر فرصة</CardTitle>
       <CardDescription>
-        شارك فرصة استثمار عقاري جديدة مع المساهمين المحتملين.
+        شارك فرصة استثمار جديدة مع المساهمين المحتملين.
       </CardDescription>
     </CardHeader>
     <CardContent>
@@ -123,12 +116,12 @@ export default function PropertyOpportunityForm() {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>عنوان العقار</FormLabel>
+                <FormLabel>عنوان </FormLabel>
                 <FormControl>
-                  <Input placeholder="أدخل عنوان العقار" {...field} />
+                  <Input placeholder="أدخل عنوان " {...field} />
                 </FormControl>
                 <FormDescription>
-                  قدم عنوانًا موجزًا لفرصة العقار.
+                  قدم عنوانًا موجزًا للاستثمار .
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -142,13 +135,13 @@ export default function PropertyOpportunityForm() {
                 <FormLabel>الوصف</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="وصف العقار"
+                    placeholder="وصف "
                     className="resize-none"
                     {...field}
                   />
                 </FormControl>
                 <FormDescription>
-                  قدم وصفًا تفصيليًا للعقار وفرصة الاستثمار.
+                  قدم وصفًا تفصيليًا للاستثمار.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -159,17 +152,17 @@ export default function PropertyOpportunityForm() {
             name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>السعر الإجمالي للعقار</FormLabel>
+                <FormLabel>المبلغ الإجمالي </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="أدخل السعر الإجمالي للعقار"
+                    placeholder="أدخل المبلغ الإجمالي "
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormDescription>
-                  أدخل السعر الإجمالي للعقار بالدولار.
+                  أدخل المبلغ الإجمالي  بالدرهم.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -190,7 +183,7 @@ export default function PropertyOpportunityForm() {
                   />
                 </FormControl>
                 <FormDescription>
-                  أدخل المبلغ الذي ترغب في المساهمة به بالدولار.
+                  أدخل المبلغ الذي ترغب في المساهمة به بالدرهم.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -201,17 +194,17 @@ export default function PropertyOpportunityForm() {
             name="numContributors"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>المساهمين الإضافيين المطلوبين</FormLabel>
+                <FormLabel>عدد المستثمرين أو الشركاءالمطلوبين</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="أدخل عدد المساهمين الإضافيين المطلوبين"
+                    placeholder="أدخل عدد المستثمرين أو الشركاءالمطلوبين"
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormDescription>
-                  حدد عدد المساهمين الإضافيين الذين تبحث عنهم.
+                  حدد عدد عدد المستثمرين أو الشركاءالذين تبحث عنهم.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -222,12 +215,12 @@ export default function PropertyOpportunityForm() {
             name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>موقع العقار</FormLabel>
+                <FormLabel>موقع </FormLabel>
                 <FormControl>
-                  <Input placeholder="أدخل موقع العقار" {...field} />
+                  <Input placeholder="أدخل موقع " {...field} />
                 </FormControl>
                 <FormDescription>
-                  قدم موقع العقار (على سبيل المثال: المدينة، الولاية).
+                  على سبيل المثال: المدينة، الجهة.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -246,14 +239,15 @@ export default function PropertyOpportunityForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="housing">للسكن</SelectItem>
-                    <SelectItem value="investment">للاستثمار</SelectItem>
-                    <SelectItem value="commercial">للاستخدام التجاري</SelectItem>
-                    <SelectItem value="other">أخرى</SelectItem>
+                  {Object.entries(selectItems).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  اختر الغرض الرئيسي لهذا الاستثمار العقاري.
+                  اختر الغرض الرئيسي لهذا الاستثمار ي.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -17,14 +17,17 @@ import {
 } from "@/components/ui/table"
 import { Badge } from '@/components/ui/badge'
 import { getAgentClients, getAgentProperties } from '@/_actions/agent/actions'
-import OffersTable from './properties/_components/offersTable'
+import OffersTable from '../../../../components/_components/offersTable'
 import { useEffect } from 'react'
 import { useAgentStore } from '@/context/propertyStore'
 import { useAgentInvestmentStore } from '@/context/investementStore'
+import { useRouter } from 'next/navigation'
+import DynamicBreadcrumb from '@/components/dynamicBreadcrumb'
 
 function AgentPage() {
   const { agent, agentProperties, error, isLoading, fetchAgentData } = useAgentStore()
   const { agentInvestments,fetchAgentInvestemtData } = useAgentInvestmentStore()
+  
 
   useEffect(() => {
     fetchAgentData()
@@ -34,16 +37,16 @@ function AgentPage() {
   if (isLoading) return  <div className="flex justify-center"><Loader2 className="size-24 animate-spin" /></div>
   if (error) return <div>خطأ: {error}</div>
 
-console.log("**************************************************");
-console.log(agentInvestments.investment)
-console.log("**************************************************");
-"test "
-  // const numberOfOffers = offers.numberOfOffers ? offers.numberOfOffers + "" : "0"
   const numberOfInvestments = agentInvestments.investment.length ? agentInvestments.investment.length + "" : "0"
   const numberOfProprties = agentProperties.properties.length ? agentProperties.properties.length + "" : "0"
+
   return (
     <div className="container">
-      <PageHeader>لوحة القيادة</PageHeader>
+<div className="flex justify-between">
+          <PageHeader>اللوحة الرئيسية</PageHeader>
+      {/* <DynamicBreadcrumb /> */}
+      </div>
+    
       <div className="m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <DashboardCard
             title= 'عدد العقارات'

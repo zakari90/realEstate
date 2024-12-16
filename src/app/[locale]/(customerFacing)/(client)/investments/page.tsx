@@ -1,16 +1,16 @@
 "use client";
 
-import { InvestmentDTO, getAllInvestments } from "@/_actions/client/actions"; // Ensure you import the correct action
+import { InvestmentDTO, getAllInvestments } from "@/_actions/client/actions";
+import CardSkeleton from "@/components/_1inUseComponents/cardSkeleton";
+import InvestmentCard from "@/components/_1inUseComponents/investorsCard";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import InvestmentCard from "./_components/investorsCard";
-import CardSkeleton from "./_components/cardSkeleton";
+import { useEffect, useState } from "react";
 
 function Page() {
   const rowsPerPage = 12;

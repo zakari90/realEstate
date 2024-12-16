@@ -1,11 +1,11 @@
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/_1inUseComponents/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { rubik } from '@/lib/fonts';
 import { cn } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import './globals.css';
-import bg from '@/public/bg.png'
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -38,6 +38,12 @@ export default function RootLayout({
         "min-h-screen bg-background font-sans antialiased ",
         font
       )}
+      // style={{
+      //   backgroundImage: "url('/bg2.jpg'),  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
+      //   backgroundSize: 'cover', 
+      //   backgroundPosition: 'center',
+      //   backgroundAttachment: 'fixed', 
+      // }}
       >
           <ThemeProvider
             attribute="class"

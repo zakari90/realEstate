@@ -1,19 +1,24 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { Banknote, MapPin, Target, Users } from "lucide-react"
-
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { InvestmentDTO } from "@/_actions/client/actions"
 import EmailLink from "@/components/emailComponent"
 import PhoneCallLink from "@/components/phoneCallComponent"
-import WhatsAppLink from "@/components/whatsAppComponents"
-import { Card, CardContent, CardTitle, CardHeader, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { ContactInvestor } from "../_components/investmentContactDialog"
+import WhatsAppLink from "@/components/whatsAppComponents"
 import { Agent } from "@prisma/client"
+import { ContactInvestor } from "../_components/investmentContactDialog"
+
+const selectItems = {
+  housing: "للسكن",
+  investment: "للاستثمار",
+  commercial: "للاستخدام التجاري",
+  other: "أخرى"
+};
 
 export default function InvestmentListingPage({
   investment,
@@ -22,24 +27,20 @@ export default function InvestmentListingPage({
 }) {
   const [agent, setAgent] = useState<Agent | undefined>(undefined);
 
+  const arPurpose = investment.purpose ? selectItems[investment.purpose as keyof typeof selectItems] : ""
+
+
   useEffect(() => {
     if (investment?.agent) {
       setAgent(investment.agent)
     }
   }, [investment]);
+
   if (!investment) {
     return <div className="container mx-auto px-4 py-8">الاستثمار غير موجود</div>
   }
 
   const progressPercentage = investment.price ? (investment.acceptedContributions || 0 / investment.price) * 100 : 0
-
-  const capitalizedPurpose = investment.purpose 
-    ? investment.purpose.charAt(0).toUpperCase() + investment.purpose.slice(1) 
-    : 'غير محدد'
-
-  const formatCurrency = (value: number | undefined) => {
-    return value !== undefined ? value.toLocaleString('ar-SA', { style: 'currency', currency: 'SAR' }) : 'N/A'
-  }
 
   const getBackgroundColor = (price: number | undefined) => {
     if (price === undefined) return 'from-blue-500 to-purple-500'
@@ -51,6 +52,8 @@ export default function InvestmentListingPage({
 
   const backgroundColorClass = getBackgroundColor(investment.price || 0 )
 
+ 
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid lg:grid-cols-3 gap-8">
@@ -61,16 +64,13 @@ export default function InvestmentListingPage({
                 <div className="absolute inset-0 flex items-center justify-center">
                   <CardTitle className="text-3xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
                 </div>
+                <Badge variant="outline" className="mr-2">{arPurpose}</Badge>
+
               </div>
             </CardHeader>
             <CardContent className="p-6 space-y-4">
               <div className="flex justify-between items-center">
-                <p className="text-2xl font-bold">{formatCurrency(investment.price || 0)}</p>
-                {investment.status && (
-                  <Badge variant="secondary" className="text-lg px-3 py-1">
-                    {investment.status}
-                  </Badge>
-                )}
+                <p className="text-2xl font-bold">{investment.price} درهم</p>
               </div>
               <div className="flex items-center text-muted-foreground">
                 <MapPin className="w-5 h-5 mr-2" aria-hidden="true" />
@@ -78,17 +78,9 @@ export default function InvestmentListingPage({
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center">
-                  <Target className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
-                  <div>
-                    <p className="text-sm font-medium">القيمة الإجمالية</p>
-                    <p className="font-bold">{formatCurrency(investment.price || 0)}</p>
-                  </div>
-                </div>
-                <div className="flex items-center">
                   <Banknote className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-medium">مساهمة المستثمر</p>
-                    <p className="font-bold">{formatCurrency(investment.contribution || 0)}</p>
+                    <p className="font-bold">مساهمة الناشر {investment.contribution} درهم</p>
                   </div>
                 </div>
               </div>
@@ -108,7 +100,6 @@ export default function InvestmentListingPage({
               <p className="text-muted-foreground">{investment.description}</p>
             </CardContent>
             <CardFooter>
-              <Badge variant="outline" className="mr-2">{investment.purpose }</Badge>
             </CardFooter>
           </Card>
         </div>

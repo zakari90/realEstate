@@ -1,17 +1,16 @@
 "use client";
 
-import { PageHeader } from "@/components/pageHeader";
+import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { useEffect, useState } from 'react';
-import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import CardSkeleton from "../investments/_components/cardSkeleton";
-import { PropertyCard } from "./_components/propertyCard";
+import { useEffect, useState } from 'react';
+import CardSkeleton from "@/components/_1inUseComponents/cardSkeleton";
+import PropertyCard from "@/components/_1inUseComponents/propertyCard";
 
 
 export default function MainPropertiesSection() {
@@ -51,7 +50,7 @@ export default function MainPropertiesSection() {
             <CardSkeleton />
           </div>
         ) : properties.length > 0 ? (
-          <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {properties.slice(startIndex, endIndex).map(property => (
               <div key={property.id}>
                 <PropertyCard property={property} />
@@ -71,7 +70,8 @@ export default function MainPropertiesSection() {
                 onClick={handlePrevious}
                 disabled={startIndex === 0}
               >
-                <ArrowLeft className='h-4 w-4' />
+                <ArrowRight className='h-4 w-4' />
+
               </Button>
             </PaginationItem>
 
@@ -80,7 +80,7 @@ export default function MainPropertiesSection() {
                 onClick={handleNext}
                 disabled={endIndex >= properties.length}
               >
-                <ArrowRight className='h-4 w-4' />
+                <ArrowLeft className='h-4 w-4' />
               </Button>
             </PaginationItem>
           </PaginationContent>

@@ -8,7 +8,8 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { PropertyCard } from "./propertyCard";
+import PropertyCard from "./propertyCard";
+
 function CrouselPropertiesSection({properties}: {properties :any[]}) {
   return (
     <div className="grid grid-cols-1 mx-auto">

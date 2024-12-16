@@ -1,6 +1,5 @@
 "use client"
-import { AgentPropertyData, deletePropertyById, updatePropertyStatus } from "@/_actions/agent/actions"
-import { PropertyDTO } from "@/_actions/client/actions"
+import { AgentPropertyData } from "@/_actions/agent/actions"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -12,10 +11,9 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Label } from "@/components/ui/label"
 import {
@@ -40,17 +38,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ArrowLeft, ArrowRight, CheckCircle2, Eye, MoreVertical, Pencil, Trash2, XCircle } from "lucide-react"
+import { ArrowLeft, ArrowRight, CheckCircle2, MoreVertical, XCircle } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { ActiveToggleDropdownItem, DeleteDropdownItem } from "./propertyActions"
 
 const initialColumns = [
-  { key: 'status', label: 'التوفر' },
-  { key: 'image', label: 'الصورة' },
-  { key: 'property', label: 'العقار' },
-  { key: 'state', label: 'الحالة' },
+  { key: 'available', label: 'الحالة' },
+  { key: 'image', label: 'الصور' },
+  { key: 'property', label: 'العنوان' },
+  // { key: 'sellingBy', label: 'طرق البيع' },
   { key: 'price', label: 'السعر' },
   { key: 'date', label: 'التاريخ' },
   { key: 'actions', label: 'الإجراءات' },
@@ -65,8 +63,6 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         : [...prev, columnKey]
     )
   }
-  const [propertie, setProperties] = useState<PropertyDTO[]>([]);  
-  const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
   const router = useRouter();
   const [selectedProperty, setSelectedProperty] = useState<AgentPropertyData | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
@@ -83,32 +79,8 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
-
+  
   if (properties.length === 0) return <p>لا توجد نتائج</p>
-
-  const handleCheckedChange = async (id: string, checked: boolean) => {
-    setIsUpdating(prev => ({ ...prev, [id]: true }));
-    try {
-      const result = await updatePropertyStatus(id, checked);
-      if (result.success) {
-        setProperties(prevProperties => 
-          prevProperties.map(prop => 
-            prop.id === id ? { ...prop, status: checked } : prop
-          )
-        );
-        
-      } else {
-        console.log("حدث خطأ أثناء تحديث الحالة" + result.message);
-      
-      }
-    } catch (error) {
-      console.error("خطأ في تحديث حالة العقار:", error);
-
-    } finally {
-      setIsUpdating(prev => ({ ...prev, [id]: false }));
-      router.refresh();
-    }
-  };
 
   return (
     <div className="w-full overflow-auto">
@@ -120,16 +92,16 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                 checked={visibleColumns.includes(column.key)}
                 onCheckedChange={() => toggleColumn(column.key)}
               />
-              <Label htmlFor={`column-${column.key}`}>{column.label}</Label>
+              <Label htmlFor={`column-${column.key}`} >{column.label}</Label>
             </div>
           ))}
         </div>
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow >
           {initialColumns.map(column => 
                   visibleColumns.includes(column.key) && (
-                    <TableHead key={column.key} className="whitespace-nowrap">
+                    <TableHead key={column.key} className="text-center">
                       {column.label}
                     </TableHead>
                   )
@@ -139,7 +111,7 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         <TableBody>
           {paginatedProperties.map((property, index) => (
             <TableRow key={index}>
-              {property.status ? (
+              {property.available ? (
               <TableCell>
                   <span className="sr-only">متوفر</span>
                   <CheckCircle2 />
@@ -162,8 +134,8 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                 />
               </TableCell>}
 
-              {visibleColumns.includes("property") && <TableCell>{property?.type}</TableCell>}
-              {visibleColumns.includes("state") && <TableCell>{property?.state}</TableCell>}
+              {visibleColumns.includes("property") && <TableCell className="text-center bg-blue-300">{property?.type}</TableCell>}
+              {/* {visibleColumns.includes("sellingBy") && <TableCell>{property?.sellingBy}</TableCell>} */}
               {visibleColumns.includes("price") && <TableCell>{property?.price}</TableCell>}
               {visibleColumns.includes("date") && <TableCell>{new Date(property.createdAt).toLocaleDateString()}</TableCell>}
               {visibleColumns.includes("actions") && <TableCell className="text-right">
@@ -175,14 +147,14 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
+                    <DropdownMenuLabel></DropdownMenuLabel>
                     <Button className="w-full" variant="outline" onClick={() => handleViewProperty(property)}>
                       <span>التفاصيل</span>
                     </Button>
                     <DropdownMenuSeparator />
                     <ActiveToggleDropdownItem
                     id={property.id}
-                    status={property.status ? property.status : false }
+                    status={property.available ? property.available : false }
                   />
                   <DropdownMenuSeparator />
                   <DeleteDropdownItem
@@ -243,23 +215,24 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
-            <DialogTitle>{selectedProperty?.type} - تفاعلات العملاء</DialogTitle>
+            <DialogTitle>{selectedProperty?.type}</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <Table>
+            <Table className="text-center">
               <TableHeader>
                 <TableRow>
-                  <TableHead>رقم العميل</TableHead>
-                  <TableHead>المبلغ</TableHead>
-                  <TableHead>الفترة</TableHead>
-                  <TableHead>التاريخ</TableHead>
+                  <TableHead className="text-center">رقم العميل</TableHead>
+                  <TableHead className="text-center">المبلغ</TableHead>
+                  <TableHead className="text-center">الفترة</TableHead>
+                  <TableHead className="text-center">التاريخ</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                   {selectedProperty?.offers && selectedProperty.offers.length > 0 ? (
                     selectedProperty.offers.map((interaction, index) => (
                       <TableRow key={index}>
-                <TableCell>{interaction.client?.phone ?? 'غير متاح'}</TableCell>
+                    <TableCell >
+                      <ClientPhoneNumber phone={interaction.client?.phone || ""}/>
+                    </TableCell>
                 <TableCell>{interaction.amount ?? 'غير متاح'}</TableCell>
                 <TableCell>{interaction.period ?? 'غير متاح'}</TableCell>
                 <TableCell>{interaction.createdAt ? new Date(interaction.createdAt).toLocaleDateString() : 'غير متاح'}</TableCell>
@@ -270,7 +243,6 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
                   )}
               </TableBody>
             </Table>
-          </div>
         </DialogContent>
       </Dialog>
     </div>
@@ -300,3 +272,37 @@ export function SwitchButton({
     </div>
   );
 }
+
+
+
+
+const ClientPhoneNumber = ({ phone }: { phone: string }) => {
+  const sanitizePhoneNumber = (phone: string): string => {
+    if (!phone) return '';
+    return phone.replace(/\D/g, ''); // Removes all non-digit characters
+  };
+  const sanitizedPhone = sanitizePhoneNumber(phone);
+  return (
+    <>
+      {sanitizedPhone ? (
+        <a
+          href={`https://wa.me/${sanitizedPhone}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-green-500 font-bold py-2 px-4 border border-green-500 rounded-lg inline-block bg-green-50 hover:bg-green-100"
+        >
+          {phone}
+        </a>
+      ) : (
+        <a
+          href={`tel:${sanitizedPhone}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 font-bold py-2 px-4 border border-blue-500 rounded-lg inline-block bg-blue-50 hover:bg-blue-100"
+        >
+          {phone}
+        </a>
+      )}
+</>
+  );
+};

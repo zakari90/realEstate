@@ -103,8 +103,9 @@ export async function getInvestmentWithId(investmentId: string) {
 export type PropertyDTO = {
   id: string;
   type: string | null;
-  state: string | null;
-  status: boolean | null;
+  sellingBy: string | null; // Added from Prisma model
+  available: boolean | null; // Corresponds to 'available' in Prisma model, instead of 'status'
+  numContributors: number | null; // Added from Prisma model
   address: string | null;
   mapUrl: string | null;
   description: string | null;
@@ -114,6 +115,7 @@ export type PropertyDTO = {
   bathrooms: number | null;
   agentId: string | null;
   video: string | null;
+  ytVideo: string | null;
   panorama: string | null;
   images: string | null;
   features: string | null;
@@ -121,12 +123,14 @@ export type PropertyDTO = {
   updatedAt: Date;
   agent: Agent | null;
 };
+
 const createPropertyDTO = (propertyData: PropertyDTO) => {
   return {
     id: propertyData.id,
     type: propertyData.type,
-    state: propertyData.state,
-    status: propertyData.status,
+    sellingBy :propertyData.sellingBy,
+    numContributors :propertyData.numContributors,
+    available: propertyData.available,
     address: propertyData.address,
     mapUrl: propertyData.mapUrl,
     description: propertyData.description,
@@ -136,6 +140,7 @@ const createPropertyDTO = (propertyData: PropertyDTO) => {
     bathrooms: propertyData.bathrooms,
     agentId: propertyData.agentId,
     video: propertyData.video,
+    ytVideo: propertyData.ytVideo,
     panorama: propertyData.panorama,
     images: propertyData.images,
     features: propertyData.features,

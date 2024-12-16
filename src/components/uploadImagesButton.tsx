@@ -1,9 +1,7 @@
 "use client"
+import { addPropertyImages } from "@/_actions/agent/actions";
 import { OurFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { UploadButton } from "@uploadthing/react";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Button } from "./ui/button";
-import { addPropertyImages} from "@/_actions/agent/actions";
 
 interface UploadImagesButtonProps {
   onImagesUpload: (urls: string[]) => void;

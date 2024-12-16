@@ -1,19 +1,17 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
-import { useRouter } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
 import Link from "next/link"
-import { Loader2, Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState, useTransition } from 'react'
 import { z } from 'zod'
-
+import { updateAgentData } from '@/_actions/agent/actions'
 import { PageHeader } from "@/components/pageHeader"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { updateAgentData } from '@/_actions/agent/actions'
-import { useAgentStore } from '@/context/propertyStore'
-import MainTableComponent from '../properties/_components/mainTable'
-import InvestmentMainTableComponent from '../investors/_components/investmentTable'
 import { useAgentInvestmentStore } from '@/context/investementStore'
+import InvestmentMainTableComponent from '@/components/_1inUseComponents/investmentTable'
+import DynamicBreadcrumb from '@/components/dynamicBreadcrumb'
 
 const phoneSchema = z.string().min(10, 'رقم الهاتف يجب أن يتكون من 10 أرقام').regex(/^\d+$/, 'رقم الهاتف يجب أن يحتوي فقط على أرقام');
 
@@ -31,7 +29,7 @@ const { agent, agentInvestments, error, isLoading, fetchAgentInvestemtData } = u
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhoneNumber(event.target.value)
-    setValidationError('') // Clear validation error when input changes
+    setValidationError('')
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

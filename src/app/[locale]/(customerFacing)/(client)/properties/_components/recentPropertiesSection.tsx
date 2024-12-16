@@ -1,19 +1,12 @@
 "use client";
+import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
+import { PageHeader } from "@/components/pageHeader";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from 'lucide-react';
-import { PageHeader } from "@/components/pageHeader";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import Link from 'next/link';
-import { PropertyCard } from "./propertyCard";
-import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
 import { useEffect, useState } from "react";
+import PropertyCard from "./propertyCard";
+import { Separator } from "@radix-ui/react-select";
 
 export default function RecentPropertiesSection() {
   const [properties, setProperties] = useState<PropertyDTO[]>([]);
@@ -21,8 +14,8 @@ export default function RecentPropertiesSection() {
   useEffect(() => {
     const fetchProperties = async () => {
       const p = await getAllProperties();
-      if (p.length > 6) {
-        setProperties(p.slice(-6));
+      if (p.length > 4) {
+        setProperties(p.slice(-4));
       }
       setProperties(p)
     };
@@ -43,35 +36,13 @@ export default function RecentPropertiesSection() {
             </Link>
           </Button>
         </div>
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <Separator/>
+        <div className=" grid-cols-2 lg:grid-cols-3 gap-8">
           {properties.map(property => (
             <div key={property.id}>
               <PropertyCard property={property} />
             </div>
           ))}
-        </div>
-        <div className="grid grid-cols-1 mx-auto md:hidden">
-          <Carousel
-            opts={{
-              loop: true,
-              align: "start",
-            }}
-            plugins={[
-              Autoplay({
-                delay: 5000,
-              }),
-            ]}
-          >
-            <CarouselContent>
-              {properties.map((property, index) => (
-                <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/4">
-                  <PropertyCard property={property} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-[-15px] top-1/2 -translate-y-1/2 fill-black" />
-            <CarouselNext className="absolute right-[-15px] top-1/2 -translate-y-1/2 fill-black" />
-          </Carousel>
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { updateAgentData } from '@/_actions/agent/actions'
 import { useAgentStore } from '@/context/propertyStore'
-import MainTableComponent from '../properties/_components/mainTable'
+import MainTableComponent from '../../../../../components/_1inUseComponents/mainTable'
 
 const phoneSchema = z.string().min(10, 'رقم الهاتف يجب أن يتكون من 10 أرقام').regex(/^\d+$/, 'رقم الهاتف يجب أن يحتوي فقط على أرقام');
 
@@ -69,7 +69,7 @@ export default function PropertiesPage() {
             <PageHeader>العقارات</PageHeader>
             <Button asChild>
               <Link href="/agent/properties/new">
-                <Plus className="ml-2 h-4 w-4" /> إضافة عقار
+              إضافة عقار
               </Link>
             </Button>
           </div>

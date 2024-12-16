@@ -1,19 +1,14 @@
-import LangSwitcher from "@/components/lang-switcher";
-import { ModeToggle } from "@/components/modeToggle";
-import { Nav, NavLink } from "@/components/Nav";
+import { ourFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import {
   ClerkProvider,
   SignIn,
-  SignInButton,
   SignedIn,
   SignedOut,
   UserButton
 } from '@clerk/nextjs';
-import { NavBar, NavItem } from "../(client)/properties/_components/clientNavbar";
-import AnalyticsTracker from "@/components/analyticsTracker";
-import { ourFileRouter } from "@/app/[locale]/api/uploadthing/core";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
+import { NavBar, NavItem } from "../../../../components/_1inUseComponents/clientNavbar";
 
 export const dynamic = "force-dynamic"
 

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { InvestmentDTO, PropertyDTO } from "@/_actions/client/actions";
-import { InvestorOfferForm } from "./investorContactForm";
+import { InvestorOfferForm } from "./investorOfferForm";
 import { useState } from "react";
 export function ContactInvestor({ investment }: { investment: InvestmentDTO }){
   const [open, setOpen] = useState(false)

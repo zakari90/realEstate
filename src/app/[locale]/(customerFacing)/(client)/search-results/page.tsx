@@ -6,9 +6,9 @@ import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/p
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { searchPropertiesByLocation, searchInvestmentsByLocation, PropertyDTO, InvestmentDTO } from "@/_actions/client/actions";
-import CardSkeleton from '../investments/_components/cardSkeleton';
-import { PropertyCard } from '../properties/_components/propertyCard';
-import InvestmentCard from '../investments/_components/investorsCard';
+import CardSkeleton from '@/components/_1inUseComponents/cardSkeleton';
+import InvestmentCard from '@/components/_1inUseComponents/investorsCard';
+import PropertyCard from '@/components/_1inUseComponents/propertyCard';
 
 export default function SearchResultsPage() {
   const rowsPerPage = 12;

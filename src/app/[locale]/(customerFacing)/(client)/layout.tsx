@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Inter as FontSans } from "next/font/google";
-import ClientFooter from './properties/_components/clientFootre';
-import { NavBar, NavItem } from './properties/_components/clientNavbar';
+import ClientFooter from '../../../../components/_1inUseComponents/clientFootre';
+import { NavBar, NavItem } from '../../../../components/_1inUseComponents/clientNavbar';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -21,7 +21,6 @@ interface RootLayoutProps {
 }
 export default function RootLayout({
   children,
-  params: { locale },
 }: Readonly<RootLayoutProps>) {
 
   const Navigation = useTranslations('navigation');

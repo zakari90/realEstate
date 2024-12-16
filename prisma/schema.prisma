@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -56,10 +56,11 @@ model Investment {
 }
 
 model Property {
-  id          String             @id @default(uuid()) @map("_id")
+  id          String               @id @default(uuid()) @map("_id")
   type        String?
-  state       String?
-  status      Boolean?
+  sellingBy   String?           //co-ownership , installment
+  available   Boolean?
+  numContributors Int?
   address     String?
   mapUrl      String?
   description String?
@@ -68,6 +69,7 @@ model Property {
   bedrooms    Int?
   bathrooms   Int?
   agentId     String?
+  ytVideo     String?
   video       String?
   panorama    String?
   images      String?
@@ -93,7 +95,7 @@ model Client {
 model PropertyOffer {
   id         String    @id @default(uuid()) @map("_id")
   amount     Int
-  period     String
+  period     String?
   propertyId String?
   clientId   String?   @unique
   createdAt  DateTime  @default(now())

@@ -1,17 +1,16 @@
 "use client";
 
-import { PageHeader } from "@/components/pageHeader";
-import { PropertyCard } from "./propertyCard";
+import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { useEffect, useState } from 'react';
-import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useEffect, useState } from 'react';
 import CardSkeleton from "../../investments/_components/cardSkeleton";
+import PropertyCard from "./propertyCard";
 
 export default function MainPropertiesSection() {
   const rowsPerPage = 12;

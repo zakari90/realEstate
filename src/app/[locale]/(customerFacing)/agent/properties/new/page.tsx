@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components/pageHeader'
-import PropertyListingForm from '../_components/propertyListingForm'
+import PropertyListingForm from '@/components/_1inUseComponents/propertyListingForm'
 
 function NewProductPage() {
   return (

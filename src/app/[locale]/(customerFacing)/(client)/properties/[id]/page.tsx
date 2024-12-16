@@ -1,6 +1,6 @@
 
 import { getPropertyWithId } from "@/_actions/client/actions"
-import PropertyListingPage from "./propertyListingPage"
+import PropertyListingPage from "@/components/_1inUseComponents/propertyListingPage"
 
 async function PropertyPage({params :{id}}:{
     params:{ id : string}}) {

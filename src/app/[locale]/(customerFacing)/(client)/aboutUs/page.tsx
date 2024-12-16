@@ -1,10 +1,9 @@
-import EmailLink from "@/components/emailComponent";
-import EmailjsComponent from "@/components/emailjsComponent";
-import PhoneCallLink from "@/components/phoneCallComponent";
-import StepsComponent from "@/components/stepsComponent";
+import EmailLink from "@/components/_1inUseComponents/emailComponent";
+import PhoneCallLink from "@/components/_1inUseComponents/phoneCallComponent";
+import StepsComponent from "@/components/_1inUseComponents/stepsComponent";
 import { Card, CardContent } from "@/components/ui/card";
-import WhatsAppLink from "@/components/whatsAppComponents";
-import Head from 'next/head'; // Import the Head component
+import WhatsAppLink from "@/components/_1inUseComponents/whatsAppComponents";
+import Head from 'next/head';
 import Image from "next/image";
 
 export default function AboutUs() {
