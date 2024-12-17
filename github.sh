@@ -1,5 +1,5 @@
 git add .
-git commit -m "uploadthing working"
+git commit -m "resulte page "
 git branch -M main
 git remote add origin git@github.com:zakari90/realEstate.git
 git push -u origin main 
