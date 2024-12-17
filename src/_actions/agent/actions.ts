@@ -12,7 +12,7 @@ const utapi = new UTApi();
 
 interface PropertyOffer {
   id: string;
-  amount: number;         // The amount offered for the property
+  amount: number;         
   period: string;         // The offer period (e.g., loan period, lease period, etc.)
   propertyId: string | null;  // The ID of the related Property (nullable if no property is linked)
   clientId: string | null;    // The ID of the related Client (nullable if no client is linked)
@@ -22,16 +22,13 @@ interface PropertyOffer {
     name: string;
     email: string | null;
     phone: string | null;
-  } | null;                // The client details, optional if client doesn't exist
+  } | null;               
   property?: {
     id: string;
     type: string | null;
-    state: string | null;
+    available: string | null;
     address: string | null;
     price: number | null;
-    area: number | null;
-    bedrooms: number | null;
-    bathrooms: number | null;
   } | null;                // The property details, optional if property doesn't exist
 }
 

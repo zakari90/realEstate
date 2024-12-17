@@ -27,7 +27,7 @@ export default function ClientFooter() {
         </div>
       </div>
       <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
-        <p>جميع الحقوق محفوظة © {new Date().getFullYear()} شركة العقارات الخاصة بك</p>
+        <p>جميع الحقوق محفوظة © {new Date().getFullYear()}</p>
       </div>
     </div>
   </footer>

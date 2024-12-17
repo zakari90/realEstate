@@ -151,8 +151,8 @@ const createPropertyDTO = (propertyData: PropertyDTO) => {
 }
 
 export const searchPropertiesByLocation = async (location: string) => {
-  console.log("-------------------------------");
-  console.log("searchPropertiesByLocation");
+  console.log("******************************************")
+  console.log(location);
   
   const properties = await db.property.findMany({
       where: {

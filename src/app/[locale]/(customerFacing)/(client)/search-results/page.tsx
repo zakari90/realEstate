@@ -9,6 +9,7 @@ import { searchPropertiesByLocation, searchInvestmentsByLocation, PropertyDTO, I
 import CardSkeleton from '@/components/_1inUseComponents/cardSkeleton';
 import InvestmentCard from '@/components/_1inUseComponents/investorsCard';
 import PropertyCard from '@/components/_1inUseComponents/propertyCard';
+import { Separator } from '@/components/ui/separator';
 
 export default function SearchResultsPage() {
   const rowsPerPage = 12;
@@ -22,22 +23,23 @@ export default function SearchResultsPage() {
   const isProperty = searchParams.get('property') === 'true';
   const isInvestment = searchParams.get('investment') === 'true';
 
-  // Reset pagination when query params change
+
   useEffect(() => {
     setStartIndex(0);
     const fetchData = async () => {
       setLoading(true);
 
       try {
-        if (isProperty && location) {
-          const propertyResults = await searchPropertiesByLocation(location);
-          setProperties(propertyResults);
+        if (location) {
+          if (isProperty) {          
+          setProperties(await searchPropertiesByLocation(location));
         }
 
-        if (isInvestment && location) {
-          const investmentResults = await searchInvestmentsByLocation(location);
-          setInvestments(investmentResults);
+        if (isInvestment) {
+          setInvestments(await searchInvestmentsByLocation(location));
         }
+        }
+
       } catch (error) {
         console.error("Error fetching data:", error);
         // You could handle errors, like setting an error state
@@ -66,9 +68,8 @@ export default function SearchResultsPage() {
     <section className="space-y-4 mt-8 md:mt-16">
       <div className="container mx-auto px-4">
         {/* Page Header */}
-        <h1 className="text-3xl font-bold text-center mb-6">Search Results for: {location}</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">نتائج: {location}</h1>
 
-        {/* Loading skeleton or content */}
         {loading ? (
           <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array.from({ length: rowsPerPage }).map((_, index) => (
@@ -92,6 +93,7 @@ export default function SearchResultsPage() {
             )}
 
             {/* Show Investments Section */}
+            <Separator/>
             {isInvestment && investments.length > 0 && (
               <div>
                 <h2 className="text-2xl font-semibold mb-4">الاستثمارات</h2>
@@ -132,13 +134,14 @@ export default function SearchResultsPage() {
             <PaginationContent>
               <PaginationItem>
                 <Button onClick={handlePrevious} disabled={startIndex === 0} aria-label="Previous page">
-                  <ArrowLeft className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </PaginationItem>
 
               <PaginationItem>
                 <Button onClick={handleNext} disabled={endIndex >= properties.length + investments.length} aria-label="Next page">
-                  <ArrowRight className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" />
+
                 </Button>
               </PaginationItem>
             </PaginationContent>

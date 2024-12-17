@@ -1,12 +1,8 @@
 "use client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import db from '@/db/db'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { PageHeader } from '@/components/pageHeader'
-import Link from 'next/link'
-import { ArrowUpRight, Loader2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -15,14 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from '@/components/ui/badge'
-import { getAgentClients, getAgentProperties } from '@/_actions/agent/actions'
-import OffersTable from '../../../../components/_components/offersTable'
-import { useEffect } from 'react'
-import { useAgentStore } from '@/context/propertyStore'
 import { useAgentInvestmentStore } from '@/context/investementStore'
-import { useRouter } from 'next/navigation'
-import DynamicBreadcrumb from '@/components/dynamicBreadcrumb'
+import { useAgentStore } from '@/context/propertyStore'
+import { ArrowUpRight, Loader2 } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect } from 'react'
 
 function AgentPage() {
   const { agent, agentProperties, error, isLoading, fetchAgentData } = useAgentStore()
@@ -47,14 +40,17 @@ function AgentPage() {
       {/* <DynamicBreadcrumb /> */}
       </div>
     
-      <div className="m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="m-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <DashboardCard
-            title= 'عدد العقارات'
+            title= 'عدد الملكيات'
             body={numberOfProprties}
+            href="/agent/properties"
+            
           />
           <DashboardCard
             title= 'عدد الاستثمارات'
             body={numberOfInvestments}
+            href="/agent/investors"
           />
         </div>
     </div>
@@ -66,20 +62,26 @@ export default AgentPage
 type DashboardCardProps = {
   title: string
   body: string
+  href:string
 }
 
-function DashboardCard({ title, body }: DashboardCardProps) {
+function DashboardCard({ title, body, href }: DashboardCardProps) {
   return (
-<Card>
-  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-  <CardTitle className="text-sm font-medium">
-    {title}
-  </CardTitle>
-    </CardHeader>
-    <CardContent>
-    <div className="text-2xl font-bold">{body}</div>
-    </CardContent>
-</Card>
+
+
+    <Link href={href}>
+      <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardTitle className="text-sm font-medium">
+        {title}
+      </CardTitle>
+        </CardHeader>
+        <CardContent>
+        <div className="text-2xl font-bold">{body}</div>
+        </CardContent>
+      </Card>
+    </Link>
+
   )
 }
 
