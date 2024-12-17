@@ -12,21 +12,16 @@ export default function HeroSection() {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [property, setProperty] = useState<boolean>(false);
     const [inverstment, setInvestment] = useState<boolean>(false);
-    const [isMounted, setIsMounted] = useState(false)
 
-    useEffect(() => {
-      setIsMounted(true)
-    }, [])
-    // This function will be triggered when the user clicks on "Run Search"
     const handleSearch = async () => {
-        if (!searchTerm) return; // If there's no search term, do nothing
 
-        // Prepare the search parameters
+        console.log("queryParams");
+        
+        if (!searchTerm) return;
         const queryParams = new URLSearchParams();
         queryParams.set('location', searchTerm.toLocaleLowerCase());
         queryParams.set('property', String(property));
-        queryParams.set('investment', String(inverstment));
-        // Redirect to the results page with query parameters
+        queryParams.set('investment', String(inverstment));        
         router.push(`/search-results?${queryParams.toString()}`);
     };
 
@@ -55,12 +50,13 @@ export default function HeroSection() {
                     <div>
                     <div className="flex-col justify-around md:flex-row items-center m-auto space-y-2 ">
                     <div className="flex w-2/3 ">
-                        <Input
-                        
-                        id="input-20"
-                        className="-me-px flex-1 rounded-e-none shadow-none focus-visible:z-10"
-                        placeholder="المكان"
-                        type="text"
+                    <Input
+                            id="input-20"
+                            className="-me-px flex-1 rounded-e-none shadow-none focus-visible:z-10"
+                            placeholder="المكان"
+                            type="text"
+                            value={searchTerm} // Bind the state to the input value
+                            onChange={(e) => setSearchTerm(e.target.value)} // Update state on input change
                         />
                         <button
                         className="inline-flex w-9 items-center justify-center rounded-e-lg border border-input bg-background text-sm text-muted-foreground/80 ring-offset-background transition-shadow hover:bg-accent hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"

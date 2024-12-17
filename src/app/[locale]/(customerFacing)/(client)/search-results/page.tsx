@@ -22,22 +22,28 @@ export default function SearchResultsPage() {
   const isProperty = searchParams.get('property') === 'true';
   const isInvestment = searchParams.get('investment') === 'true';
 
-  // Fetch the data based on the query parameters
+  // Reset pagination when query params change
   useEffect(() => {
+    setStartIndex(0);
     const fetchData = async () => {
       setLoading(true);
 
-      if (isProperty && location) {
-        const propertyResults = await searchPropertiesByLocation(location);
-        setProperties(propertyResults);
-      }
+      try {
+        if (isProperty && location) {
+          const propertyResults = await searchPropertiesByLocation(location);
+          setProperties(propertyResults);
+        }
 
-      if (isInvestment && location) {
-        const investmentResults = await searchInvestmentsByLocation(location);
-        setInvestments(investmentResults);
+        if (isInvestment && location) {
+          const investmentResults = await searchInvestmentsByLocation(location);
+          setInvestments(investmentResults);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // You could handle errors, like setting an error state
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     if (location) {
@@ -65,9 +71,9 @@ export default function SearchResultsPage() {
         {/* Loading skeleton or content */}
         {loading ? (
           <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <CardSkeleton />
-            <CardSkeleton />
-            <CardSkeleton />
+            {Array.from({ length: rowsPerPage }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))}
           </div>
         ) : (
           <>
@@ -92,7 +98,7 @@ export default function SearchResultsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {investments.slice(startIndex, endIndex).map((investment) => (
                     <div key={investment.id}>
-                      <InvestmentCard investment={investment} /> {/* Modify PropertyCard to handle investments */}
+                      <InvestmentCard investment={investment} />
                     </div>
                   ))}
                 </div>
@@ -100,6 +106,18 @@ export default function SearchResultsPage() {
             )}
 
             {/* No results */}
+            {properties.length === 0 && isProperty && (
+              <div className="text-center">
+                <p>لم يتم العثور على ملكيات.</p>
+              </div>
+            )}
+            {investments.length === 0 && isInvestment && (
+              <div className="text-center">
+                <p>لم يتم العثور على استثمارات.</p>
+              </div>
+            )}
+
+            {/* If both properties and investments are empty */}
             {properties.length === 0 && investments.length === 0 && (
               <div className="text-center">
                 <p>لم يتم العثور على نتائج.</p>
@@ -113,13 +131,13 @@ export default function SearchResultsPage() {
           <Pagination className="mt-3 mb-3">
             <PaginationContent>
               <PaginationItem>
-                <Button onClick={handlePrevious} disabled={startIndex === 0}>
+                <Button onClick={handlePrevious} disabled={startIndex === 0} aria-label="Previous page">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               </PaginationItem>
 
               <PaginationItem>
-                <Button onClick={handleNext} disabled={endIndex >= properties.length + investments.length}>
+                <Button onClick={handleNext} disabled={endIndex >= properties.length + investments.length} aria-label="Next page">
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </PaginationItem>
