@@ -36,17 +36,17 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, ArrowRight, CheckCircle2, Eye, MoreVertical, XCircle } from 'lucide-react';
+import { useAgentInvestmentStore } from "@/context/investementStore";
+import { ArrowLeft, ArrowRight, CheckCircle2, MoreVertical, XCircle } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { DeleteDropdownItem } from "./propertyActions";
-import { InvestmentActionsItem } from "./investorsActions";
+import { DeleteInvestmentItem, InvestmentActionsItem } from "./investorsActions";
 
 const initialColumns = [
   { key: "status", label: "الحالة" },
   { key: "title", label: "العنوان" },
   { key: "price", label: "السعر" },
-  { key: "location", label: "الموقع" },
+  // { key: "description", label: "وصف" },
   { key: "numContributors", label: "المساهمون" },
   { key: "date", label: "التاريخ" },
   { key: "actions", label: "الإجراءات" },
@@ -67,9 +67,6 @@ export default function InvestmentMainTableComponent({ investments }: { investme
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [selectedInvestment, setSelectedInvestment] = useState<investmentData | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  const [offerStatusMap, setOfferStatusMap] = useState<Map<string, boolean | null>>(new Map());
-  const router = useRouter();
 
   const totalPages = investments.length > 0 ? Math.ceil(investments.length / itemsPerPage) : 0;
   const paginatedInvestments = investments.slice(
@@ -82,24 +79,6 @@ export default function InvestmentMainTableComponent({ investments }: { investme
   const handleViewInvestment = (investment: investmentData) => {
     setSelectedInvestment(investment);
     setIsViewDialogOpen(true);
-  };
-
-  const handleToggleAccepted = async (id: string, checked: boolean) => {
-    setOfferStatusMap(prev => new Map(prev).set(id, checked));
-    try {
-      const result = await updateInvestementOfferStatus(id, checked);
-      if (result.success) {
-        router.refresh();
-        return true;
-      } else {
-        setOfferStatusMap(prev => new Map(prev).set(id, !checked)); 
-        return false;
-      }
-    } catch (error) {
-      console.error("خطأ في تحديث حالة عرض الاستثمار:", error);
-      setOfferStatusMap(prev => new Map(prev).set(id, !checked)); 
-      return false;
-    }
   };
 
   return (
@@ -123,7 +102,7 @@ export default function InvestmentMainTableComponent({ investments }: { investme
             {initialColumns.map(
               (column) =>
                 visibleColumns.includes(column.key) && (
-                  <TableHead key={column.key} className="whitespace-nowrap">
+                  <TableHead key={column.key} className="whitespace-nowrap text-center">
                     {column.label}
                   </TableHead>
                 ))}
@@ -135,19 +114,23 @@ export default function InvestmentMainTableComponent({ investments }: { investme
               {visibleColumns.includes("status") && (
                 <TableCell>
                   {investment.status ? (
-                    <CheckCircle2 className="text-green-500" />
+                    <TableCell>
+                    <span className="sr-only">متوفر</span>
+                    <CheckCircle2 className="text-blue-500" />
+                  </TableCell>
                   ) : (
+                  <TableCell>
+                    <span className="sr-only">غير متوفر</span>
                     <XCircle className="text-red-500" />
+                  </TableCell>
                   )}
                 </TableCell>
               )}
-              {visibleColumns.includes("title") && <TableCell>{investment.title}</TableCell>}
+              {visibleColumns.includes("title") && <TableCell className="bg-blue-400">{investment.title}</TableCell>}
               {visibleColumns.includes("price") && <TableCell>{investment.price}</TableCell>}
-              {visibleColumns.includes("location") && <TableCell>{investment.location}</TableCell>}
+              {visibleColumns.includes("description") && <TableCell className="bg-blue-400">{investment.description}</TableCell>}
               {visibleColumns.includes("numContributors") && <TableCell>{investment.numContributors}</TableCell>}
-              {visibleColumns.includes("date") && (
-                <TableCell>{new Date(investment.createdAt).toLocaleDateString('ar-SA')}</TableCell>
-              )}
+              {visibleColumns.includes("date") && ( <TableCell>{investment.createdAt.toLocaleDateString()}</TableCell>)}
               {visibleColumns.includes("actions") && (
                 <TableCell className="text-right">
                   <DropdownMenu>
@@ -160,16 +143,14 @@ export default function InvestmentMainTableComponent({ investments }: { investme
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel className="sr-only">الإجراءات</DropdownMenuLabel>
                       <Button className="w-full" variant="outline" onClick={() => handleViewInvestment(investment)}>
-                        <Eye className="ml-2 h-4 w-4" />
                         <span>التفاصيل</span>
                       </Button>
                       <DropdownMenuSeparator />
                       <InvestmentActionsItem
                         id={investment.id}
-                        status={investment.status ? investment.status : false}
-                      />
+                        status={investment.status ? investment.status : false}/>
                       <DropdownMenuSeparator />
-                      <DeleteDropdownItem id={investment.id} />
+                      <DeleteInvestmentItem id={investment.id} />
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -191,9 +172,9 @@ export default function InvestmentMainTableComponent({ investments }: { investme
             <SelectValue placeholder="اختر عدد الصفوف لكل صفحة" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="5">5 صفوف لكل صفحة</SelectItem>
-            <SelectItem value="10">10 صفوف لكل صفحة</SelectItem>
-            <SelectItem value="20">20 صف لكل صفحة</SelectItem>
+            <SelectItem value="5">5 صفوف</SelectItem>
+            <SelectItem value="10">10 صفوف</SelectItem>
+            <SelectItem value="20">20 صف</SelectItem>
           </SelectContent>
         </Select>
 
@@ -233,10 +214,10 @@ export default function InvestmentMainTableComponent({ investments }: { investme
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>رقم العميل</TableHead>
-                  <TableHead>المبلغ</TableHead>
-                  <TableHead>مقبول</TableHead>
-                  <TableHead>التاريخ</TableHead>
+                  <TableHead className="text-right">رقم العميل</TableHead>
+                  <TableHead className="text-right">المبلغ</TableHead>
+                  <TableHead className="text-right">مقبول</TableHead>
+                  <TableHead className="text-right">التاريخ</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -285,6 +266,8 @@ interface investmenOfferProps {
 function InvestmentDetails({ offer, index }: investmenOfferProps) {
   const [offerStatus, setOfferStatus] = useState<boolean>(offer.accepted || false);
   const [isPending, startTransition] = useTransition();
+        const { agent, agentInvestments, error, isLoading, fetchAgentInvestemtData } = useAgentInvestmentStore()
+  
   const router = useRouter();
 
   const handleToggleAccepted = async (offerId: string, checked: boolean) => {
@@ -304,7 +287,7 @@ function InvestmentDetails({ offer, index }: investmenOfferProps) {
     <>
       <TableCell>{offer.accepted === true ? (<PhoneCallLink phone={offer.clientPhone || ""} />) : (<p>غير مقبول</p>)}</TableCell>      
       <TableCell>{offer.offerAmount}</TableCell>
-      <TableCell>
+      <TableCell dir="ltr" className="text-right">
         <Switch
           checked={offerStatus}
           onCheckedChange={(checked) => {
@@ -317,7 +300,7 @@ function InvestmentDetails({ offer, index }: investmenOfferProps) {
         />        
       </TableCell>
       <TableCell>
-        {new Date(offer.createdAt).toLocaleDateString('ar-SA')}
+        {offer.createdAt.toLocaleDateString()}
       </TableCell>
     </>
   );

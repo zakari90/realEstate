@@ -1,6 +1,6 @@
 'use client'
 
-import { Banknote, MapPin, Target, Users } from "lucide-react"
+import { Banknote, CalendarRange, MapPin, MapPinOff, Target, Users } from "lucide-react"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { InvestmentDTO } from "@/_actions/client/actions"
@@ -14,10 +14,8 @@ import { Agent } from "@prisma/client"
 import { ContactInvestor } from "./investmentContactDialog"
 
 const selectItems = {
-  housing: "للسكن",
-  investment: "للاستثمار",
-  commercial: "للاستخدام التجاري",
-  other: "أخرى"
+  coownership: "ملكية مشتركة",
+  installment: "دفعات",
 };
 
 export default function InvestmentListingPage({
@@ -28,7 +26,6 @@ export default function InvestmentListingPage({
   const [agent, setAgent] = useState<Agent | undefined>(undefined);
 
   const arPurpose = investment.purpose ? selectItems[investment.purpose as keyof typeof selectItems] : ""
-
 
   useEffect(() => {
     if (investment?.agent) {
@@ -52,8 +49,6 @@ export default function InvestmentListingPage({
 
   const backgroundColorClass = getBackgroundColor(investment.price || 0 )
 
- 
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid lg:grid-cols-3 gap-8">
@@ -65,24 +60,22 @@ export default function InvestmentListingPage({
                   <CardTitle className="text-3xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
                 </div>
                 <Badge variant="outline" className="mr-2">{arPurpose}</Badge>
-
               </div>
             </CardHeader>
             <CardContent className="p-6 space-y-4">
-              <div className="flex justify-between items-center">
                 <p className="text-2xl font-bold">{investment.price} درهم</p>
-              </div>
+
               <div className="flex items-center text-muted-foreground">
-                <MapPin className="w-5 h-5 mr-2" aria-hidden="true" />
+                <MapPinOff className="w-5 h-5 ml-2" aria-hidden="true" />
                 <span>{investment.location}</span>
               </div>
-              <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center">
-                  <Banknote className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
-                  <div>
+                  <Banknote className="w-5 h-5 ml-2 text-muted-foreground" aria-hidden="true" />
                     <p className="font-bold">مساهمة الناشر {investment.contribution} درهم</p>
-                  </div>
                 </div>
+                <div className="flex items-center text-muted-foreground">
+                <CalendarRange className="w-5 h-5 ml-2" aria-hidden="true" />
+                <span>{investment.createdAt.toLocaleDateString()}</span>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
@@ -92,7 +85,7 @@ export default function InvestmentListingPage({
                 <Progress value={progressPercentage} className="w-full h-2" />
               </div>
               <div className="flex items-center">
-                <Users className="w-5 h-5 mr-2 text-muted-foreground" aria-hidden="true" />
+                <Users className="w-5 h-5 ml-2 text-muted-foreground" aria-hidden="true" />
                 <span className="text-sm text-muted-foreground">
                   {investment.numContributors} مساهم{investment.numContributors !== 1 ? 'ين' : ''} مطلوب
                 </span>

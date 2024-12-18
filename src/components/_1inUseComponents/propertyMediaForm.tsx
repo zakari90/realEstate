@@ -15,8 +15,9 @@ import UploadImagesButton from '@/components/uploadImagesButton'
 import UploadVideoButton from '@/components/uploadvideoButton'
 import { HelpCircle } from "lucide-react"
 import Image from 'next/image'
+import { redirect, useRouter } from 'next/navigation'
 import { useState } from 'react'
-
+import { toast } from "@/components/ui/use-toast";
 
 
 export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string, setstep: (step: number) => void }) {
@@ -51,16 +52,43 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
       console.log(urls);
       setImagesUrl(urls);
     };
-  
+    const [loading, setLoading] = useState(false);
+
     async function addytPanorama() {
+      setLoading(true);
+      try {
       await addytVideo(propertyId, videoUrl)
       await addPropertyPanorama(propertyId, panoramaUrl);
+
+      toast({
+        title: "تم نشر الملكية",
+        description: "تم نشر الملكية الاستثمار ي بنجاح.",
+        duration: 1000,
+        variant: "default",
+      });
+      redirect(`/investments/${propertyId}`)
+      } catch (error) {
+        console.log(error);
+        
+      }finally{
+        setLoading(false);
+      }
+      
     }
   
-    function goBack() {
-      setstep(1)
+
+
+
+
+    function transformToEmbedUrl(url: string): string | null {
+      const match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        return `https://www.youtube.com/embed/${match[1]}`;
+      }  
+      return null;
     }
-  
+    const embedUrl = ytVideo ? transformToEmbedUrl(ytVideo) : ""
+
     return (
     <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
   {/* photos */}
@@ -76,7 +104,7 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
               alt="صورة المنتج"
               className="aspect-square w-full rounded-md object-cover"
               height="300"
-              src={imagesUrl[0] || ""}
+              src={imagesUrl[0] || "https://placehold.co/600x400"}
               width="300"
             />
             <div className="grid grid-cols-3 gap-2">
@@ -148,7 +176,7 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
   
           {ytVideo ? 
           <div className="aspect-square rounded-md ">
-          <iframe src={ytVideo} className="w-full h-full"></iframe>
+          <iframe src={embedUrl || ""} className="w-full h-full"></iframe>
           </div>
   
           :    
@@ -195,7 +223,8 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
       </Card>
       <div>
       <Button onClick={addytPanorama} className="w-full">
-        إرسال
+        
+        {loading ? "جارٍ النشر..." : "نشر الملكية"}
       </Button>
       </div>
     </div>)

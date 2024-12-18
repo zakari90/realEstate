@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { updateAgentData } from '@/_actions/agent/actions'
 import { useAgentStore } from '@/context/propertyStore'
-import MainTableComponent from '../../../../../components/_1inUseComponents/mainTable'
+import MainTableComponent from '@/components/_1inUseComponents/mainTable'
 
 const phoneSchema = z.string().min(10, 'رقم الهاتف يجب أن يتكون من 10 أرقام').regex(/^\d+$/, 'رقم الهاتف يجب أن يحتوي فقط على أرقام');
 

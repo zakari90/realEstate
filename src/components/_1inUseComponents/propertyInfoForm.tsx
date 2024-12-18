@@ -89,7 +89,7 @@ export function PropertyInfoForm({setstep, setPropertyId}: {setstep: (step: numb
     ))
   }
 
-  const onSubmit = async (data: PropertyFormData) => {
+  const onSubmit = async (data: PropertyFormData) => {    
     setIsSubmitting(true)
 
     try {
@@ -152,8 +152,8 @@ export function PropertyInfoForm({setstep, setPropertyId}: {setstep: (step: numb
               <Select 
                 onValueChange={(value) => {
                   field.onChange(value)
-                  setShowContributorsInput(value === 'co-ownership')
-                  if (value !== 'co-ownership') {
+                  setShowContributorsInput(value === 'coownership')
+                  if (value !== 'coownership') {
                     form.setValue('numContributors', undefined)
                   }
                 }} 
@@ -165,8 +165,8 @@ export function PropertyInfoForm({setstep, setPropertyId}: {setstep: (step: numb
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="co-ownership">الملكية المشتركة</SelectItem>
-                  <SelectItem value="installment">بالتقسيط</SelectItem>
+                  <SelectItem value="coownership">ملكية مشتركة</SelectItem>
+                  <SelectItem value="installment">دفعات</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>
@@ -337,7 +337,7 @@ export function PropertyInfoForm({setstep, setPropertyId}: {setstep: (step: numb
         </div>
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? 'جاري الإرسال...' : 'إضافة إعلان عقاري'}
+          {isSubmitting ? 'جاري الإرسال...' : ' إضافة الوسائط'}
         </Button>
       </form>
     </Form>

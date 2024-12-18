@@ -70,6 +70,9 @@ export async function getAllInvestments() {
       include: {
         agent: true, 
       },
+      where:{
+        status:true
+      }
     });
 
     return investments.map(investment => createInvestmentDTO(investment));
@@ -175,6 +178,9 @@ export async function getAllProperties() {
       include: {
         agent: true, 
       },
+      where:{
+        available:true
+      }
     });
 
     return properties.map(property => createPropertyDTO(property));

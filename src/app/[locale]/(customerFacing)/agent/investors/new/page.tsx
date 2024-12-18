@@ -30,7 +30,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -56,16 +56,15 @@ export type investementForm = z.infer<typeof investementFormSchema>
 export default function PropertyOpportunityForm() {
 
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const form = useForm<investementForm>({
     resolver: zodResolver(investementFormSchema),
     defaultValues: {
       title: "",
       description: "",
-      price: 0,
-      contribution: 0,
-      numContributors: 1,
+      price: undefined,
+      contribution: undefined,
+      numContributors: undefined,
       location: "",
       purpose: undefined,
     },
@@ -84,10 +83,10 @@ export default function PropertyOpportunityForm() {
       toast({
         title: "تم نشر الفرصة",
         description: "تم نشر فرصة الاستثمار ي بنجاح.",
-        duration: 5000,
+        duration: 1000,
         variant: "default",
       });
-      router.push("/")
+      redirect(`/investments/${response.message}`)
     } catch (error) {
       console.error("خطأ أثناء نشر الفرصة:", error);
       toast({

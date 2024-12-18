@@ -54,6 +54,7 @@ const initialColumns = [
 ]
 
 export default function MainTableComponent({properties}:{properties:AgentPropertyData[]}) { 
+
   const [visibleColumns, setVisibleColumns] = useState(initialColumns.map(col => col.key))
   const toggleColumn = (columnKey: string) => {
     setVisibleColumns(prev => 
@@ -110,17 +111,20 @@ export default function MainTableComponent({properties}:{properties:AgentPropert
         <TableBody>
           {paginatedProperties.map((property, index) => (
             <TableRow key={index}>
-              {property.available ? (
-              <TableCell>
-                  <span className="sr-only">متوفر</span>
-                  <CheckCircle2 />
-                </TableCell>
-              ) : (
+              {visibleColumns.includes("available") && (
                 <TableCell>
-                  <span className="sr-only">غير متوفر</span>
-                  <XCircle className="stroke-destructive" />
+                  {property.available ? (
+                    <TableCell>
+                    <span className="sr-only">متوفر</span>
+                    <CheckCircle2 className="text-blue-500" />
                   </TableCell>
-                
+                  ) : (
+                  <TableCell>
+                    <span className="sr-only">غير متوفر</span>
+                    <XCircle className="text-red-500" />
+                  </TableCell>
+                  )}
+                </TableCell>
               )}
               {visibleColumns.includes("image") && 
               <TableCell>

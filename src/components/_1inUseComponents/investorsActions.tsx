@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteInvestementById, updatePropertyStatus } from "@/_actions/agent/actions"
+import { deleteInvestementById, updateInvestementOfferStatus, updateInvestmentStatus, updatePropertyStatus } from "@/_actions/agent/actions"
 import { Button } from "@/components/ui/button"
 import { useAgentInvestmentStore } from "@/context/investementStore"
 import { useRouter } from "next/navigation"
@@ -20,13 +20,14 @@ export function InvestmentActionsItem({id, status}:{
     variant="ghost"
     disabled={isPending}
     onClick={()=>{
-        startTransition(async () => {
-            await updatePropertyStatus(id, !status)
-            fetchAgentInvestemtData()
-            router.refresh()})}
+      startTransition(async () => {
+          await updateInvestmentStatus(id, !status)
+          fetchAgentInvestemtData()
+          router.refresh()
+        })}
         }>
-        {status ? "Deactivate" : "Activate"}
-    </Button>
+      {status ? "تعطيل" : "تفعيل"}
+      </Button>
 }
 
 export function DeleteInvestmentItem(
@@ -55,7 +56,7 @@ export function DeleteInvestmentItem(
         onClick={()=>{
             startTransition(async () => {
                 await handleDelete(id) }) }}>
-            Delete
+                حذف
       </Button>
 
 }

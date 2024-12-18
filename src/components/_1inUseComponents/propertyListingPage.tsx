@@ -3,15 +3,24 @@
 import { PropertyDTO } from "@/_actions/client/actions"
 import EmailLink from "@/components/_1inUseComponents/emailComponent"
 import PhoneCallLink from "@/components/_1inUseComponents/phoneCallComponent"
+import WhatsAppLink from "@/components/_1inUseComponents/whatsAppComponents"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import WhatsAppLink from "@/components/_1inUseComponents/whatsAppComponents"
 import { Agent } from "@prisma/client"
-import { Home, MapPinIcon } from "lucide-react"
+import { CalendarRange, Home, MapPin, MapPinOff } from "lucide-react"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import MediaCard from "./mediaCrads"
 import { ContactDialog } from "./propertyContactDialog"
+import { Badge } from "../ui/badge"
+
+
+const selectItems = {
+  housing: "للسكن",
+  investment: "للاستثمار",
+  commercial: "للاستخدام التجاري",
+  other: "أخرى"
+};
 
 export default function PropertyListingPage({
   property,
@@ -24,7 +33,7 @@ export default function PropertyListingPage({
   const ytVideo = property.ytVideo ?property.ytVideo : ""
   const panoramaUrl = property.panorama ?property.panorama : ""
 
-  const features  = property.features? property.features.split(",") : [];
+  const features: string[]   = property.features? JSON.parse(property.features) : [];
 
   const [agent, setAgent] = useState<Agent>();
   
@@ -33,27 +42,36 @@ export default function PropertyListingPage({
       setAgent(property.agent)
     }
   }, [property]);
+  
+
+  const arPurpose = property.sellingBy ? selectItems[property.sellingBy as keyof typeof selectItems] : ""
+
+
+
 
   return (
     <>   
      <div className="min-h-screen bg-background">
-    {/*hero section  */}
-      <div className="relative h-[30vh] md:h-[60vh] w-full bg-muted">
+      <div className="relative h-[40vh] md:h-[60vh] w-full bg-muted">
         <Image
-          src={images[0] || ""}
+          src={images[0] || "https://images.unsplash.com/photo-1516281717304-181e285c6e58?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
           alt={""}
           fill
           className="object-cover"
         />
+        <Badge variant="outline" className="absolute top-1 left-1">{arPurpose}</Badge>
         <div className="absolute bottom-8 text-white p-4 bg-black bg-opacity-30 rounded-md z-10">
           <h1 className="text-4xl font-bold mb-2">{property.type}</h1>
           <div className="flex items-center gap-2">
-            <MapPinIcon className="h-5 w-5" />
+          {property.mapUrl ? (
+          <a href={property.mapUrl} target="_blank" rel="noopener noreferrer">
+            <MapPin className="h-5 w-5" color="blue" /> </a>  ) 
+            : ( <MapPinOff className="h-5 w-5" />)}
             <p className="text-lg">{property.address}</p>
           </div>
+
         </div>
       </div>
-      {/* main section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
@@ -64,6 +82,10 @@ export default function PropertyListingPage({
                   {property.description}
                 </p>
             </div>
+            <div className="flex items-center text-muted-foreground">
+              <CalendarRange className="w-5 h-5 ml-2" aria-hidden="true" />
+              <span>{property.createdAt.toLocaleDateString()}</span>
+            </div>
             <Separator className="mb-6" />
           <div className="mb-12">
             {features.length > 0 ? <h2 className="text-2xl font-semibold mb-4">وسائل الراحة</h2>: ""}
@@ -71,8 +93,7 @@ export default function PropertyListingPage({
               {features.map((feature,index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-2 text-muted-foreground"
-                >
+                  className="flex items-center gap-2 text-muted-foreground">
                   <Home className="h-4 w-4" />
                   <span>{feature}</span>
                 </div>

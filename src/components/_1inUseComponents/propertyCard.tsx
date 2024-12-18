@@ -14,7 +14,7 @@ const images  = property.images? property.images.split(",") : [];
     <Card className="w-full max-w-[280px] mx-auto overflow-hidden mb-2">
             <div className="relative h-40">
               <Image
-                src={images[0] || "placeholder-image.jpg"}
+                src={images[0] || "/placeholder-image.jpg"}
                 width={300}
                 height={160}
                 alt={`صورة العقار`}

@@ -154,9 +154,6 @@ export async function getAgentInvestments(): Promise<{ investment: investmentDat
 
 
 export async function createInvestment(params: investementForm) {
-  console.log("**********************************************************");
-  console.log("createInvestment function");
-  console.log(typeof params.price);
   try {
     const clerkAgent = await registerClerkUserAsAgent();
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
@@ -173,7 +170,8 @@ export async function createInvestment(params: investementForm) {
         location: params.location,
         purpose: params.purpose,
         agentId: clerkAgent.id,
-        acceptedContributions: 0, // Initialize acceptedContributions
+        acceptedContributions: 0, 
+        status: true
       },
     });
     return { message: `${investment.id}` };
@@ -183,14 +181,12 @@ export async function createInvestment(params: investementForm) {
     return { message: "Failed to create investment", error };
   
   } finally {
-    await db.$disconnect(); // Ensure disconnection happens regardless of success or failure
+    await db.$disconnect(); 
   }
 }
 
 export async function createInvestmentOffer(params: any) : Promise<{ message: boolean }> {
-  console.log("**********************************************************");
-  console.log("createInvestmentOffer function");
-  console.log(params.clientOffer);
+  
   try {
     const newClient = await db.client.create({
       data: {
@@ -245,6 +241,10 @@ async function updateAcceptedContributions(investmentId: string) {
 }}
 
 export async function updateInvestementOfferStatus(investmentOfferId: string, status: boolean) {
+  console.log("/// updateInvestementOfferStatus");
+  console.log(investmentOfferId);
+  
+  
   try {
     const clerkAgent = await registerClerkUserAsAgent();
     if (!clerkAgent || !clerkAgent.email) {
@@ -297,14 +297,15 @@ export async function deleteInvestementById(id: string) : Promise<{success : boo
  //------------------------------------------------------------- property------------------------------------
 export async function addProperty(params : PropertyFormData){
   console.log("**********************************************************")
-  console.log("addProperty function")
+  console.log(typeof params.features)
+  console.log(params.features )
   try {
  
     const clerkAgent =  await registerClerkUserAsAgent()
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
       throw new Error('User email not found');
     }
-
+    const features = JSON.stringify(params.features)
     const property =  await db.property.create({
         data: {
           type        : params.type,        
@@ -318,30 +319,26 @@ export async function addProperty(params : PropertyFormData){
           agentId     : clerkAgent.id,
           bedrooms    : params.bedrooms,
           bathrooms   : params.bathrooms,
-          video       : "",
-          panorama    : "",
-          images      : "",
-          features    : "",
-          available   : false //TODO: change status to availability  
+          ytVideo     : ""  ,
+          video       : ""  ,
+          panorama    : ""  ,
+          images      : ""  ,
+          features    : features,
+          available   : true  
         },
       });      
-      // return { message: `property added successfully ${db.property.count}` };
       return { message: property.id};
   } catch (error) {
    
     return { message: "Failed to create investment", error };
 
   }finally{
-    // redirect("/agent/properties")
     await db.$disconnect();
   }
   
 } 
 
 export async function updatePropertyStatus(propertyId: string, available: boolean) {
-  console.log("-----------------------------------------------------");
-  console.log("updatePropertyStatus");
-  
   try {
     const clerkAgent = await registerClerkUserAsAgent();
     if (!clerkAgent || !clerkAgent.email) {
@@ -397,8 +394,8 @@ export async function addPropertyPanorama(propertyId: string, panoramaUrl: strin
 
       console.log("Property updated successfully");
     });
-
-    return { message: "Property updated successfully." };
+    
+    return { message: property.id };
 
   } catch (error) {
     console.error("Error updating property:", error); // Log the error for debugging
@@ -428,13 +425,11 @@ export async function addytVideo(propertyId: string, ytVideo: string) {
     await db.$transaction(async (tx) => {
       await db.property.update({
         where: { id: propertyId },
-        data: { ytVideo: ytVideo },
+        data: { ytVideo},
       });
-
-      console.log("Property updated successfully");
     });
 
-    return { message: "Property updated successfully." };
+    return { message: property.id };
 
   } catch (error) {
     console.error("Error updating property:", error); // Log the error for debugging
@@ -477,8 +472,6 @@ export async function addPropertyImages(propertyId: string, imagesUrls : string)
         console.log("property updated successfully");
         
         db.$disconnect();
-        redirect("/agent/properties")
-        // return { message: "Property updated successfully" };
         
       });
     } catch (error) {
@@ -490,7 +483,6 @@ export async function addPropertyImages(propertyId: string, imagesUrls : string)
 export async function addPropertyVideos(propertyId: string, videoUrl : string){
   try {
     if (!videoUrl) {
-      // Return the errors to be displayed in the form
       return { message: "Failed to update todo" };
     }
 
@@ -498,35 +490,29 @@ export async function addPropertyVideos(propertyId: string, videoUrl : string){
       if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
         throw new Error('User email not found');
       }
+
       await db.$transaction(async (tx) => {
-
-
         if (!clerkAgent) {
           throw new Error('agent not found');
         }
-
 
         const property = await db.property.findUnique({ where: { id: propertyId } });
         if (!property) {
           throw new Error('Property not found');
         }
-        // Update the property
+
         await db.property.update({
           where: { id: propertyId },
           data: {
             video   :videoUrl,
           },
         });
-
-        console.log("property updated successfully");
-        
-        db.$disconnect();
-        redirect("/agent/properties")
-        // return { message: "Property updated successfully" };
         
       });
     } catch (error) {
       return { message: "Failed to update todo" + error };
+    }finally{
+      db.$disconnect();
     }
 
 }
@@ -859,3 +845,32 @@ export async function getAgentClients() {
    
  }
 
+
+ export async function updateInvestmentStatus(id: string, status: boolean) {
+  
+  try {
+    const clerkAgent = await registerClerkUserAsAgent();
+    if (!clerkAgent || !clerkAgent.email) {
+      throw new Error('User email not found');
+    }
+
+    const investment = await db.investment.findUnique({ where: { id } });
+    if (!investment) {
+      throw new Error('Property not found');
+    }
+    
+    const updateInvestment = await db.investment.update({
+      where: { id },
+      data: { status },
+    });
+
+    return { success: true, message: "Property updated successfully.", property: updateInvestment };
+
+  } catch (error) {
+    console.error("Error updating property:", error);
+    return { success: false, message: "Failed to update property: " + error };
+  }finally{
+    redirect("/agent/investors")
+  }
+  
+}

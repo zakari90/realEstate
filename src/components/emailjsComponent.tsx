@@ -11,6 +11,7 @@ import { SendIcon } from 'lucide-react';
 export default function EmailjsComponent() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  
   const templateParams = {
     from_email: email,
     message: message,
