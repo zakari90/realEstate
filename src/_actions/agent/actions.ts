@@ -365,7 +365,7 @@ export async function updatePropertyStatus(propertyId: string, available: boolea
     console.error("Error updating property:", error);
     return { success: false, message: "Failed to update property: " + error };
   }finally{
-    redirect("/agent/properties")
+    db.$disconnect()
   }
   
 }
@@ -469,13 +469,13 @@ export async function addPropertyImages(propertyId: string, imagesUrls : string)
           },
         });
 
-        console.log("property updated successfully");
-        
-        db.$disconnect();
+        return { message: property.id};
         
       });
     } catch (error) {
       return { message: "Failed to update todo" + error };
+    }finally{
+      db.$disconnect()
     }
 
 }

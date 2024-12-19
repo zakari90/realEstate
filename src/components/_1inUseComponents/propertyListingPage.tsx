@@ -15,11 +15,10 @@ import { ContactDialog } from "./propertyContactDialog"
 import { Badge } from "../ui/badge"
 
 
+
 const selectItems = {
-  housing: "للسكن",
-  investment: "للاستثمار",
-  commercial: "للاستخدام التجاري",
-  other: "أخرى"
+  coownership: "ملكية مشتركة",
+  installment: "دفعات",
 };
 
 export default function PropertyListingPage({
@@ -43,11 +42,7 @@ export default function PropertyListingPage({
     }
   }, [property]);
   
-
   const arPurpose = property.sellingBy ? selectItems[property.sellingBy as keyof typeof selectItems] : ""
-
-
-
 
   return (
     <>   
@@ -59,7 +54,7 @@ export default function PropertyListingPage({
           fill
           className="object-cover"
         />
-        <Badge variant="outline" className="absolute top-1 left-1">{arPurpose}</Badge>
+        <Badge variant="outline" className="absolute top-2 left-2 bg-white">{arPurpose}</Badge>
         <div className="absolute bottom-8 text-white p-4 bg-black bg-opacity-30 rounded-md z-10">
           <h1 className="text-4xl font-bold mb-2">{property.type}</h1>
           <div className="flex items-center gap-2">
@@ -72,28 +67,29 @@ export default function PropertyListingPage({
 
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className=" relative max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-          <Separator className="mb-8" />
-            <div className="mb-12">
-                <h2 className="text-2xl font-semibold mb-4">{property.type}</h2>
-                <p className="text-muted-foreground leading-relaxed">
+      <Separator className="mb-8" />
+
+          <div className="lg:col-span-2 max-w-full ">
+            <div className="mb-8">
+                <h2 className="text-2xl font-semibold mb-4 mr-4">{property.type}</h2>
+                <p className="text-muted-foreground mr-2 overflow-auto ">
                   {property.description}
                 </p>
             </div>
-            <div className="flex items-center text-muted-foreground">
+            <div className=" mr-2 flex items-center text-muted-foreground">
               <CalendarRange className="w-5 h-5 ml-2" aria-hidden="true" />
               <span>{property.createdAt.toLocaleDateString()}</span>
             </div>
             <Separator className="mb-6" />
           <div className="mb-12">
-            {features.length > 0 ? <h2 className="text-2xl font-semibold mb-4">وسائل الراحة</h2>: ""}
+            {features.length > 0 ? <h2 className="text-2xl font-semibold mb-4 mr-4">وسائل الراحة</h2>: ""}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {features.map((feature,index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-2 text-muted-foreground">
+                  className="mr-2 flex items-center gap-2 text-muted-foreground">
                   <Home className="h-4 w-4" />
                   <span>{feature}</span>
                 </div>
@@ -108,7 +104,7 @@ export default function PropertyListingPage({
             <CardContent className="p-6 space-y-4">
             <h2 className="text-xl font-semibold">قدّم عرضاً</h2>
             <p className="text-sm text-muted-foreground">
-            يمكنك تقديم عرض يناسبك من حيث السعر وفترة الدفع.
+            يمكنك تقديم عرض يناسبك لكي يتواصل معك الناشر.
             </p>
               <ContactDialog property={property} />
             </CardContent>

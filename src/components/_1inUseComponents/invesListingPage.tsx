@@ -13,18 +13,20 @@ import WhatsAppLink from "@/components/_1inUseComponents/whatsAppComponents"
 import { Agent } from "@prisma/client"
 import { ContactInvestor } from "./investmentContactDialog"
 
-const selectItems = {
-  coownership: "ملكية مشتركة",
-  installment: "دفعات",
-};
 
+const selectItems = {
+  housing: "للسكن",
+  investment: "للاستثمار",
+  commercial: "للاستخدام التجاري",
+  other: "أخرى"
+};
 export default function InvestmentListingPage({
   investment,
 }: {
   investment: InvestmentDTO;
 }) {
+  
   const [agent, setAgent] = useState<Agent | undefined>(undefined);
-
   const arPurpose = investment.purpose ? selectItems[investment.purpose as keyof typeof selectItems] : ""
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function InvestmentListingPage({
                 <div className="absolute inset-0 flex items-center justify-center">
                   <CardTitle className="text-3xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
                 </div>
-                <Badge variant="outline" className="mr-2">{arPurpose}</Badge>
+                <Badge variant="outline" className="absolute top-2 left-2 bg-white">{arPurpose}</Badge>
               </div>
             </CardHeader>
             <CardContent className="p-6 space-y-4">

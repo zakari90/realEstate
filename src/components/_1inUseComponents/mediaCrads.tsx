@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/tabs";
 import { Rotate3DIcon, Video } from "lucide-react";
 import ImageGallery from "./imageGallery";
+import VideoGallery from "./videoGallery";
 
 interface MediaCardProps {
   propertyUrl?: string;
@@ -23,18 +24,9 @@ export default function MediaCard(
   }: MediaCardProps
 ) {
 
-  function transformToEmbedUrl(url: string): string | null {
-    const match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://www.youtube.com/embed/${match[1]}`;
-    }  
-    return null;
-  }
-  const embedUrl = youtubeUrl? transformToEmbedUrl(youtubeUrl) : ""
-
   return (
     <Card>
-    <CardContent className="p-6">
+    <CardContent className="p-6 ">
       <Tabs defaultValue="images" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="images">
@@ -58,7 +50,7 @@ export default function MediaCard(
             <ImageGallery images={images}/>
         </TabsContent>
         <TabsContent value="video" className="mt-4">
-        <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
+        {/* <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
         {
       propertyUrl ? (
         <iframe
@@ -71,8 +63,8 @@ export default function MediaCard(
         ></iframe>
       ) : embedUrl ? (
         <iframe 
-          width="560" 
-          height="315" 
+          width="100%"
+          height="100%"
           src={embedUrl}
           title="YouTube video player" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -81,7 +73,15 @@ export default function MediaCard(
           <p className="text-muted-foreground">No videos available</p>
       )
     }
-        </div>
+     <iframe 
+          width="560" 
+          height="315" 
+          src={embedUrl || ""}
+          title="YouTube video player" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        ></iframe>
+        </div> */}
+        <VideoGallery youtubeUrl={youtubeUrl} propertyUrl={propertyUrl}/>
         </TabsContent>
         <TabsContent value="panorama" className="mt-4">
         <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">

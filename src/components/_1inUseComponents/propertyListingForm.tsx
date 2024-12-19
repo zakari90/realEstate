@@ -18,13 +18,13 @@ export default function PropertyListingForm() {
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>إضافة إعلان عقاري جديد</CardTitle>
+        <CardTitle>إضافة ملكية جديدة</CardTitle>
       </CardHeader>
       <CardContent>
         { step === 1 ? 
         <PropertyInfoForm setstep={setstep} setPropertyId={setPropertyId}/> 
         : 
-        <PropertyMediaForm propertyId={propertyId} setstep={setstep}/>
+        <PropertyMediaForm propertyId={propertyId} />
         }
       </CardContent>
     </Card>

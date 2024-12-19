@@ -11,16 +11,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { toast } from "@/components/ui/use-toast"
 import UploadImagesButton from '@/components/uploadImagesButton'
 import UploadVideoButton from '@/components/uploadvideoButton'
 import { HelpCircle } from "lucide-react"
 import Image from 'next/image'
-import { redirect, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { useState } from 'react'
-import { toast } from "@/components/ui/use-toast";
 
 
-export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string, setstep: (step: number) => void }) {
+export function PropertyMediaForm({ propertyId} : {propertyId : string}) {
     
 
     const [videoUrl, setVideoUrl] = useState("");
@@ -57,12 +57,12 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
     async function addytPanorama() {
       setLoading(true);
       try {
-      await addytVideo(propertyId, videoUrl)
+      await addytVideo(propertyId, ytVideo)
       await addPropertyPanorama(propertyId, panoramaUrl);
 
       toast({
         title: "تم نشر الملكية",
-        description: "تم نشر الملكية الاستثمار ي بنجاح.",
+        description: "تم نشر الملكية بنجاح.",
         duration: 1000,
         variant: "default",
       });
@@ -76,10 +76,6 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
       
     }
   
-
-
-
-
     function transformToEmbedUrl(url: string): string | null {
       const match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
@@ -94,7 +90,7 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
   {/* photos */}
       <Card className="overflow-hidden">
           <CardHeader>
-            <CardTitle>صور العقار</CardTitle>
+            <CardTitle>صور الملكية</CardTitle>
           </CardHeader>
           <CardContent>
                 {imagesUrl?.length ? (
@@ -131,7 +127,7 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
   {/* video */}
       <Card className="overflow-hidden" >
         <CardHeader>
-          <CardTitle>فيديو العقار</CardTitle>
+          <CardTitle>فيديو الملكية</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-2">
@@ -156,7 +152,7 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
       <Card className="overflow-hidden">
         <CardHeader >
           <div className='flex gap-3'>
-          <CardTitle>Youtube </CardTitle>
+          <CardTitle>يوتيوب فيديو  </CardTitle>
           <TooltipProvider>
               <Tooltip>
               <TooltipTrigger asChild>
@@ -181,7 +177,7 @@ export function PropertyMediaForm({ propertyId, setstep} : {propertyId : string,
   
           :    
             <div className="space-y-2 flex flex-col items-center justify-center">
-            <Label htmlFor="ytVideo">ytVideo</Label>
+            <Label htmlFor="ytVideo">يوتيوب فيديو </Label>
             <Input type="url" id="ytVideo" name="ytVideo" value={ytVideo} onChange={(event) => handleytVideo(event.target.value)}/>
           </div>}
         </div>

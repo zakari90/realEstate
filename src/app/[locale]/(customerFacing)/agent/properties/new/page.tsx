@@ -7,7 +7,7 @@ function NewProductPage() {
     <div className='container '>
 
     <PageHeader>
-    إضافة المنتج
+    إضافة ملكية 
     </PageHeader>
     <PropertyListingForm/>    
     </div>

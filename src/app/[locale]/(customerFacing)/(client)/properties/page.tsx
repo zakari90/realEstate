@@ -38,7 +38,7 @@ export default function MainPropertiesSection() {
   const handleNext = () => {
     setStartIndex((prev) => Math.min(prev + rowsPerPage, properties.length - rowsPerPage));
   };
-
+  
   return (
     <section id="properties" className="space-y-4 mt-8 md:mt-16">
       <div className="container mx-auto px-4">
