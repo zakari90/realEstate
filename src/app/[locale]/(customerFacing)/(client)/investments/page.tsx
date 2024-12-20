@@ -23,6 +23,7 @@ function Page() {
       setLoading(true);
       try {
         const investmentsData = await getAllInvestments();
+
         setInvestmentsData(investmentsData);
       } catch (error) {
         console.error("Failed to fetch investments:", error);
@@ -53,7 +54,7 @@ function Page() {
             <CardSkeleton />
             <CardSkeleton />
           </div>
-        ) : (
+        ) : investmentsData.length > 0 ?(
           <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {investmentsData.slice(startIndex, endIndex).map((investment) => (
               <div key={investment.id}>
@@ -61,12 +62,17 @@ function Page() {
               </div>
             ))}
           </div>
-        )}
+        ): (
+          <div className="text-center">
+            <p>لا توجد نتائج</p>
+          </div>
+        )
+      }
         <Pagination className="mt-3 mb-3">
           <PaginationContent>
             <PaginationItem>
               <Button onClick={handlePrevious} disabled={startIndex === 0}>
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </PaginationItem>
 
@@ -75,7 +81,7 @@ function Page() {
                 onClick={handleNext}
                 disabled={endIndex >= investmentsData.length}
               >
-                <ArrowRight className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" />
               </Button>
             </PaginationItem>
           </PaginationContent>

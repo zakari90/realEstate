@@ -60,11 +60,11 @@ export default function VideoGallery({ propertyUrl, youtubeUrl}: { propertyUrl?:
         <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 bg-transparent border-0">
           {selectedImage && (
             <div className="relative w-full max-h-[90vh] flex items-center justify-center">
-                           <iframe
+          <iframe
           width="100%"
           height="100%"
-          src={`${selectedImage}?auto=format&fit=crop&w=1600&q=90`}
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          src={selectedImage}
+          className="object-contain max-h-[90vh] rounded-lg"
           title="Property Video Tour"
           allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

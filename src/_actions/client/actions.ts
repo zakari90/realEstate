@@ -2,7 +2,7 @@
 
 import db from "@/db/db";
 import { auth } from "@clerk/nextjs/server";
-import { Agent } from "@prisma/client";
+import { Agent, InvestmentOffer } from "@prisma/client";
 import { notFound } from "next/navigation";
 
 export async function isAgent(): Promise<boolean> {
@@ -101,6 +101,50 @@ export async function getInvestmentWithId(investmentId: string) {
     throw error; 
   }
 }
+export async function getAcceptedInvestmentOffersSum(investmentId: string): Promise<number> {
+  try {
+    const result = await db.investmentOffer.aggregate({
+      _sum: {
+        amount: true,  // Sum the 'amount' field
+      },
+      where: {
+        investmentId: investmentId,  // Filter by the provided investmentId
+        // accepted: true,               // Only include accepted offers
+      },
+    });
+
+    // If the result doesn't contain a sum, return 0
+    return result._sum.amount ?? 0;
+  } catch (error) {
+    console.error('Error fetching sum of accepted investment offers:', error);
+    throw error;  // Rethrow the error after logging it
+  }
+}
+
+export async function getInvestmentOffersId(Id: string): Promise<InvestmentOffer[] | null> {
+  try {
+    if (!Id) {
+      return null; 
+    }
+
+    const investmentOffers = await db.investmentOffer.findMany({
+      where: {
+        investmentId: Id,
+        // accepted:true
+      },
+    });
+
+    if (investmentOffers.length === 0) {
+      return null;
+    }
+
+    return investmentOffers;  
+  } catch (error) {
+    console.error('Error fetching investment details for agent:', error);
+    throw error;  // Re-throw the error after logging it
+  }
+}
+
 // -----------------------------------------------Property
 
 export type PropertyDTO = {

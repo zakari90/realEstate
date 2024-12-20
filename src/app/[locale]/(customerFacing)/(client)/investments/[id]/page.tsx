@@ -1,15 +1,18 @@
 
-import { getInvestmentWithId } from "@/_actions/client/actions"
+import { getAcceptedInvestmentOffersSum, getInvestmentOffersId, getInvestmentWithId } from "@/_actions/client/actions"
 import InvestementListingPage from "@/components/_1inUseComponents/invesListingPage"
 
-async function PropertyPage({params :{id}}:{
+async function InvestmentPage({params :{id}}:{
     params:{ id : string}}) {
     const investment = await getInvestmentWithId(id)
+    const acceptedInvestmentOffersSum = await getAcceptedInvestmentOffersSum(id)
+    
+
   return (
   <>
-    <InvestementListingPage investment={investment}/>
+    <InvestementListingPage acceptedInvestmentOffersSum={acceptedInvestmentOffersSum} investment={investment}/>
   </>
   )
 }
 
-export default PropertyPage
+export default InvestmentPage

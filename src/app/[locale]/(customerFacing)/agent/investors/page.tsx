@@ -15,7 +15,7 @@ import DynamicBreadcrumb from '@/components/dynamicBreadcrumb'
 
 const phoneSchema = z.string().min(10, 'رقم الهاتف يجب أن يتكون من 10 أرقام').regex(/^\d+$/, 'رقم الهاتف يجب أن يحتوي فقط على أرقام');
 
-export default function PropertiesPage() {
+export default function InvestmentPage() {
 const { agent, agentInvestments, error, isLoading, fetchAgentInvestemtData } = useAgentInvestmentStore()
 
   const [isPending, startTransition] = useTransition()

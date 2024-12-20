@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import WhatsAppLink from "@/components/_1inUseComponents/whatsAppComponents"
-import { Agent } from "@prisma/client"
+import { Agent, InvestmentOffer } from "@prisma/client"
 import { ContactInvestor } from "./investmentContactDialog"
 
 
@@ -22,9 +22,11 @@ const selectItems = {
 };
 export default function InvestmentListingPage({
   investment,
+  acceptedInvestmentOffersSum
 }: {
-  investment: InvestmentDTO;
-}) {
+  investment: InvestmentDTO,
+  acceptedInvestmentOffersSum : number 
+}) {  
   
   const [agent, setAgent] = useState<Agent | undefined>(undefined);
   const arPurpose = investment.purpose ? selectItems[investment.purpose as keyof typeof selectItems] : ""
@@ -39,8 +41,10 @@ export default function InvestmentListingPage({
     return <div className="container mx-auto px-4 py-8">الاستثمار غير موجود</div>
   }
 
-  const progressPercentage = investment.price ? (investment.acceptedContributions || 0 / investment.price) * 100 : 0
-
+  const progressPercentage = investment.price 
+  ? ((investment.contribution! + acceptedInvestmentOffersSum) / investment.price) * 100 
+  : 0;  
+  
   const getBackgroundColor = (price: number | undefined) => {
     if (price === undefined) return 'from-blue-500 to-purple-500'
     if (price > 1000000) return 'from-red-300 to-red-500'
@@ -59,7 +63,7 @@ export default function InvestmentListingPage({
             <CardHeader className="p-0">
               <div className={`relative w-full h-[300px] bg-gradient-to-r ${backgroundColorClass} overflow-hidden`}>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <CardTitle className="text-3xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
+                <CardTitle className="text-3xl font-bold text-white text-center px-2">{investment.title} </CardTitle>
                 </div>
                 <Badge variant="outline" className="absolute top-2 left-2 bg-white">{arPurpose}</Badge>
               </div>
@@ -99,7 +103,7 @@ export default function InvestmentListingPage({
           </Card>
         </div>
         <div className="space-y-6 m-auto">
-          <Card className="bg-yellow-200 max-w-lg">
+          <Card className="bg-yellow-50 max-w-lg">
             <CardHeader>
               <CardTitle className="text-xl font-semibold">قدّم عرضًا</CardTitle>
             </CardHeader>

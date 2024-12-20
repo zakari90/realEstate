@@ -9,6 +9,7 @@ import InvestmentCard from "./investorsCard";
 
 export default function RecentInvestmentSection() {
   const [investments, setinvestments] = useState<InvestmentDTO[]>([]);
+  
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -23,7 +24,7 @@ export default function RecentInvestmentSection() {
   }, []);
 
   return (
-    <section id="investments" className="space-y-4 mt-8 mb-5 bg-[#FFF8EF] md:mt-16">
+    <section id="investments" className="space-y-4 mt-8 pb-8 bg-yellow-50 md:mt-16">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <PageHeader>الاستثمارات

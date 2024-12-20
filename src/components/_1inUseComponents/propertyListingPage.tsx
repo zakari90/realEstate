@@ -100,7 +100,7 @@ export default function PropertyListingPage({
              <MediaCard propertyUrl ={videoUrl} youtubeUrl = {ytVideo} images = {images} panoramaUrl={panoramaUrl} />
           </div>
           <div className="m-auto ">
-          <Card className="mb-3 animate-pulse bg-yellow-200">
+          <Card className="mb-3 animate-pulse bg-yellow-50">
             <CardContent className="p-6 space-y-4">
             <h2 className="text-xl font-semibold">قدّم عرضاً</h2>
             <p className="text-sm text-muted-foreground">

@@ -1,16 +1,15 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { MapPin, Users, DollarSign, Target } from "lucide-react"
-import Link from "next/link"
 import { InvestmentDTO } from "@/_actions/client/actions"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import { MapPin, Users } from "lucide-react"
+import Link from "next/link"
 import { ContactInvestor } from "./investmentContactDialog"
 
 export interface PropertyInvestmentCardProps {
   id: string
   title: string
-  description: string
+  description: string 
   price: number | undefined
   contribution: number | undefined
   numContributors: number
@@ -20,7 +19,8 @@ export interface PropertyInvestmentCardProps {
 }
 
 export default function InvestmentCard({ investment }: { investment: InvestmentDTO }) {
-  const progressPercentage = investment.price ? (investment.acceptedContributions || 0 / investment.price) * 100 : 0
+
+  // const progressPercentage = investment.price ? (investment.acceptedContributions || 0 / investment.price) * 100 : 0
 
   const getBackgroundColor = (price: number | undefined) => {
     if (price === undefined) return 'from-blue-500 to-purple-500'
@@ -49,16 +49,16 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
           <MapPin className="w-3 h-3 text-muted-foreground" />
           <span className="text-xs text-muted-foreground truncate">{investment.location}</span>
         </div>
-        <div className="space-y-1">
+        {/* <div className="space-y-1">
           <div className="flex justify-between items-center">
             <span className="text-xs font-medium">تقدم الاستثمار</span>
             <span className="text-xs font-medium">{progressPercentage.toFixed(0)}%</span>
           </div>
           <Progress value={progressPercentage} className="w-full h-2" />
-        </div>
+        </div> */}
             <p className="font-medium"> السعر الإجمالي بالدرهم <span className="text-sm font-bold">{investment.price}</span> </p>
         <div className="flex items-center space-x-1">
-          <Users className="w-3 h-3 text-muted-foreground" />
+          <Users className="w-3 h-3 text-muted-foreground m-1" />
           <span className="text-xs text-muted-foreground">
             {investment.numContributors} مساهم{investment.numContributors !== 1 ? 'ين' : ''} مطلوبين
           </span>
