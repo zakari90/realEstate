@@ -69,7 +69,6 @@ export default function PropertyListingPage({
       </div>
       <div className=" relative max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <Separator className="mb-8" />
 
           <div className="lg:col-span-2 max-w-full ">
             <div className="mb-8">
