@@ -2,7 +2,7 @@ import { InvestmentDTO } from "@/_actions/client/actions"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { MapPin, Users } from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight, MapPin, Users } from "lucide-react"
 import Link from "next/link"
 import { ContactInvestor } from "./investmentContactDialog"
 
@@ -35,10 +35,12 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
   return (
     <Card className="w-full max-w-[280px] mx-auto overflow-hidden">
       <div className={`relative w-full h-[120px] bg-gradient-to-r ${backgroundColorClass} overflow-hidden`}>
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className=" absolute inset-0 flex flex-col items-center justify-center space-x-4"> {/* Space between Arrow and Title */}
           <CardTitle className="text-xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
         </div>
+        <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" />
       </div>
+
       <CardHeader className="p-3">
         <div className="flex justify-between items-start">
           <CardDescription className="mt-1 text-xs line-clamp-2">{investment.description}</CardDescription>
@@ -65,7 +67,7 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
         </div>
       </CardContent>
       <CardFooter className="flex justify-between p-3 pt-0 gap-1">
-        <Button variant="outline" size="sm" className="w-full text-xs">
+        <Button variant="outline" size="sm" className="hidden md:flex w-full text-xs">
           <Link href={`/investments/${investment.id}`}>
             اعرف المزيد
           </Link>

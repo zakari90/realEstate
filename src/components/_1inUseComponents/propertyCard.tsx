@@ -1,7 +1,7 @@
 import { PropertyDTO } from "@/_actions/client/actions"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MapPin, Users } from "lucide-react"
+import { ArrowBigRight, MapPin, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { ContactDialog } from "./propertyContactDialog"
@@ -21,6 +21,7 @@ const images  = property.images? property.images.split(",") : [];
                 alt={`صورة العقار`}
                 className="w-full h-40 object-cover"
               />
+            <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" />
             </div>
           <CardTitle className="text-xl font-bold text-black mr-4">
             {property.type}
@@ -47,7 +48,7 @@ const images  = property.images? property.images.split(",") : [];
   
       </CardContent>
       <CardFooter className="flex justify-between gap-1 p-3 pt-0">
-        <Button variant="outline" size="sm" className="w-full text-xs">
+        <Button variant="outline" size="sm" className="w-full text-xs hidden md:flex">
           <Link href={`/properties/${property.id}`}>
             اعرف المزيد
           </Link>

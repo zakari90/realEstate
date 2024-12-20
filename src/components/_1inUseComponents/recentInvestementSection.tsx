@@ -10,7 +10,6 @@ import InvestmentCard from "./investorsCard";
 export default function RecentInvestmentSection() {
   const [investments, setinvestments] = useState<InvestmentDTO[]>([]);
   
-
   useEffect(() => {
     const fetchProperties = async () => {
       const p = await getAllInvestments();

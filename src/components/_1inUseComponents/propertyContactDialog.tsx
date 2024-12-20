@@ -18,7 +18,7 @@ export function ContactDialog({ property }: { property: PropertyDTO }){
   return(
     <Dialog open={open} onOpenChange={setOpen}>
     <DialogTrigger asChild>
-      <Button size="sm" className="w-full ml-2 text-xs">
+      <Button size="sm" className="w-full ml-2 text-xs ">
         قدم عرضاً
       </Button>
     </DialogTrigger>
