@@ -35,19 +35,20 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
   return (
     <Card className="w-full max-w-[280px] mx-auto overflow-hidden">
       <div className={`relative w-full h-[120px] bg-gradient-to-r ${backgroundColorClass} overflow-hidden`}>
-        <div className=" absolute inset-0 flex flex-col items-center justify-center space-x-4"> {/* Space between Arrow and Title */}
+        <Link href={`/investments/${investment.id}`}>
+          <div className=" absolute inset-0 flex flex-col items-center justify-center space-x-4">
           <CardTitle className="text-xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
         </div>
-        <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" />
+        </Link>
+
+        {/* <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" /> */}
       </div>
 
-      <CardHeader className="p-3">
-        <div className="flex justify-between items-start">
-          <CardDescription className="mt-1 text-xs line-clamp-2">{investment.description}</CardDescription>
-        </div>
+      <CardHeader className="p-3 hidden sm:block">
+          <CardDescription className="mt-1 text-xs line-clamp-2 ">{investment.description}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-3 p-3">
-        <div className="flex items-center space-x-1">
+      <CardContent className="sm:space-y-3 p-3">
+        <div className="hidden sm:flex items-center space-x-1">
           <MapPin className="w-3 h-3 text-muted-foreground" />
           <span className="text-xs text-muted-foreground truncate">{investment.location}</span>
         </div>
@@ -67,7 +68,7 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
         </div>
       </CardContent>
       <CardFooter className="flex justify-between p-3 pt-0 gap-1">
-        <Button variant="outline" size="sm" className="hidden md:flex w-full text-xs">
+        <Button variant="outline" size="sm" className="w-full text-xs hidden sm:block">
           <Link href={`/investments/${investment.id}`}>
             اعرف المزيد
           </Link>
