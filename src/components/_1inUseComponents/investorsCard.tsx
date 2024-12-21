@@ -40,9 +40,7 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
           <CardTitle className="text-xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
         </div>
                 <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" />
-
         </Link>
-
       </div>
 
       <CardHeader className="p-3 hidden sm:block">
@@ -60,7 +58,7 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
           </div>
           <Progress value={progressPercentage} className="w-full h-2" />
         </div> */}
-            <p className="font-medium"> السعر الإجمالي بالدرهم <span className="text-sm font-bold">{investment.price}</span> </p>
+          <p className="font-medium text-xs"> السعر الإجمالي بالدرهم <span className="text-sm font-bold">{investment.price}</span> </p>
         <div className="flex items-center space-x-1">
           <Users className="w-3 h-3 text-muted-foreground m-1" />
           <span className="text-xs text-muted-foreground">
