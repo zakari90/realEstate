@@ -33,15 +33,16 @@ export default function InvestmentCard({ investment }: { investment: InvestmentD
   const backgroundColorClass = getBackgroundColor(investment.price || 0)
 
   return (
-    <Card className="w-full min-w-[180] max-w-[280px] mx-auto overflow-hidden">
+    <Card className=" flex-shrink-0 w-64 max-w-[280px] mx-auto overflow-hidden">
       <div className={`relative w-full h-[120px] bg-gradient-to-r ${backgroundColorClass} overflow-hidden`}>
         <Link href={`/investments/${investment.id}`}>
           <div className=" absolute inset-0 flex flex-col items-center justify-center space-x-4">
           <CardTitle className="text-xl font-bold text-white text-center px-2">{investment.title}</CardTitle>
         </div>
+                <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" />
+
         </Link>
 
-        {/* <ArrowBigRight className="absolute top-4 right-4 text-white w-6 h-6" /> */}
       </div>
 
       <CardHeader className="p-3 hidden sm:block">
