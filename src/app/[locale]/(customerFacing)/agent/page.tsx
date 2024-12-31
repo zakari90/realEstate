@@ -94,7 +94,7 @@ function TransactionsCard() {
       <div className="grid gap-2">
         <CardTitle>المعاملات</CardTitle>
         <CardDescription>
-          العروض الأخيرة على عقاراتك.
+          العروض الأخيرة على ملكياتك.
         </CardDescription>
       </div>
       <Button asChild size="sm" className="ml-auto gap-1">
