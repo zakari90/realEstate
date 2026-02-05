@@ -1,0 +1,9 @@
+https://bericolor.ma/Contact1.html
+https://www.relume.io/app/project/P913103_rRL9mZ0cJHnWB6vA8UA5MqsEZ-h_QkVkY4X1EUpU_jM#mode=wireframe&breakpoint=desktop
+insperation 
+https://emateks.com.tr/en/
+
+
+usefull production links:
+https://medium.com/@ryaddev/building-a-product-detail-page-with-react-icons-image-gallery-and-react-rater-32bc16b91aa2 
+https://byby.dev/react-carousel-components

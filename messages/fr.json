@@ -1,0 +1,129 @@
+{
+  "lang": {
+    "direction": "ltr"
+  },
+  "NotFoundPage": {
+    "title": "Page non trouvée",
+    "description": "Oups ! Il semble que vous soyez tombé sur une page qui n'existe pas. Ne vous inquiétez pas, notre magie immobilière fonctionne toujours dans d'autres parties du site. N'hésitez pas à revenir pour explorer davantage !"
+  },
+  "announcement": {
+    "content": "Nouvelles annonces disponibles dès maintenant !"
+  },
+  "agentNavigation": {
+    "home" : "Home",
+    "Properties" :"Properties",
+    "orders" : "orders"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "services": "Services",
+    "about": "À propos de nous",
+    "pr": "Propriétés",
+    "contact": "Contact"
+  },
+  "heroSection": {
+    "title": "Découvrez la maison de vos rêves",
+    "description": "Nous sommes dédiés à vous connecter avec les meilleures propriétés pour chaque besoin."
+  },
+  "servicesSection": {
+    "title": "Services",
+    "servicesList": [
+      {
+        "id": 1,
+        "image": "/images/fabric-manufacturing1.jpg",
+        "title": "Gestion immobilière",
+        "description": "Notre équipe d'experts propose des services complets de gestion immobilière pour assurer que votre investissement est bien entretenu et rentable. Des relations avec les locataires à la maintenance, nous nous occupons de tout."
+      },
+      {
+        "id": 2,
+        "image": "/images/fabric-dyeing.jpg",
+        "title": "Achat de maison",
+        "description": "Vous cherchez à acheter la maison de vos rêves ? Nos agents expérimentés vous guident à chaque étape du processus, de la recherche de la propriété parfaite à la finalisation de l'achat."
+      },
+      {
+        "id": 3,
+        "image": "/images/fabric-weaving.jpg",
+        "title": "Vente de maison",
+        "description": "Vous vendez votre maison ? Nous offrons des stratégies de marketing personnalisées pour garantir que votre propriété soit vue par les bons acheteurs. Notre objectif est d'obtenir le meilleur prix possible dans les plus brefs délais."
+      }
+    ]
+  },
+  "aboutSection": {
+    "title": "À propos de nous",
+    "image": "/images/about-pic.jpg",
+    "introduction": "Bienvenue dans notre entreprise immobilière, où l'expertise rencontre le dévouement. Avec des années d'expérience sur le marché immobilier, nous nous engageons à fournir des services exceptionnels à nos clients.",
+    "commitment": "Notre parcours a commencé avec une passion pour l'immobilier et une vision de créer une marque qui valorise l'intégrité, la transparence et la satisfaction du client. Nous croyons que chaque client mérite une propriété qui correspond à son style de vie et à son budget.",
+    "sustainability": "Nous priorisons les pratiques durables dans toutes nos opérations, des annonces écoénergétiques aux certifications de construction verte.",
+    "productsRange": "Que vous recherchiez un penthouse de luxe, une maison de banlieue confortable ou une propriété commerciale, vous trouverez quelque chose qui correspond à vos besoins dans notre portefeuille étendu.",
+    "conclusion": "Nous sommes impatients de faire partie de votre parcours immobilier et de vous aider à trouver ou vendre votre propriété en toute confiance.",
+    "aboutSectionElements": {
+      "title": "À propos de nous",
+      "introduction": "Introduction",
+      "commitment": "Engagement",
+      "sustainability": "Durabilité",
+      "productsRange": "Gamme de propriétés",
+      "conclusion": "Travaillons ensemble"
+    }
+  },
+  "productsSection": {
+    "title": "Nos Propriétés",
+    "productsList": [
+      {
+        "id": 1,
+        "name": "Appartement de luxe",
+        "description": "Vivez le summum de la vie urbaine dans nos appartements de luxe, avec des designs modernes, des équipements haut de gamme et des vues imprenables sur la ville. Parfait pour ceux qui recherchent un style de vie sophistiqué au cœur de la ville.",
+        "pictures": ["/images/cotton/cotton1.jpg", "/images/cotton/cotton2.jpg", "/images/cotton/cotton3.jpg", "/images/cotton/cotton-plant.jpg"]
+      },
+      {
+        "id": 2,
+        "name": "Maison de banlieue",
+        "description": "Découvrez le charme de la vie de banlieue dans nos maisons spacieuses, parfaites pour les familles à la recherche d'un havre de paix avec un accès facile aux commodités urbaines. Profitez de grands jardins, de rues calmes et d'un sens de la communauté.",
+        "pictures": ["/images/linen/linen1.jpeg", "/images/linen/linen2.jpg", "/images/linen/linen3.jpg", "/images/linen/linen.jpeg", "/images/linen/flax-plants-linen.jpeg"]
+      },
+      {
+        "id": 3,
+        "name": "Propriété commerciale",
+        "description": "Trouvez l'emplacement idéal pour votre entreprise dans notre gamme de propriétés commerciales. Des espaces de bureaux aux locaux commerciaux, nous offrons des propriétés qui offrent visibilité, accessibilité et potentiel de croissance.",
+        "pictures": ["/images/silk/silk1.jpg", "/images/silk/silk2.jpg", "/images/silk/silk3.jpg"]
+      },
+      {
+        "id": 4,
+        "name": "Maison de vacances",
+        "description": "Évadez-vous vers un havre de paix avec notre sélection de maisons de vacances, parfaites pour des séjours courts ou des locations à long terme. Profitez de vues imprenables, d'équipements luxueux et d'une détente ultime.",
+        "pictures": ["/images/wool/wool1.jpg", "/images/wool/wool2.jpg", "/images/wool/wool3.jpg"]
+      },
+      {
+        "id": 5,
+        "name": "Maison écologique",
+        "description": "Vivez de manière durable dans nos maisons écologiques, conçues dans le respect de l'environnement. Ces propriétés sont dotées d'appareils écoénergétiques, de matériaux de construction écologiques et de conceptions innovantes pour une empreinte carbone réduite.",
+        "pictures": ["/images/polyester/polyester1.jpg", "/images/polyester/polyester2.jpg", "/images/polyester/polyester3.jpg"]
+      },
+      {
+        "id": 6,
+        "name": "Condo de luxe",
+        "description": "Nos condos de luxe offrent un mélange d'élégance et de commodité, avec des finitions haut de gamme, des équipements modernes et des emplacements de choix. Idéal pour ceux qui recherchent un style de vie raffiné dans un cadre urbain vibrant.",
+        "pictures": ["/images/denim/denim1.jpg", "/images/denim/denim2.jpg", "/images/denim/denim3.jpg", "/images/denim/denim-making.jpg"]
+      },
+      {
+        "id": 7,
+        "name": "Loft urbain",
+        "description": "Découvrez le charme tendance de nos lofts urbains, parfaits pour les individus créatifs à la recherche d'un espace de vie unique. Ces propriétés disposent de plans ouverts, d'esthétiques industrielles et d'emplacements de choix.",
+        "pictures": ["/images/rayon/rayon1.jpg", "/images/rayon/rayon2.jpg", "/images/rayon/rayon3.jpg"]
+      }
+    ]
+  },
+  "contactSection": {
+    "title": "Contactez-nous",
+    "description": "Des questions ou des demandes de renseignements? N'hésitez pas à nous contacter. Notre équipe est là pour vous aider.",
+    "emailPlaceHolder": "Email",
+    "messagePlaceHolder": "Message"
+  },
+  "footerSection": {
+    "presentation": "Nous sommes dédiés à vous connecter avec les meilleures propriétés pour chaque besoin.",
+    "email": "contact@realestatecompany.com",
+    "whatsApp": "+1234567890",
+    "phoneNumber": "+0987654321",
+    "address": "456 Avenue de l'immobilier, Ville de l'immobilier, ST 67890",
+    "copyright": "Société Immobilière"
+  }
+}

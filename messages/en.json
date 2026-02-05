@@ -1,0 +1,129 @@
+{
+  "lang": {
+    "direction": "ltr"
+  },
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "description": "Oops! It seems like you've stumbled upon a page that doesn't exist. Don't worry, our real estate magic is still hard at work on other parts of the site. Feel free to navigate back to explore more!"
+  },
+  "announcement": {
+    "content": "New Listings Available Now!"
+  },
+  "agentNavigation": {
+    "home" : "Home",
+    "Properties" :"Properties",
+    "orders" : "orders"
+  },
+  "navigation": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "pr": "Properties",
+    "contact": "Contact"
+  },
+  "heroSection": {
+    "title": "Discover Your Dream Home",
+    "description": "We are dedicated to connecting you with the finest properties for every need."
+  },
+  "servicesSection": {
+    "title": "Services",
+    "servicesList": [
+      {
+        "id": 1,
+        "image": "/images/fabric-manufacturing1.jpg",
+        "title": "Property Management",
+        "description": "Our expert team provides comprehensive property management services to ensure your investment is well-maintained and profitable. From tenant relations to maintenance, we've got you covered."
+      },
+      {
+        "id": 2,
+        "image": "/images/fabric-dyeing.jpg",
+        "title": "Home Buying",
+        "description": "Looking to buy your dream home? Our experienced agents guide you through every step of the process, from finding the perfect property to closing the deal."
+      },
+      {
+        "id": 3,
+        "image": "/images/fabric-weaving.jpg",
+        "title": "Home Selling",
+        "description": "Selling your home? We offer personalized marketing strategies to ensure your property is seen by the right buyers. Our goal is to achieve the best possible price in the shortest time."
+      }
+    ]
+  },
+  "aboutSection": {
+    "title": "About Us",
+    "image": "/images/about-pic.jpg",
+    "introduction": "Welcome to our real estate company, where expertise meets dedication. With years of experience in the property market, we are committed to providing exceptional services to our clients.",
+    "commitment": "Our journey began with a passion for real estate and a vision to create a brand that values integrity, transparency, and customer satisfaction. We believe that every client deserves a property that suits their lifestyle and budget.",
+    "sustainability": "We prioritize sustainable practices in all our operations, from energy-efficient listings to green building certifications.",
+    "productsRange": "Whether you're looking for a luxurious penthouse, a cozy suburban home, or a commercial property, you'll find something that suits your needs in our extensive portfolio.",
+    "conclusion": "We look forward to being a part of your real estate journey and helping you find or sell your property with confidence.",
+    "aboutSectionElements": {
+      "title": "About Us",
+      "introduction": "Introduction",
+      "commitment": "Commitment",
+      "sustainability": "Sustainability",
+      "productsRange": "Property Range",
+      "conclusion": "Let's Work Together"
+    }
+  },
+  "productsSection": {
+    "title": "Our Properties",
+    "productsList": [
+      {
+        "id": 1,
+        "name": "Luxury Apartment",
+        "description": "Experience the pinnacle of urban living in our luxury apartments, featuring modern designs, premium amenities, and breathtaking city views. Perfect for those seeking a sophisticated lifestyle in the heart of the city.",
+        "pictures": ["/images/cotton/cotton1.jpg", "/images/cotton/cotton2.jpg", "/images/cotton/cotton3.jpg", "/images/cotton/cotton-plant.jpg"]
+      },
+      {
+        "id": 2,
+        "name": "Suburban Home",
+        "description": "Discover the charm of suburban living in our spacious homes, perfect for families looking for a peaceful retreat with easy access to urban conveniences. Enjoy large yards, quiet streets, and a sense of community.",
+        "pictures": ["/images/linen/linen1.jpeg", "/images/linen/linen2.jpg", "/images/linen/linen3.jpg", "/images/linen/linen.jpeg", "/images/linen/flax-plants-linen.jpeg"]
+      },
+      {
+        "id": 3,
+        "name": "Commercial Property",
+        "description": "Find the ideal location for your business in our range of commercial properties. From office spaces to retail outlets, we offer properties that provide visibility, accessibility, and growth potential.",
+        "pictures": ["/images/silk/silk1.jpg", "/images/silk/silk2.jpg", "/images/silk/silk3.jpg"]
+      },
+      {
+        "id": 4,
+        "name": "Vacation Home",
+        "description": "Escape to a serene getaway with our selection of vacation homes, perfect for short stays or long-term rentals. Enjoy stunning views, luxurious amenities, and the ultimate relaxation.",
+        "pictures": ["/images/wool/wool1.jpg", "/images/wool/wool2.jpg", "/images/wool/wool3.jpg"]
+      },
+      {
+        "id": 5,
+        "name": "Eco-Friendly Home",
+        "description": "Live sustainably in our eco-friendly homes, designed with the environment in mind. These properties feature energy-efficient appliances, green building materials, and innovative designs for a lower carbon footprint.",
+        "pictures": ["/images/polyester/polyester1.jpg", "/images/polyester/polyester2.jpg", "/images/polyester/polyester3.jpg"]
+      },
+      {
+        "id": 6,
+        "name": "Luxury Condo",
+        "description": "Our luxury condos offer a blend of elegance and convenience, with high-end finishes, state-of-the-art amenities, and prime locations. Ideal for those seeking a refined lifestyle in a vibrant urban setting.",
+        "pictures": ["/images/denim/denim1.jpg", "/images/denim/denim2.jpg", "/images/denim/denim3.jpg", "/images/denim/denim-making.jpg"]
+      },
+      {
+        "id": 7,
+        "name": "Urban Loft",
+        "description": "Explore the trendy appeal of our urban lofts, perfect for creative individuals looking for a unique living space. These properties feature open floor plans, industrial aesthetics, and prime locations.",
+        "pictures": ["/images/rayon/rayon1.jpg", "/images/rayon/rayon2.jpg", "/images/rayon/rayon3.jpg"]
+      }
+    ]
+  },
+  "contactSection": {
+    "title": "Contact Us",
+    "description": "Have questions or inquiries? Feel free to get in touch with us. Our team is here to assist you.",
+    "emailPlaceHolder": "Email",
+    "messagePlaceHolder": "Message"
+  },
+  "footerSection": {
+    "presentation": "We are dedicated to connecting you with the finest properties for every need.",
+    "email": "contact@realestatecompany.com",
+    "whatsApp": "+1234567890",
+    "phoneNumber": "+0987654321",
+    "address": "456 Realty Avenue, Property City, ST 67890",
+    "copyright": "Real Estate Company"
+  }
+}

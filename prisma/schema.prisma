@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id          String       @id @default(uuid()) @map("_id")
+  clerkId     String?      @unique
+  name        String?
+  email       String?      @unique
+  image       String?
+  phone       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  investments Investment[]
+  properties  Property[]
+}
+
+model InvestmentVisitLog {
+  id           String     @id @default(uuid()) @map("_id")
+  location     String?
+  investmentId String
+  visitedAt    DateTime   @default(now())
+  investment   Investment @relation(fields: [investmentId], references: [id])
+}
+
+model PropertyVisitLog {
+  id         String   @id @default(uuid()) @map("_id")
+  location   String?
+  propertyId String
+  visitedAt  DateTime @default(now())
+  property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Investment {
+  id                    String               @id @default(uuid()) @map("_id")
+  title                 String
+  description           String
+  status                Boolean?
+  price                 Int?
+  contribution          Int?
+  acceptedContributions Int?
+  numContributors       Int?
+  location              String?
+  purpose               String?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  agentId               String?
+  agent                 Agent?               @relation(fields: [agentId], references: [id])
+  offers                InvestmentOffer[]
+  visitLogs             InvestmentVisitLog[]
+}
+
+model Property {
+  id          String               @id @default(uuid()) @map("_id")
+  type        String?
+  sellingBy   String?           //co-ownership , installment
+  available   Boolean?
+  numContributors Int?
+  address     String?
+  mapUrl      String?
+  description String?
+  price       Int?
+  area        Int?
+  bedrooms    Int?
+  bathrooms   Int?
+  agentId     String?
+  ytVideo     String?
+  video       String?
+  panorama    String?
+  images      String?
+  features    String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  agent       Agent?             @relation(fields: [agentId], references: [id])
+  offers      PropertyOffer[]
+  visitLogs   PropertyVisitLog[]
+}
+
+model Client {
+  id              String           @id @default(uuid()) @map("_id")
+  name            String
+  email           String?
+  phone           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  investmentOffer InvestmentOffer?
+  offers          PropertyOffer?
+}
+
+model PropertyOffer {
+  id         String    @id @default(uuid()) @map("_id")
+  amount     Int
+  period     String?
+  propertyId String?
+  clientId   String?   @unique
+  createdAt  DateTime  @default(now())
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model InvestmentOffer {
+  id           String     @id @default(uuid()) @map("_id")
+  amount       Int
+  clientId     String?    @unique
+  createdAt    DateTime   @default(now())
+  investmentId String
+  accepted     Boolean?   @default(false)
+  client       Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  investment   Investment @relation(fields: [investmentId], references: [id], onDelete: Cascade)
+}
+
+model Visits {
+  id          String        @id @default(uuid()) @map("_id")
+  totalVisits Int           @default(0)
+  pagePath    String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  WebVisitLog WebVisitLog[]
+}
+
+model WebVisitLog {
+  id           String   @id @default(uuid()) @map("_id")
+  location     String?
+  optionalData String?
+  visitsId     String
+  visitedAt    DateTime @default(now())
+  visits       Visits   @relation(fields: [visitsId], references: [id])
+}
+
+model Analytics {
+  id        String   @id @default(uuid()) @map("_id")
+  page      String
+  ip        String?
+  location  String?
+  duration  Int?
+  createdAt DateTime @default(now())
+  clickData String?
+}
