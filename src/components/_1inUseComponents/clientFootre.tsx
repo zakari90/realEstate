@@ -17,7 +17,7 @@ export default function ClientFooter() {
         <div>
           <h3 className="text-lg font-semibold mb-4">روابط سريعة</h3>
           <ul className="space-y-2">
-            <li><Link href="/properties" className="hover:text-blue-400 transition duration-300">الملكيات</Link></li>
+            <li><Link href="/properties" className="hover:text-blue-400 transition duration-300">العقارات</Link></li>
             <li><Link href="/investments" className="hover:text-blue-400 transition duration-300">الاستثمارات</Link></li>
             <li><Link href="/about" className="hover:text-blue-400 transition duration-300">من نحن</Link></li>
           </ul>

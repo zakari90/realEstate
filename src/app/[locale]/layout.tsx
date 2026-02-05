@@ -12,13 +12,13 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: "Crowdfunding and Property Sales | بيع وشراء الملكيات عبر التمويل الجماعي",
-  description: "Join our real estate crowdfunding platform to buy, sell, and invest in properties. Secure your future with property investments today! | انضم إلى منصتنا للتمويل الجماعي لشراء وبيع الملكيات. تأمين مستقبلك من خلال الاستثمارات العقارية اليوم!",
+  title: "Crowdfunding and Property Sales | بيع وشراء العقارات عبر التمويل الجماعي",
+  description: "Join our real estate crowdfunding platform to buy, sell, and invest in properties. Secure your future with property investments today! | انضم إلى منصتنا للتمويل الجماعي لشراء وبيع العقارات. تأمين مستقبلك من خلال الاستثمارات العقارية اليوم!",
   keywords: [
     "real estate crowdfunding", "property investment", "buy property", "sell property", 
     "real estate investment platform", "crowdfunding platform for real estate", 
     "buy and sell real estate online", "property crowdfunding",
-    "التمويل الجماعي العقاري", "استثمار الملكيات", "شراء وبيع الملكيات"
+    "التمويل الجماعي العقاري", "استثمار العقارات", "شراء وبيع العقارات"
   ],
   // generator: "Next.js",
   // manifest: "/manifest.json",

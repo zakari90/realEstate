@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use server";
 
 import { PropertyFormData } from "@/components/_1inUseComponents/propertyInfoForm";
