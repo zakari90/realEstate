@@ -14,14 +14,6 @@
     "Properties": "العقارات",
     "orders": "طلبات"
   },
-  "components": {
-    "navbar": {
-      "home": "الرئيسية",
-      "properties": "العقارات",
-      "investments": "الاستثمارات",
-      "aboutUs": "من نحن"
-    }
-  },
   "navigation": {
     "home": "الرئيسية",
     "services": "الخدمات",

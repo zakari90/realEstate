@@ -14,14 +14,6 @@
     "Properties": "Properties",
     "orders": "orders"
   },
-  "components": {
-    "navbar": {
-      "home": "Home",
-      "properties": "Properties",
-      "investments": "Investments",
-      "aboutUs": "About Us"
-    }
-  },
   "navigation": {
     "home": "Home",
     "services": "Services",

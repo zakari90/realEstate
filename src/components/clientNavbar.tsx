@@ -9,25 +9,19 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { useTranslations } from "next-intl";
-
 export interface NavItem {
   href: string;
   name: string;
 }
 
-export function NavBar({ navItems }: { navItems?: NavItem[] }) {
-  const t = useTranslations("components.navbar");
+const defaultItems: NavItem[] = [
+  { name: "الرئيسية", href: "/" },
+  { name: "الملكيات", href: "/properties" },
+  { name: "الاستثمارات", href: "/investments" },
+  { name: "من نحن", href: "/aboutUs" },
+];
 
-  const defaultItems: NavItem[] = [
-    { name: t("home"), href: "/" },
-    { name: t("properties"), href: "/properties" },
-    { name: t("investments"), href: "/investments" },
-    { name: t("aboutUs"), href: "/aboutUs" },
-  ];
-
-  const items = navItems || defaultItems;
-
+export function NavBar({ navItems = defaultItems }: { navItems?: NavItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isAgentUser, setIsAgentUser] = useState(false);
   const pathname = usePathname();
@@ -61,7 +55,7 @@ export function NavBar({ navItems }: { navItems?: NavItem[] }) {
         <div className="flex h-16 items-center justify-between">
           <nav aria-label="Global" className="hidden md:block">
             <ul className="flex items-center gap-8 text-sm font-medium">
-              {items.map((item) => {
+              {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <li key={item.name}>
@@ -131,7 +125,7 @@ export function NavBar({ navItems }: { navItems?: NavItem[] }) {
                     <h2 className="text-xl font-bold text-teal-800">القائمة</h2>
                   </div>
                   <nav className="flex-1 px-4 py-8 space-y-2">
-                    {items.map((item) => (
+                    {navItems.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
