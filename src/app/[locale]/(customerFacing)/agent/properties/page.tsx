@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Building2, Home, Loader2, Plus, Search } from "lucide-react";
-import { PageHeader } from "@/components/pageHeader";
+import { PhoneRegistration } from "@/components/agent/PhoneRegistration";
+import MainTableComponent from "@/components/mainTable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAgentStore } from "@/context/propertyStore";
-import MainTableComponent from "@/components/mainTable";
-import { PhoneRegistration } from "@/components/agent/PhoneRegistration";
+import { Building2, Home, Loader2, Plus, Search } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function PropertiesPage() {
   const { agent, agentProperties, error, isLoading, fetchAgentData } =

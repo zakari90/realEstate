@@ -1,7 +1,5 @@
-'use client'
+"use client";
 
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,13 +7,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
+import { usePathname } from "next/navigation";
 
 export default function DynamicBreadcrumb() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   // Split the pathname into segments
-  const segments = pathname.split('/').filter(segment => segment !== '')
+  const segments = pathname.split("/").filter((segment) => segment !== "");
 
   return (
     <Breadcrumb>
@@ -24,8 +23,8 @@ export default function DynamicBreadcrumb() {
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         {segments.map((segment, index) => {
-          const href = `/${segments.slice(0, index + 1).join('/')}`
-          const isLast = index === segments.length - 1
+          const href = `/${segments.slice(0, index + 1).join("/")}`;
+          const isLast = index === segments.length - 1;
 
           return (
             <BreadcrumbItem key={href}>
@@ -33,15 +32,12 @@ export default function DynamicBreadcrumb() {
               {isLast ? (
                 <BreadcrumbPage>{segment}</BreadcrumbPage>
               ) : (
-                <BreadcrumbLink href={href}>
-                  {segment}
-                </BreadcrumbLink>
+                <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
               )}
             </BreadcrumbItem>
-          )
+          );
         })}
       </BreadcrumbList>
     </Breadcrumb>
-  )
+  );
 }
-
