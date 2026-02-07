@@ -44,9 +44,9 @@ export default function AgentLayout({
                 }}
               />
             </div>
-            <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-            <main className="pb-12">{children}</main>
           </div>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          <main className="pb-12">{children}</main>
         </SignedIn>
 
         <SignedOut>
