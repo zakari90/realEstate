@@ -1,8 +1,8 @@
+import ClientFooter from "@/components/clientFootre";
+import { NavBar, NavItem } from "@/components/clientNavbar";
 import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { Inter as FontSans } from "next/font/google";
-import ClientFooter from "@/components/clientFootre";
-import { NavBar, NavItem } from "@/components/clientNavbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,16 +20,8 @@ interface RootLayoutProps {
   };
 }
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
-  const Navigation = useTranslations("navigation");
-  const t = useTranslations("components.navbar");
+  const t = useTranslations("navigation");
 
-  const navLinks: [string, string][] = [
-    [Navigation("home"), "home"],
-    [Navigation("services"), "services"],
-    [Navigation("pr"), "products"],
-    [Navigation("about"), "about"],
-    [Navigation("contact"), "contact"],
-  ];
   const clientNavItems: NavItem[] = [
     { href: "/", name: t("home") },
     { href: "/properties", name: t("properties") },
