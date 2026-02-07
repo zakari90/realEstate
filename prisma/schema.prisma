@@ -8,16 +8,17 @@ datasource db {
 }
 
 model Agent {
-  id          String       @id @default(uuid()) @map("_id")
-  clerkId     String?      @unique
-  name        String?
-  email       String?      @unique
-  image       String?
-  phone       String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  investments Investment[]
-  properties  Property[]
+  id            String              @id @default(uuid()) @map("_id")
+  clerkId       String?             @unique
+  name          String?
+  email         String?             @unique
+  image         String?
+  phone         String?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  investments   Investment[]
+  properties    Property[]
+  notifications AgentNotification[]
 }
 
 model InvestmentVisitLog {
@@ -140,4 +141,16 @@ model Analytics {
   duration  Int?
   createdAt DateTime @default(now())
   clickData String?
+}
+
+model AgentNotification {
+  id         String   @id @default(uuid()) @map("_id")
+  agentId    String
+  type       String   // "LOW_ENGAGEMENT_PROPERTY" or "LOW_ENGAGEMENT_INVESTMENT"
+  message    String
+  entityId   String   // Property or Investment ID
+  entityType String   // "PROPERTY" or "INVESTMENT"
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  agent      Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
 }
