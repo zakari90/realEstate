@@ -1,15 +1,5 @@
 "use client";
 
-import {
-  Banknote,
-  CalendarRange,
-  MapPin,
-  MapPinOff,
-  Target,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { InvestmentDTO } from "@/_actions/client/actions";
 import EmailLink from "@/components/emailComponent";
 import PhoneCallLink from "@/components/phoneCallComponent";
@@ -23,7 +13,10 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import WhatsAppLink from "@/components/whatsAppComponents";
-import { Agent, InvestmentOffer } from "@prisma/client";
+import { Agent } from "@prisma/client";
+import { Banknote, CalendarRange, MapPinOff, Users } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { ContactInvestor } from "./investmentContactDialog";
 
 const selectItems = {
