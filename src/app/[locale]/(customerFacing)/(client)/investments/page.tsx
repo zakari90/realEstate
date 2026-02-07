@@ -3,6 +3,7 @@
 import { InvestmentDTO, getAllInvestments } from "@/_actions/client/actions";
 import CardSkeleton from "@/components/cardSkeleton";
 import InvestmentCard from "@/components/investorsCard";
+import { PageHeader } from "@/components/pageHeader";
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -49,6 +50,7 @@ function Page() {
   return (
     <>
       <section id="investments" className="space-y-4 mt-8 md:mt-16">
+        <PageHeader>الاستثمارات</PageHeader>
         <div className="container mx-auto px-4">
           {loading ? (
             <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">

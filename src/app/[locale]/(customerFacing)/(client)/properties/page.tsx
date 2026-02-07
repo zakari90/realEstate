@@ -11,6 +11,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import CardSkeleton from "@/components/cardSkeleton";
 import PropertyCard from "@/components/propertyCard";
+import { PageHeader } from "@/components/pageHeader";
 
 export default function MainPropertiesSection() {
   const rowsPerPage = 12;
@@ -42,6 +43,7 @@ export default function MainPropertiesSection() {
 
   return (
     <section id="properties" className="space-y-4 mt-8 md:mt-16">
+      <PageHeader>العقارات</PageHeader>
       <div className="container mx-auto px-4">
         {/* <PageHeader>All properties</PageHeader> */}
         {loading ? (

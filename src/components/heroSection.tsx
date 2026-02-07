@@ -45,7 +45,7 @@ export default function HeroSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0 transform scale-105"
         style={{
-          backgroundImage: "url('herobg.jpg')",
+          backgroundImage: "url('/herobg.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"></div>
