@@ -224,6 +224,7 @@ export default function PropertyListingPage({
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-0 h-[400px] relative">
+                  {property.mapUrl}
                   <iframe
                     src={property.mapUrl}
                     width="100%"
