@@ -78,10 +78,10 @@ export function ResetDemoButton() {
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Resetting...
+                  ...
                 </>
               ) : (
-                "Yes, Delete All"
+                ""
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

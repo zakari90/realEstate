@@ -9,10 +9,10 @@ interface RootLayoutProps {
 }
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <>
+    <div className="max-w-full">
       <NavBar />
       <div className="flex-grow">{children}</div>
       <ClientFooter />
-    </>
+    </div>
   );
 }
