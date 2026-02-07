@@ -1,6 +1,5 @@
 "use server";
 
-import { PropertyFormData } from "@/components/propertyInfoForm";
 import db from "@/db/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { Client, Investment, InvestmentOffer } from "@prisma/client";
@@ -11,6 +10,7 @@ import {
   InvestmentForm,
   propertyFormSchema,
 } from "../zodSchema";
+import { PropertyFormData } from "@/components/_1inUseComponents/propertyInfoForm";
 const utapi = new UTApi();
 
 interface PropertyOffer {
@@ -60,8 +60,6 @@ export interface AgentPropertyData {
   status: boolean | null;
   state: string | null;
 }
-
-//-----------------------------------------------------------investment-------------------------------
 
 export interface investmentData {
   id: string;
