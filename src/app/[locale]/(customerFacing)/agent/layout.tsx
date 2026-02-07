@@ -31,7 +31,6 @@ export default function AgentLayout({
       <ClerkProvider>
         <SignedIn>
           <div className="w-full flex">
-            <NavBar navItems={agnetNavItems} />
             <div className="flex items-center gap-3">
               <NotificationBell />
               <UserButton
@@ -44,6 +43,7 @@ export default function AgentLayout({
                 }}
               />
             </div>
+            <NavBar navItems={agnetNavItems} />
           </div>
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <main className="pb-12">{children}</main>

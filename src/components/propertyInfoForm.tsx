@@ -293,7 +293,7 @@ export function PropertyInfoForm({
                   <FormControl>
                     <Input
                       type="url"
-                      placeholder="https://maps.google.com/..."
+                      placeholder="33.875749, -5.686289"
                       {...field}
                       className="h-12 text-left"
                       dir="ltr"
@@ -519,15 +519,25 @@ export function MapHelper() {
           <HelpCircle className="h-4 w-4 text-slate-400 hover:text-teal-600" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md w-full max-w-[90vw] md:w-[500px]">
+      <DialogContent className="sm:max-w-md w-full max-w-[90vw] md:w-[500px] overflow-auto">
         <DialogHeader>
           <DialogDescription className="pt-4 flex justify-center">
+            <p>لإضافة رابط الخريطة، اتبع هذه الخطوات:</p>
+            <p>1. انسخ رابط الخريطة من Google Maps</p>
+            <p>2. انسخ القيمة</p>
             <Image
               width={400}
               height={400}
-              src="/mapHelper/phonemap2.jpeg"
+              src="/mapHelper/mapDesktop.png"
               alt="كيفية نسخ رابط الخريطة"
-              className="rounded-lg shadow-md border border-slate-200"
+              className="hidden md:block rounded-lg shadow-md border border-slate-200"
+            />
+            <Image
+              width={400}
+              height={400}
+              src="/mapHelper/mapMobile.png"
+              alt="كيفية نسخ رابط الخريطة"
+              className="md:hidden rounded-lg shadow-md border border-slate-200"
             />
           </DialogDescription>
         </DialogHeader>
