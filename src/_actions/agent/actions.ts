@@ -8,9 +8,9 @@ import { notFound, redirect } from "next/navigation";
 import { UTApi } from "uploadthing/server";
 import {
   agentFormSchema,
-  investementForm,
+  InvestmentForm,
   propertyFormSchema,
-} from "../../types/zodSchema";
+} from "../zodSchema";
 const utapi = new UTApi();
 
 interface PropertyOffer {
@@ -159,7 +159,7 @@ export async function getAgentInvestments(): Promise<{
   }
 }
 
-export async function createInvestment(params: investementForm) {
+export async function createInvestment(params: InvestmentForm) {
   try {
     const clerkAgent = await registerClerkUserAsAgent();
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {
