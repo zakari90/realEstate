@@ -8,6 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
@@ -521,8 +522,8 @@ export function MapHelper() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md w-full max-w-[90vw] md:w-[500px] overflow-auto">
         <DialogHeader>
-          <DialogDescription className="pt-4 flex justify-center">
-            <p>لإضافة رابط الخريطة، اتبع هذه الخطوات:</p>
+          <DialogTitle>كيفية إضافة رابط الخريطة</DialogTitle>
+          <DialogDescription className="pt-2 flex flex-col justify-center">
             <p>1. انسخ رابط الخريطة من Google Maps</p>
             <p>2. انسخ القيمة</p>
             <Image
