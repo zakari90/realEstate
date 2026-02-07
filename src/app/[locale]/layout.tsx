@@ -63,7 +63,7 @@ export default function RootLayout({
 
   return (
     <html lang={locale} dir={documentDirection} suppressHydrationWarning>
-      <body>
+      <body className="overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

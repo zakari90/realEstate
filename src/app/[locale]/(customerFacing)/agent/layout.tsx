@@ -30,9 +30,9 @@ export default function AgentLayout({
     <>
       <ClerkProvider>
         <SignedIn>
-          <div className="w-full relative">
+          <div className="w-full relative overflow-x-hidden">
             <NavBar navItems={agnetNavItems} />
-            <div className="absolute top-4 right-50 z-50 flex items-center gap-3">
+            <div className="absolute top-4 right-20 z-50 flex items-center gap-3">
               <NotificationBell />
               <UserButton
                 userProfileMode="modal"

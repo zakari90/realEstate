@@ -186,7 +186,11 @@ export function NotificationBell() {
                   className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors disabled:opacity-50"
                 >
                   <Trash2 className="w-4 h-4" />
-                  {isPending ? <Loader2 className="w-4 h-4" /> : "مسح الكل"}
+                  {isPending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    "مسح الكل"
+                  )}
                 </button>
               </div>
             )}
