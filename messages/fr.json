@@ -10,9 +10,17 @@
     "content": "Nouvelles annonces disponibles dès maintenant !"
   },
   "agentNavigation": {
-    "home" : "Home",
-    "Properties" :"Properties",
-    "orders" : "orders"
+    "home": "Home",
+    "Properties": "Properties",
+    "orders": "orders"
+  },
+  "components": {
+    "navbar": {
+      "home": "Accueil",
+      "properties": "Propriétés",
+      "investments": "Investissements",
+      "aboutUs": "À propos de nous"
+    }
   },
   "navigation": {
     "home": "Accueil",
@@ -72,43 +80,75 @@
         "id": 1,
         "name": "Appartement de luxe",
         "description": "Vivez le summum de la vie urbaine dans nos appartements de luxe, avec des designs modernes, des équipements haut de gamme et des vues imprenables sur la ville. Parfait pour ceux qui recherchent un style de vie sophistiqué au cœur de la ville.",
-        "pictures": ["/images/cotton/cotton1.jpg", "/images/cotton/cotton2.jpg", "/images/cotton/cotton3.jpg", "/images/cotton/cotton-plant.jpg"]
+        "pictures": [
+          "/images/cotton/cotton1.jpg",
+          "/images/cotton/cotton2.jpg",
+          "/images/cotton/cotton3.jpg",
+          "/images/cotton/cotton-plant.jpg"
+        ]
       },
       {
         "id": 2,
         "name": "Maison de banlieue",
         "description": "Découvrez le charme de la vie de banlieue dans nos maisons spacieuses, parfaites pour les familles à la recherche d'un havre de paix avec un accès facile aux commodités urbaines. Profitez de grands jardins, de rues calmes et d'un sens de la communauté.",
-        "pictures": ["/images/linen/linen1.jpeg", "/images/linen/linen2.jpg", "/images/linen/linen3.jpg", "/images/linen/linen.jpeg", "/images/linen/flax-plants-linen.jpeg"]
+        "pictures": [
+          "/images/linen/linen1.jpeg",
+          "/images/linen/linen2.jpg",
+          "/images/linen/linen3.jpg",
+          "/images/linen/linen.jpeg",
+          "/images/linen/flax-plants-linen.jpeg"
+        ]
       },
       {
         "id": 3,
         "name": "Propriété commerciale",
         "description": "Trouvez l'emplacement idéal pour votre entreprise dans notre gamme de propriétés commerciales. Des espaces de bureaux aux locaux commerciaux, nous offrons des propriétés qui offrent visibilité, accessibilité et potentiel de croissance.",
-        "pictures": ["/images/silk/silk1.jpg", "/images/silk/silk2.jpg", "/images/silk/silk3.jpg"]
+        "pictures": [
+          "/images/silk/silk1.jpg",
+          "/images/silk/silk2.jpg",
+          "/images/silk/silk3.jpg"
+        ]
       },
       {
         "id": 4,
         "name": "Maison de vacances",
         "description": "Évadez-vous vers un havre de paix avec notre sélection de maisons de vacances, parfaites pour des séjours courts ou des locations à long terme. Profitez de vues imprenables, d'équipements luxueux et d'une détente ultime.",
-        "pictures": ["/images/wool/wool1.jpg", "/images/wool/wool2.jpg", "/images/wool/wool3.jpg"]
+        "pictures": [
+          "/images/wool/wool1.jpg",
+          "/images/wool/wool2.jpg",
+          "/images/wool/wool3.jpg"
+        ]
       },
       {
         "id": 5,
         "name": "Maison écologique",
         "description": "Vivez de manière durable dans nos maisons écologiques, conçues dans le respect de l'environnement. Ces propriétés sont dotées d'appareils écoénergétiques, de matériaux de construction écologiques et de conceptions innovantes pour une empreinte carbone réduite.",
-        "pictures": ["/images/polyester/polyester1.jpg", "/images/polyester/polyester2.jpg", "/images/polyester/polyester3.jpg"]
+        "pictures": [
+          "/images/polyester/polyester1.jpg",
+          "/images/polyester/polyester2.jpg",
+          "/images/polyester/polyester3.jpg"
+        ]
       },
       {
         "id": 6,
         "name": "Condo de luxe",
         "description": "Nos condos de luxe offrent un mélange d'élégance et de commodité, avec des finitions haut de gamme, des équipements modernes et des emplacements de choix. Idéal pour ceux qui recherchent un style de vie raffiné dans un cadre urbain vibrant.",
-        "pictures": ["/images/denim/denim1.jpg", "/images/denim/denim2.jpg", "/images/denim/denim3.jpg", "/images/denim/denim-making.jpg"]
+        "pictures": [
+          "/images/denim/denim1.jpg",
+          "/images/denim/denim2.jpg",
+          "/images/denim/denim3.jpg",
+          "/images/denim/denim-making.jpg"
+        ]
       },
       {
         "id": 7,
         "name": "Loft urbain",
         "description": "Découvrez le charme tendance de nos lofts urbains, parfaits pour les individus créatifs à la recherche d'un espace de vie unique. Ces propriétés disposent de plans ouverts, d'esthétiques industrielles et d'emplacements de choix.",
-        "pictures": ["/images/rayon/rayon1.jpg", "/images/rayon/rayon2.jpg", "/images/rayon/rayon3.jpg"]
+        "pictures": [
+          "/images/rayon/rayon1.jpg",
+          "/images/rayon/rayon2.jpg",
+          "/images/rayon/rayon3.jpg"
+        ]
       }
     ]
   },

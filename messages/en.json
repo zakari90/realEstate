@@ -10,9 +10,17 @@
     "content": "New Listings Available Now!"
   },
   "agentNavigation": {
-    "home" : "Home",
-    "Properties" :"Properties",
-    "orders" : "orders"
+    "home": "Home",
+    "Properties": "Properties",
+    "orders": "orders"
+  },
+  "components": {
+    "navbar": {
+      "home": "Home",
+      "properties": "Properties",
+      "investments": "Investments",
+      "aboutUs": "About Us"
+    }
   },
   "navigation": {
     "home": "Home",
@@ -72,43 +80,75 @@
         "id": 1,
         "name": "Luxury Apartment",
         "description": "Experience the pinnacle of urban living in our luxury apartments, featuring modern designs, premium amenities, and breathtaking city views. Perfect for those seeking a sophisticated lifestyle in the heart of the city.",
-        "pictures": ["/images/cotton/cotton1.jpg", "/images/cotton/cotton2.jpg", "/images/cotton/cotton3.jpg", "/images/cotton/cotton-plant.jpg"]
+        "pictures": [
+          "/images/cotton/cotton1.jpg",
+          "/images/cotton/cotton2.jpg",
+          "/images/cotton/cotton3.jpg",
+          "/images/cotton/cotton-plant.jpg"
+        ]
       },
       {
         "id": 2,
         "name": "Suburban Home",
         "description": "Discover the charm of suburban living in our spacious homes, perfect for families looking for a peaceful retreat with easy access to urban conveniences. Enjoy large yards, quiet streets, and a sense of community.",
-        "pictures": ["/images/linen/linen1.jpeg", "/images/linen/linen2.jpg", "/images/linen/linen3.jpg", "/images/linen/linen.jpeg", "/images/linen/flax-plants-linen.jpeg"]
+        "pictures": [
+          "/images/linen/linen1.jpeg",
+          "/images/linen/linen2.jpg",
+          "/images/linen/linen3.jpg",
+          "/images/linen/linen.jpeg",
+          "/images/linen/flax-plants-linen.jpeg"
+        ]
       },
       {
         "id": 3,
         "name": "Commercial Property",
         "description": "Find the ideal location for your business in our range of commercial properties. From office spaces to retail outlets, we offer properties that provide visibility, accessibility, and growth potential.",
-        "pictures": ["/images/silk/silk1.jpg", "/images/silk/silk2.jpg", "/images/silk/silk3.jpg"]
+        "pictures": [
+          "/images/silk/silk1.jpg",
+          "/images/silk/silk2.jpg",
+          "/images/silk/silk3.jpg"
+        ]
       },
       {
         "id": 4,
         "name": "Vacation Home",
         "description": "Escape to a serene getaway with our selection of vacation homes, perfect for short stays or long-term rentals. Enjoy stunning views, luxurious amenities, and the ultimate relaxation.",
-        "pictures": ["/images/wool/wool1.jpg", "/images/wool/wool2.jpg", "/images/wool/wool3.jpg"]
+        "pictures": [
+          "/images/wool/wool1.jpg",
+          "/images/wool/wool2.jpg",
+          "/images/wool/wool3.jpg"
+        ]
       },
       {
         "id": 5,
         "name": "Eco-Friendly Home",
         "description": "Live sustainably in our eco-friendly homes, designed with the environment in mind. These properties feature energy-efficient appliances, green building materials, and innovative designs for a lower carbon footprint.",
-        "pictures": ["/images/polyester/polyester1.jpg", "/images/polyester/polyester2.jpg", "/images/polyester/polyester3.jpg"]
+        "pictures": [
+          "/images/polyester/polyester1.jpg",
+          "/images/polyester/polyester2.jpg",
+          "/images/polyester/polyester3.jpg"
+        ]
       },
       {
         "id": 6,
         "name": "Luxury Condo",
         "description": "Our luxury condos offer a blend of elegance and convenience, with high-end finishes, state-of-the-art amenities, and prime locations. Ideal for those seeking a refined lifestyle in a vibrant urban setting.",
-        "pictures": ["/images/denim/denim1.jpg", "/images/denim/denim2.jpg", "/images/denim/denim3.jpg", "/images/denim/denim-making.jpg"]
+        "pictures": [
+          "/images/denim/denim1.jpg",
+          "/images/denim/denim2.jpg",
+          "/images/denim/denim3.jpg",
+          "/images/denim/denim-making.jpg"
+        ]
       },
       {
         "id": 7,
         "name": "Urban Loft",
         "description": "Explore the trendy appeal of our urban lofts, perfect for creative individuals looking for a unique living space. These properties feature open floor plans, industrial aesthetics, and prime locations.",
-        "pictures": ["/images/rayon/rayon1.jpg", "/images/rayon/rayon2.jpg", "/images/rayon/rayon3.jpg"]
+        "pictures": [
+          "/images/rayon/rayon1.jpg",
+          "/images/rayon/rayon2.jpg",
+          "/images/rayon/rayon3.jpg"
+        ]
       }
     ]
   },
