@@ -1,10 +1,10 @@
 import HeroSection from "@/components/heroSection";
 import RecentInvestmentSection from "@/components/recentInvestementSection";
 import RecentPropertiesSection from "@/components/recentPropertiesSection";
-import ServiceSection from "@/components/servicesSection";
 import { ResetDemoButton } from "@/components/resetDemoButton";
+import ServiceSection from "@/components/servicesSection";
 
-export default function Home({ params }: { params: { locale: string } }) {
+export default function Home() {
   return (
     <>
       {/* hero   */}
