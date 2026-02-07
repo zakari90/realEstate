@@ -1,18 +1,26 @@
+import {
+  getAcceptedInvestmentOffersSum,
+  getInvestmentOffersId,
+  getInvestmentWithId,
+} from "@/_actions/client/actions";
+import { trackInvestmentVisit } from "@/_actions/agent/notificationActions";
+import InvestementListingPage from "@/components/invesListingPage";
 
-import { getAcceptedInvestmentOffersSum, getInvestmentOffersId, getInvestmentWithId } from "@/_actions/client/actions"
-import InvestementListingPage from "@/components/_1inUseComponents/invesListingPage"
+async function InvestmentPage({ params: { id } }: { params: { id: string } }) {
+  // Track this visit for notification system
+  await trackInvestmentVisit(id);
 
-async function InvestmentPage({params :{id}}:{
-    params:{ id : string}}) {
-    const investment = await getInvestmentWithId(id)
-    const acceptedInvestmentOffersSum = await getAcceptedInvestmentOffersSum(id)
-    
+  const investment = await getInvestmentWithId(id);
+  const acceptedInvestmentOffersSum = await getAcceptedInvestmentOffersSum(id);
 
   return (
-  <>
-    <InvestementListingPage acceptedInvestmentOffersSum={acceptedInvestmentOffersSum} investment={investment}/>
-  </>
-  )
+    <>
+      <InvestementListingPage
+        acceptedInvestmentOffersSum={acceptedInvestmentOffersSum}
+        investment={investment}
+      />
+    </>
+  );
 }
 
-export default InvestmentPage
+export default InvestmentPage;

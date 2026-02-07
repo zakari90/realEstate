@@ -1,15 +1,17 @@
+import { getPropertyWithId } from "@/_actions/client/actions";
+import { trackPropertyVisit } from "@/_actions/agent/notificationActions";
+import PropertyListingPage from "@/components/propertyListingPage";
 
-import { getPropertyWithId } from "@/_actions/client/actions"
-import PropertyListingPage from "@/components/_1inUseComponents/propertyListingPage"
+async function PropertyPage({ params: { id } }: { params: { id: string } }) {
+  // Track this visit for notification system
+  await trackPropertyVisit(id);
 
-async function PropertyPage({params :{id}}:{
-    params:{ id : string}}) {
-    const property = await getPropertyWithId(id)
+  const property = await getPropertyWithId(id);
   return (
-  <>
-    <PropertyListingPage property={property}/>
-  </>
-  )
+    <>
+      <PropertyListingPage property={property} />
+    </>
+  );
 }
 
-export default PropertyPage
+export default PropertyPage;

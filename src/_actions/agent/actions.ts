@@ -1,5 +1,6 @@
 "use server";
 
+import { PropertyFormData } from "@/components/propertyInfoForm";
 import db from "@/db/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { Client, Investment, InvestmentOffer } from "@prisma/client";
@@ -7,10 +8,9 @@ import { notFound, redirect } from "next/navigation";
 import { UTApi } from "uploadthing/server";
 import {
   agentFormSchema,
-  InvestmentForm,
+  investementForm,
   propertyFormSchema,
-} from "../zodSchema";
-import { PropertyFormData } from "@/components/_1inUseComponents/propertyInfoForm";
+} from "../../types/zodSchema";
 const utapi = new UTApi();
 
 interface PropertyOffer {
@@ -60,6 +60,8 @@ export interface AgentPropertyData {
   status: boolean | null;
   state: string | null;
 }
+
+//-----------------------------------------------------------investment-------------------------------
 
 export interface investmentData {
   id: string;
@@ -157,7 +159,7 @@ export async function getAgentInvestments(): Promise<{
   }
 }
 
-export async function createInvestment(params: InvestmentForm) {
+export async function createInvestment(params: investementForm) {
   try {
     const clerkAgent = await registerClerkUserAsAgent();
     if (!clerkAgent || !clerkAgent.email || clerkAgent.email.length === 0) {

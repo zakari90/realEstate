@@ -4,59 +4,63 @@ import {
   SignIn,
   SignedIn,
   SignedOut,
-  UserButton
-} from '@clerk/nextjs';
+  UserButton,
+} from "@clerk/nextjs";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
-import { NavBar, NavItem } from "../../../../components/_1inUseComponents/clientNavbar";
+import { NavBar, NavItem } from "../../../../components/clientNavbar";
+import { NotificationBell } from "@/components/notificationBell";
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 
 //TODO : translate this navigation use my navbar
 export default function AgentLayout({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) {
-    const agnetNavItems: NavItem[]  = [
-      { href: "/agent", name: "لوحة المعلومات" },
-      { href: "/agent/properties", name: "الملكيات" },
-      { href: "/agent/investors", name: "الاستثمار" },
-      // { href: "/aboutUs", label: "About us" },
-    ];
-    
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const agnetNavItems: NavItem[] = [
+    { href: "/agent", name: "لوحة المعلومات" },
+    { href: "/agent/properties", name: "الملكيات" },
+    { href: "/agent/investors", name: "الاستثمار" },
+    // { href: "/aboutUs", label: "About us" },
+  ];
+
   return (
     <>
-    <ClerkProvider>
-   
-    <div className="w-full relative">
-    <SignedIn>
-    {/* <LangSwitcher /> */}
-    <UserButton />
-  
-      {/* <div className="absolute -bottom-full right-1/2">
-        <UserButton />
-      </div> */}
-      <NavBar navItems={agnetNavItems}/>
-      <NextSSRPlugin
-          /**
-           * The `extractRouterConfig` will extract **only** the route configs
-           * from the router to prevent additional information from being
-           * leaked to the client. The data passed to the client is the same
-           * as if you were to fetch `/api/uploadthing` directly.
-           */
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
-        {children}
-    </SignedIn>
-    <div className="m-auto w-1/2 flex justify-center">
-      <SignedOut >
-        <SignIn routing="hash" />
-      </SignedOut>
-    </div>
-    </div>
-    </ClerkProvider>
+      <ClerkProvider>
+        <div className="min-h-screen bg-slate-50">
+          <SignedIn>
+            <div className="w-full relative">
+              <NavBar navItems={agnetNavItems} />
+              <div className="absolute top-4 left-4 z-50 flex items-center gap-3">
+                <NotificationBell />
+                <UserButton
+                  userProfileMode="modal"
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox:
+                        "w-10 h-10 border-2 border-white shadow-sm",
+                    },
+                  }}
+                />
+              </div>
+              <NextSSRPlugin
+                routerConfig={extractRouterConfig(ourFileRouter)}
+              />
+              <main className="pb-12">{children}</main>
+            </div>
+          </SignedIn>
 
+          <SignedOut>
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-500 to-emerald-700">
+              <div className="bg-white/90 p-8 rounded-3xl shadow-2xl backdrop-blur-xl border border-white/20">
+                <SignIn routing="hash" />
+              </div>
+            </div>
+          </SignedOut>
+        </div>
+      </ClerkProvider>
     </>
-    ); 
-  }
+  );
+}

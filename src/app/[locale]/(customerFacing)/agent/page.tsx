@@ -1,251 +1,164 @@
-"use client"
-import { PageHeader } from '@/components/pageHeader'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+"use client";
+import { Button } from "@/components/ui/button";
+import { useAgentInvestmentStore } from "@/context/investementStore";
+import { useAgentStore } from "@/context/propertyStore";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { useAgentInvestmentStore } from '@/context/investementStore'
-import { useAgentStore } from '@/context/propertyStore'
-import { ArrowUpRight, Loader2 } from 'lucide-react'
-import Link from 'next/link'
-import { useEffect } from 'react'
+  ArrowUpRight,
+  Building2,
+  Loader2,
+  Plus,
+  TrendingUp,
+  User,
+} from "lucide-react";
+import Link from "next/link";
+import { useEffect } from "react";
 
 function AgentPage() {
-  const { agent, agentProperties, error, isLoading, fetchAgentData } = useAgentStore()
-  const { agentInvestments,fetchAgentInvestemtData } = useAgentInvestmentStore()
-  
+  const { agent, agentProperties, error, isLoading, fetchAgentData } =
+    useAgentStore();
+  const { agentInvestments, fetchAgentInvestemtData } =
+    useAgentInvestmentStore();
 
   useEffect(() => {
-    fetchAgentData()
-    fetchAgentInvestemtData()
-  }, [fetchAgentData, fetchAgentInvestemtData])
+    fetchAgentData();
+    fetchAgentInvestemtData();
+  }, [fetchAgentData, fetchAgentInvestemtData]);
 
-  if (isLoading) return  <div className="flex justify-center"><Loader2 className="size-24 animate-spin" /></div>
-  if (error) return <div>خطأ: {error}</div>
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2 className="size-12 animate-spin text-teal-600" />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-red-500 font-semibold text-center py-10">
+        خطأ: {error}
+      </div>
+    );
 
-  const numberOfInvestments = agentInvestments.investment.length ? agentInvestments.investment.length + "" : "0"
-  const numberOfProprties = agentProperties.properties.length ? agentProperties.properties.length + "" : "0"
+  const numberOfInvestments = agentInvestments.investment.length
+    ? agentInvestments.investment.length + ""
+    : "0";
+  const numberOfProprties = agentProperties.properties.length
+    ? agentProperties.properties.length + ""
+    : "0";
 
   return (
-    <div className="container">
-<div className="flex justify-between">
-          <PageHeader>اللوحة الرئيسية</PageHeader>
-      {/* <DynamicBreadcrumb /> */}
-      </div>
-    
-      <div className="m-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <DashboardCard
-            title= 'عدد الملكيات'
-            body={numberOfProprties}
-            href="/agent/properties"
-            
-          />
-          <DashboardCard
-            title= 'عدد الاستثمارات'
-            body={numberOfInvestments}
-            href="/agent/investors"
-          />
+    <div className="container mx-auto px-4 py-8 space-y-8">
+      {/* Welcome Header */}
+      <div className="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border-2 border-white/30 shadow-inner">
+              <User className="w-10 h-10 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold mb-1">
+                مرحباً، {agent?.name || "وكيل"} 👋
+              </h1>
+              <p className="text-teal-100 opacity-90">
+                مرحباً بك في لوحة التحكم الخاصة بك
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Button
+              asChild
+              className="bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-md shadow-lg transition-all duration-300"
+            >
+              <Link href="/agent/properties/new">
+                <Plus className="w-4 h-4 ml-2" />
+                إضافة ملكية
+              </Link>
+            </Button>
+            <Button
+              asChild
+              className="bg-white text-teal-700 hover:bg-gray-100 shadow-lg border-0 transition-all duration-300"
+            >
+              <Link href="/agent/investors/new">
+                <Plus className="w-4 h-4 ml-2" />
+                إنشاء استثمار
+              </Link>
+            </Button>
+          </div>
         </div>
+      </div>
+
+      <div className="flex flex-col space-y-2">
+        <h2 className="text-2xl font-bold text-slate-800">نظرة عامة</h2>
+        <p className="text-slate-500">ملخص لأدائك الحالي</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <DashboardCard
+          title="الملكيات النشطة"
+          count={numberOfProprties}
+          href="/agent/properties"
+          icon={Building2}
+          color="from-blue-500 to-indigo-600"
+          subtitle="إجمالي العقارات المعروضة"
+        />
+        <DashboardCard
+          title="فرص الاستثمار"
+          count={numberOfInvestments}
+          href="/agent/investors"
+          icon={TrendingUp}
+          color="from-rose-500 to-pink-600"
+          subtitle="مشاريع استثمارية جارية"
+        />
+      </div>
     </div>
-  )
+  );
 }
 
-export default AgentPage
+export default AgentPage;
 
 type DashboardCardProps = {
-  title: string
-  body: string
-  href:string
-}
+  title: string;
+  count: string;
+  href: string;
+  icon: any;
+  color: string;
+  subtitle: string;
+};
 
-function DashboardCard({ title, body, href }: DashboardCardProps) {
+function DashboardCard({
+  title,
+  count,
+  href,
+  icon: Icon,
+  color,
+  subtitle,
+}: DashboardCardProps) {
   return (
-
-
-    <Link href={href}>
-      <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-      <CardTitle className="text-sm font-medium">
-        {title}
-      </CardTitle>
-        </CardHeader>
-        <CardContent>
-        <div className="text-2xl font-bold">{body}</div>
-        </CardContent>
-      </Card>
-    </Link>
-
-  )
-}
-
-
-function TransactionsCard() {
-  return(
-    <Card
-    className="xl:col-span-2"  >
-    <CardHeader className="flex flex-row items-center">
-      <div className="grid gap-2">
-        <CardTitle>المعاملات</CardTitle>
-        <CardDescription>
-          العروض الأخيرة على عقاراتك.
-        </CardDescription>
+    <Link href={href} className="group block h-full">
+      <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 h-full">
+        <div
+          className={`absolute top-0 right-0 w-2 h-full bg-gradient-to-b ${color}`}
+        ></div>
+        <div className="flex items-start justify-between">
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold text-slate-600 mb-1">
+                {title}
+              </h3>
+              <p className="text-3xl font-bold text-slate-900">{count}</p>
+            </div>
+            <p className="text-sm text-slate-400 font-medium">{subtitle}</p>
+          </div>
+          <div
+            className={`p-4 rounded-2xl bg-gradient-to-br ${color} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+          >
+            <Icon className="w-8 h-8" />
+          </div>
+        </div>
+        <div className="mt-6 flex items-center text-sm font-medium text-blue-600 group-hover:translate-x-1 transition-transform duration-300">
+          عرض التفاصيل
+          <ArrowUpRight className="w-4 h-4 mr-1" />
+        </div>
       </div>
-      <Button asChild size="sm" className="ml-auto gap-1">
-        <Link href="#">
-          عرض الكل
-          <ArrowUpRight className="h-4 w-4" />
-        </Link>
-      </Button>
-    </CardHeader>
-    <CardContent>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>العميل</TableHead>
-            <TableHead className="hidden xl:table-column">
-              النوع
-            </TableHead>
-            <TableHead className="hidden xl:table-column">
-              الحالة
-            </TableHead>
-            <TableHead className="hidden xl:table-column">
-              التاريخ
-            </TableHead>
-            <TableHead className="text-right">المبلغ</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>
-              <div className="font-medium">ليام جونسون</div>
-              <div className="hidden text-sm text-muted-foreground md:inline">
-                liam@example.com
-              </div>
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              بيع
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              <Badge className="text-xs" variant="outline">
-                تمت الموافقة
-              </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-              2023-06-23
-            </TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <div className="font-medium">أوليفيا سميث</div>
-              <div className="hidden text-sm text-muted-foreground md:inline">
-                olivia@example.com
-              </div>
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              استرداد
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              <Badge className="text-xs" variant="outline">
-                مرفوض
-              </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-              2023-06-24
-            </TableCell>
-            <TableCell className="text-right">$150.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <div className="font-medium">نوح ويليامز</div>
-              <div className="hidden text-sm text-muted-foreground md:inline">
-                noah@example.com
-              </div>
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              اشتراك
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              <Badge className="text-xs" variant="outline">
-                تمت الموافقة
-              </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-              2023-06-25
-            </TableCell>
-            <TableCell className="text-right">$350.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <div className="font-medium">إيما براون</div>
-              <div className="hidden text-sm text-muted-foreground md:inline">
-                emma@example.com
-              </div>
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              بيع
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              <Badge className="text-xs" variant="outline">
-                تمت الموافقة
-              </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-              2023-06-26
-            </TableCell>
-            <TableCell className="text-right">$450.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <div className="font-medium">ليام جونسون</div>
-              <div className="hidden text-sm text-muted-foreground md:inline">
-                liam@example.com
-              </div>
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              بيع
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              <Badge className="text-xs" variant="outline">
-                تمت الموافقة
-              </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-              2023-06-27
-            </TableCell>
-            <TableCell className="text-right">$550.00</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell>
-              <div className="font-medium">ليام جونسون</div>
-              <div className="hidden text-sm text-muted-foreground md:inline">
-                liam@example.com
-              </div>
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              بيع
-            </TableCell>
-            <TableCell className="hidden xl:table-column">
-              <Badge className="text-xs" variant="outline">
-                تمت الموافقة
-              </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-              2023-06-27
-            </TableCell>
-            <TableCell className="text-right">$550.00</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </CardContent>
-  </Card>
-  )
+    </Link>
+  );
 }

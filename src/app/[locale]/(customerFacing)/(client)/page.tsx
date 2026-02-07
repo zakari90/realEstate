@@ -1,22 +1,18 @@
-import HeroSection from '@/components/_1inUseComponents/heroSection';
-import RecentInvestmentSection from '@/components/_1inUseComponents/recentInvestementSection';
-import RecentPropertiesSection from '@/components/_1inUseComponents/recentPropertiesSection';
-import ServiceSection from '@/components/_1inUseComponents/servicesSection';
+import HeroSection from "@/components/heroSection";
+import RecentInvestmentSection from "@/components/recentInvestementSection";
+import RecentPropertiesSection from "@/components/recentPropertiesSection";
+import ServiceSection from "@/components/servicesSection";
 
-
-export default function Home({params} :{
-  params:{locale : string}
-}) {
-
+export default function Home({ params }: { params: { locale: string } }) {
   return (
     <>
       {/* hero   */}
-      <HeroSection/>
-    {/* <Products/> */}
-    <RecentPropertiesSection/>
-    <RecentInvestmentSection/>
+      <HeroSection />
+      {/* <Products/> */}
+      <RecentPropertiesSection />
+      <RecentInvestmentSection />
       {/* services */}
-      <ServiceSection/>
+      <ServiceSection />
     </>
   );
 }

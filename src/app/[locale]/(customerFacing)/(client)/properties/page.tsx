@@ -8,10 +8,9 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useState } from 'react';
-import CardSkeleton from "@/components/_1inUseComponents/cardSkeleton";
-import PropertyCard from "@/components/_1inUseComponents/propertyCard";
-
+import { useEffect, useState } from "react";
+import CardSkeleton from "@/components/cardSkeleton";
+import PropertyCard from "@/components/propertyCard";
 
 export default function MainPropertiesSection() {
   const rowsPerPage = 12;
@@ -28,7 +27,7 @@ export default function MainPropertiesSection() {
     };
     fetchProperties();
   }, []);
-  
+
   const endIndex = Math.min(startIndex + rowsPerPage, properties.length);
 
   const handlePrevious = () => {
@@ -36,9 +35,11 @@ export default function MainPropertiesSection() {
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(prev + rowsPerPage, properties.length - rowsPerPage));
+    setStartIndex((prev) =>
+      Math.min(prev + rowsPerPage, properties.length - rowsPerPage),
+    );
   };
-  
+
   return (
     <section id="properties" className="space-y-4 mt-8 md:mt-16">
       <div className="container mx-auto px-4">
@@ -50,8 +51,8 @@ export default function MainPropertiesSection() {
             <CardSkeleton />
           </div>
         ) : properties.length > 0 ? (
-          <div className="grid grid-cols-1 mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {properties.slice(startIndex, endIndex).map(property => (
+          <div className="grid grid-cols-1 mx-auto sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {properties.slice(startIndex, endIndex).map((property) => (
               <div key={property.id}>
                 <PropertyCard property={property} />
               </div>
@@ -66,12 +67,8 @@ export default function MainPropertiesSection() {
         <Pagination className="mt-3 mb-3">
           <PaginationContent>
             <PaginationItem>
-              <Button
-                onClick={handlePrevious}
-                disabled={startIndex === 0}
-              >
-                <ArrowRight className='h-4 w-4' />
-
+              <Button onClick={handlePrevious} disabled={startIndex === 0}>
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </PaginationItem>
 
@@ -80,7 +77,7 @@ export default function MainPropertiesSection() {
                 onClick={handleNext}
                 disabled={endIndex >= properties.length}
               >
-                <ArrowLeft className='h-4 w-4' />
+                <ArrowLeft className="h-4 w-4" />
               </Button>
             </PaginationItem>
           </PaginationContent>

@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
+import type { Metadata } from "next";
+import { useTranslations } from "next-intl";
 import { Inter as FontSans } from "next/font/google";
-import ClientFooter from '@/components/_1inUseComponents/clientFootre';
-import { NavBar, NavItem } from '@/components/_1inUseComponents/clientNavbar';
+import ClientFooter from "@/components/clientFootre";
+import { NavBar, NavItem } from "@/components/clientNavbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-})
+});
 export const metadata: Metadata = {
-  title: 'Real State',
-  description: 'website for a Real State',
+  title: "Real State",
+  description: "website for a Real State",
 };
 
 interface RootLayoutProps {
@@ -19,35 +19,30 @@ interface RootLayoutProps {
     locale: string;
   };
 }
-export default function RootLayout({
-  children,
-}: Readonly<RootLayoutProps>) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+  const Navigation = useTranslations("navigation");
+  const t = useTranslations("components.navbar");
 
-  const Navigation = useTranslations('navigation');
-  console.log("--------------------------------" + Navigation('home'));
-  
-  const navLinks:[string, string][] = [
-    [Navigation('home'), 'home'],
-    [Navigation('services'), 'services'],
-    [Navigation('pr'), 'products'],
-    [Navigation('about'), 'about'],
-    [Navigation('contact'), 'contact']
+  const navLinks: [string, string][] = [
+    [Navigation("home"), "home"],
+    [Navigation("services"), "services"],
+    [Navigation("pr"), "products"],
+    [Navigation("about"), "about"],
+    [Navigation("contact"), "contact"],
   ];
-  const clientNavItems:NavItem[] = [
-    { href: "/", name: "الرئيسية" },
-    { href: "/properties", name: "العقارات" },
-    { href: "/investments", name: "الاستثمارات" },
-    { href: "/aboutUs", name: "من نحن" },
-
+  const clientNavItems: NavItem[] = [
+    { href: "/", name: t("home") },
+    { href: "/properties", name: t("properties") },
+    { href: "/investments", name: t("investments") },
+    { href: "/aboutUs", name: t("aboutUs") },
   ];
   return (
-  <>
-    {/* <Header locale={locale} navLinks= {navLinks}  />         */}
-    <NavBar navItems={clientNavItems} />
-      <div className='flex-grow'>{children}</div>
-      <ClientFooter/>
-    {/* <Footer locale={locale} navLinks= {navLinks} /> */}
-  </>
-
+    <>
+      {/* <Header locale={locale} navLinks= {navLinks}  />         */}
+      <NavBar navItems={clientNavItems} />
+      <div className="flex-grow">{children}</div>
+      <ClientFooter />
+      {/* <Footer locale={locale} navLinks= {navLinks} /> */}
+    </>
   );
 }

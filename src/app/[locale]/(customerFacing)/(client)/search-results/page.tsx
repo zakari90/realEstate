@@ -1,15 +1,24 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation'; // Access query parameters from the URL
-import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation"; // Access query parameters from the URL
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { searchPropertiesByLocation, searchInvestmentsByLocation, PropertyDTO, InvestmentDTO } from "@/_actions/client/actions";
-import CardSkeleton from '@/components/_1inUseComponents/cardSkeleton';
-import InvestmentCard from '@/components/_1inUseComponents/investorsCard';
-import PropertyCard from '@/components/_1inUseComponents/propertyCard';
-import { Separator } from '@/components/ui/separator';
+import {
+  searchPropertiesByLocation,
+  searchInvestmentsByLocation,
+  PropertyDTO,
+  InvestmentDTO,
+} from "@/_actions/client/actions";
+import CardSkeleton from "@/components/cardSkeleton";
+import InvestmentCard from "@/components/investorsCard";
+import PropertyCard from "@/components/propertyCard";
+import { Separator } from "@/components/ui/separator";
 
 export default function SearchResultsPage() {
   const rowsPerPage = 12;
@@ -19,10 +28,9 @@ export default function SearchResultsPage() {
   const [loading, setLoading] = useState(true);
 
   const searchParams = useSearchParams();
-  const location = searchParams.get('location');
-  const isProperty = searchParams.get('property') === 'true';
-  const isInvestment = searchParams.get('investment') === 'true';
-
+  const location = searchParams.get("location");
+  const isProperty = searchParams.get("property") === "true";
+  const isInvestment = searchParams.get("investment") === "true";
 
   useEffect(() => {
     setStartIndex(0);
@@ -31,15 +39,14 @@ export default function SearchResultsPage() {
 
       try {
         if (location) {
-          if (isProperty) {          
-          setProperties(await searchPropertiesByLocation(location));
-        }
+          if (isProperty) {
+            setProperties(await searchPropertiesByLocation(location));
+          }
 
-        if (isInvestment) {
-          setInvestments(await searchInvestmentsByLocation(location));
+          if (isInvestment) {
+            setInvestments(await searchInvestmentsByLocation(location));
+          }
         }
-        }
-
       } catch (error) {
         console.error("Error fetching data:", error);
         // You could handle errors, like setting an error state
@@ -54,21 +61,31 @@ export default function SearchResultsPage() {
   }, [location, isProperty, isInvestment]);
 
   // Pagination calculations
-  const endIndex = Math.min(startIndex + rowsPerPage, properties.length + investments.length);
+  const endIndex = Math.min(
+    startIndex + rowsPerPage,
+    properties.length + investments.length,
+  );
 
   const handlePrevious = () => {
     setStartIndex((prev) => Math.max(prev - rowsPerPage, 0));
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(prev + rowsPerPage, properties.length + investments.length - rowsPerPage));
+    setStartIndex((prev) =>
+      Math.min(
+        prev + rowsPerPage,
+        properties.length + investments.length - rowsPerPage,
+      ),
+    );
   };
 
   return (
     <section className="space-y-4 mt-8 md:mt-16">
       <div className="container mx-auto px-4">
         {/* Page Header */}
-        <h1 className="text-3xl font-bold text-center mb-6">نتائج: {location}</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">
+          نتائج: {location}
+        </h1>
 
         {loading ? (
           <div className="grid grid-cols-1 mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -93,7 +110,7 @@ export default function SearchResultsPage() {
             )}
 
             {/* Show Investments Section */}
-            <Separator/>
+            <Separator />
             {isInvestment && investments.length > 0 && (
               <div>
                 <h2 className="text-2xl font-semibold mb-4">الاستثمارات</h2>
@@ -133,15 +150,22 @@ export default function SearchResultsPage() {
           <Pagination className="mt-3 mb-3">
             <PaginationContent>
               <PaginationItem>
-                <Button onClick={handlePrevious} disabled={startIndex === 0} aria-label="Previous page">
+                <Button
+                  onClick={handlePrevious}
+                  disabled={startIndex === 0}
+                  aria-label="Previous page"
+                >
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </PaginationItem>
 
               <PaginationItem>
-                <Button onClick={handleNext} disabled={endIndex >= properties.length + investments.length} aria-label="Next page">
-                <ArrowLeft className="h-4 w-4" />
-
+                <Button
+                  onClick={handleNext}
+                  disabled={endIndex >= properties.length + investments.length}
+                  aria-label="Next page"
+                >
+                  <ArrowLeft className="h-4 w-4" />
                 </Button>
               </PaginationItem>
             </PaginationContent>
