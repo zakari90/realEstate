@@ -1,9 +1,8 @@
+import { trackInvestmentVisit } from "@/_actions/agent/notificationActions";
 import {
   getAcceptedInvestmentOffersSum,
-  getInvestmentOffersId,
   getInvestmentWithId,
 } from "@/_actions/client/actions";
-import { trackInvestmentVisit } from "@/_actions/agent/notificationActions";
 import InvestementListingPage from "@/components/invesListingPage";
 
 async function InvestmentPage({ params: { id } }: { params: { id: string } }) {
@@ -14,12 +13,10 @@ async function InvestmentPage({ params: { id } }: { params: { id: string } }) {
   const acceptedInvestmentOffersSum = await getAcceptedInvestmentOffersSum(id);
 
   return (
-    <>
-      <InvestementListingPage
-        acceptedInvestmentOffersSum={acceptedInvestmentOffersSum}
-        investment={investment}
-      />
-    </>
+    <InvestementListingPage
+      acceptedInvestmentOffersSum={acceptedInvestmentOffersSum}
+      investment={investment}
+    />
   );
 }
 
