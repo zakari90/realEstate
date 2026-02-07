@@ -29,37 +29,33 @@ export default function AgentLayout({
   return (
     <>
       <ClerkProvider>
-        <div className="min-h-screen bg-slate-50">
-          <SignedIn>
-            <div className="w-full relative">
-              <NavBar navItems={agnetNavItems} />
-              <div className="absolute top-4 left-4 z-50 flex items-center gap-3">
-                <NotificationBell />
-                <UserButton
-                  userProfileMode="modal"
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox:
-                        "w-10 h-10 border-2 border-white shadow-sm",
-                    },
-                  }}
-                />
-              </div>
-              <NextSSRPlugin
-                routerConfig={extractRouterConfig(ourFileRouter)}
+        <SignedIn>
+          <div className="w-full relative">
+            <NavBar navItems={agnetNavItems} />
+            <div className="absolute top-4 right-50 z-50 flex items-center gap-3">
+              <NotificationBell />
+              <UserButton
+                userProfileMode="modal"
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox:
+                      "w-10 h-10 border-2 border-white shadow-sm",
+                  },
+                }}
               />
-              <main className="pb-12">{children}</main>
             </div>
-          </SignedIn>
+            <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+            <main className="pb-12">{children}</main>
+          </div>
+        </SignedIn>
 
-          <SignedOut>
-            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-500 to-emerald-700">
-              <div className="bg-white/90 p-8 rounded-3xl shadow-2xl backdrop-blur-xl border border-white/20">
-                <SignIn routing="hash" />
-              </div>
+        <SignedOut>
+          <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-500 to-emerald-700">
+            <div className="bg-white/90 p-8 rounded-3xl shadow-2xl backdrop-blur-xl border border-white/20">
+              <SignIn routing="hash" />
             </div>
-          </SignedOut>
-        </div>
+          </div>
+        </SignedOut>
       </ClerkProvider>
     </>
   );

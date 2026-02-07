@@ -108,7 +108,7 @@ export function NotificationBell() {
           <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 z-50 overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 text-white">
-              <h3 className="font-semibold text-lg">Notifications</h3>
+              <h3 className="font-semibold text-lg">اشعارات</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-1 rounded-full hover:bg-white/20 transition-colors"
@@ -122,7 +122,7 @@ export function NotificationBell() {
               {notifications.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-slate-400">
                   <Bell className="w-12 h-12 mb-3 opacity-50" />
-                  <p className="text-sm">Aucune notification</p>
+                  <p className="text-sm">لا يوجد اشعارات</p>
                 </div>
               ) : (
                 <ul className="divide-y divide-slate-100">
@@ -186,7 +186,7 @@ export function NotificationBell() {
                   className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors disabled:opacity-50"
                 >
                   <Trash2 className="w-4 h-4" />
-                  {isPending ? "Suppression..." : "Tout effacer"}
+                  {isPending ? "" : "مسح الكل"}
                 </button>
               </div>
             )}
