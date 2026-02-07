@@ -11,7 +11,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <div className="max-w-full">
       <NavBar />
-      <div className="flex-grow">{children}</div>
+      <div>{children}</div>
       <ClientFooter />
     </div>
   );
