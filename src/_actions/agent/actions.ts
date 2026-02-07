@@ -895,3 +895,29 @@ export async function updateInvestmentStatus(id: string, status: boolean) {
     redirect("/agent/investors");
   }
 }
+
+export async function resetDemoData() {
+  try {
+    const clerkAgent = await registerClerkUserAsAgent();
+    if (!clerkAgent) {
+      throw new Error("Unauthorized");
+    }
+
+    // Delete dependent records first (no cascade delete for logs)
+    await db.investmentVisitLog.deleteMany({});
+    await db.propertyVisitLog.deleteMany({});
+
+    // Delete main entities (will cascade delete offers)
+    await db.investment.deleteMany({});
+    await db.property.deleteMany({});
+
+    // Delete clients and notifications
+    await db.client.deleteMany({});
+    await db.agentNotification.deleteMany({});
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error resetting demo data:", error);
+    return { success: false, error: "Failed to reset data" };
+  }
+}

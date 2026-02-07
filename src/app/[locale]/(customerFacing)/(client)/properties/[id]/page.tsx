@@ -7,11 +7,7 @@ async function PropertyPage({ params: { id } }: { params: { id: string } }) {
   await trackPropertyVisit(id);
 
   const property = await getPropertyWithId(id);
-  return (
-    <>
-      <PropertyListingPage property={property} />
-    </>
-  );
+  return <PropertyListingPage property={property} />;
 }
 
 export default PropertyPage;
