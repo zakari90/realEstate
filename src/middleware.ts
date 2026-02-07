@@ -1,18 +1,18 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-import createMiddleware from 'next-intl/middleware'
-import { NextResponse } from 'next/server'
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import createMiddleware from "next-intl/middleware";
+import { NextResponse } from "next/server";
 
 const intlMiddleware = createMiddleware({
   locales: ["ar"],
-  localePrefix: 'always',
-  defaultLocale: 'ar',
-})
+  localePrefix: "always",
+  defaultLocale: "ar",
+});
 
-const isPublicRoute = createRouteMatcher(['/:path*'])
+const isPublicRoute = createRouteMatcher(["/:path*"]);
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
 
 export default clerkMiddleware(async (auth, req) => {
   // Track page visit

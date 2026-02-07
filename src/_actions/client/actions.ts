@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import db from "@/db/db";
 import { auth } from "@clerk/nextjs/server";
@@ -12,7 +12,7 @@ export async function isAgent(): Promise<boolean> {
   return true;
 }
 
-export type InvestmentDTO = { 
+export type InvestmentDTO = {
   id: string;
   title: string | null;
   description: string | null;
@@ -25,7 +25,7 @@ export type InvestmentDTO = {
   purpose: string | null;
   createdAt: Date;
   updatedAt: Date;
-  agent: Agent | null; 
+  agent: Agent | null;
 };
 
 const createInvestmentDTO = (investmentData: InvestmentDTO) => {
@@ -48,38 +48,36 @@ const createInvestmentDTO = (investmentData: InvestmentDTO) => {
 
 export const searchInvestmentsByLocation = async (location: string) => {
   console.log("---------------------");
-  console.log("searchInvestmentsByLocation ")
-  
-  const investments = await db.investment.findMany({
-      where: {
-          location: {
-              contains: location,
-          },
-      },
-      include:{
-        agent: true, 
-      }
-  });
-  return investments.map(investment => createInvestmentDTO(investment));
+  console.log("searchInvestmentsByLocation ");
 
+  const investments = await db.investment.findMany({
+    where: {
+      location: {
+        contains: location,
+      },
+    },
+    include: {
+      agent: true,
+    },
+  });
+  return investments.map((investment) => createInvestmentDTO(investment));
 };
 
 export async function getAllInvestments() {
   try {
     const investments = await db.investment.findMany({
       include: {
-        agent: true, 
+        agent: true,
       },
-      where:{
-        status:true
-      }
+      where: {
+        status: true,
+      },
     });
 
-    return investments.map(investment => createInvestmentDTO(investment));
-
+    return investments.map((investment) => createInvestmentDTO(investment));
   } catch (error) {
-    console.error('Error fetching investments with details for agent:', error);
-    throw error; 
+    console.error("Error fetching investments with details for agent:", error);
+    throw error;
   }
 }
 
@@ -91,24 +89,25 @@ export async function getInvestmentWithId(investmentId: string) {
     });
 
     if (!investment) {
-      return notFound()
+      return notFound();
     }
 
     return createInvestmentDTO(investment);
-
   } catch (error) {
-    console.error('Error fetching investment with details for agent:', error);
-    throw error; 
+    console.error("Error fetching investment with details for agent:", error);
+    throw error;
   }
 }
-export async function getAcceptedInvestmentOffersSum(investmentId: string): Promise<number> {
+export async function getAcceptedInvestmentOffersSum(
+  investmentId: string,
+): Promise<number> {
   try {
     const result = await db.investmentOffer.aggregate({
       _sum: {
-        amount: true,  // Sum the 'amount' field
+        amount: true, // Sum the 'amount' field
       },
       where: {
-        investmentId: investmentId,  // Filter by the provided investmentId
+        investmentId: investmentId, // Filter by the provided investmentId
         // accepted: true,               // Only include accepted offers
       },
     });
@@ -116,15 +115,17 @@ export async function getAcceptedInvestmentOffersSum(investmentId: string): Prom
     // If the result doesn't contain a sum, return 0
     return result._sum.amount ?? 0;
   } catch (error) {
-    console.error('Error fetching sum of accepted investment offers:', error);
-    throw error;  // Rethrow the error after logging it
+    console.error("Error fetching sum of accepted investment offers:", error);
+    throw error; // Rethrow the error after logging it
   }
 }
 
-export async function getInvestmentOffersId(Id: string): Promise<InvestmentOffer[] | null> {
+export async function getInvestmentOffersId(
+  Id: string,
+): Promise<InvestmentOffer[] | null> {
   try {
     if (!Id) {
-      return null; 
+      return null;
     }
 
     const investmentOffers = await db.investmentOffer.findMany({
@@ -138,10 +139,10 @@ export async function getInvestmentOffersId(Id: string): Promise<InvestmentOffer
       return null;
     }
 
-    return investmentOffers;  
+    return investmentOffers;
   } catch (error) {
-    console.error('Error fetching investment details for agent:', error);
-    throw error;  // Re-throw the error after logging it
+    console.error("Error fetching investment details for agent:", error);
+    throw error; // Re-throw the error after logging it
   }
 }
 
@@ -175,8 +176,8 @@ const createPropertyDTO = (propertyData: PropertyDTO) => {
   return {
     id: propertyData.id,
     type: propertyData.type,
-    sellingBy :propertyData.sellingBy,
-    numContributors :propertyData.numContributors,
+    sellingBy: propertyData.sellingBy,
+    numContributors: propertyData.numContributors,
     available: propertyData.available,
     address: propertyData.address,
     mapUrl: propertyData.mapUrl,
@@ -195,43 +196,41 @@ const createPropertyDTO = (propertyData: PropertyDTO) => {
     updatedAt: propertyData.updatedAt,
     agent: propertyData.agent, // Include agent mapping
   };
-}
+};
 
 export const searchPropertiesByLocation = async (location: string) => {
-  console.log("******************************************")
+  console.log("******************************************");
   console.log(location);
-  
-  const properties = await db.property.findMany({
-      where: {
-          address: {
-              contains: location,
-              // mode: 'insensitive',
-          },
-      }, 
-      include :{
-        agent : true
-      }
-  });
-  return properties.map(property => createPropertyDTO(property));
 
+  const properties = await db.property.findMany({
+    where: {
+      address: {
+        contains: location,
+        // mode: 'insensitive',
+      },
+    },
+    include: {
+      agent: true,
+    },
+  });
+  return properties.map((property) => createPropertyDTO(property));
 };
 
 export async function getAllProperties() {
   try {
     const properties = await db.property.findMany({
       include: {
-        agent: true, 
+        agent: true,
       },
-      where:{
-        available:true
-      }
+      where: {
+        available: true,
+      },
     });
 
-    return properties.map(property => createPropertyDTO(property));
-
+    return properties.map((property) => createPropertyDTO(property));
   } catch (error) {
-    console.error('Error fetching properties with details for agent:', error);
-    throw error; 
+    console.error("Error fetching properties with details for agent:", error);
+    throw error;
   }
 }
 
@@ -247,24 +246,23 @@ export async function getPropertyWithId(propertyId: string) {
     }
 
     return createPropertyDTO(property);
-
   } catch (error) {
-    console.error('Error fetching property with details for agent:', error);
-    throw error; 
+    console.error("Error fetching property with details for agent:", error);
+    throw error;
   }
 }
 
-export async function getAgentWithPropertyId(agentId : string):Promise<Agent | null> {
+export async function getAgentWithPropertyId(
+  agentId: string,
+): Promise<Agent | null> {
   try {
-    const agent = await db.agent.findUnique(
-      {where: {id : agentId}});
+    const agent = await db.agent.findUnique({ where: { id: agentId } });
     if (!agent) {
       return null;
     }
-    return (agent);
-
+    return agent;
   } catch (error) {
-    console.error('Error fetching agent:', error);
-    throw error; 
+    console.error("Error fetching agent:", error);
+    throw error;
   }
 }
