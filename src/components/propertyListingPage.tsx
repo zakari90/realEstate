@@ -3,23 +3,20 @@
 import { PropertyDTO } from "@/_actions/client/actions";
 import EmailLink from "@/components/emailComponent";
 import PhoneCallLink from "@/components/phoneCallComponent";
-import WhatsAppLink from "@/components/whatsAppComponents";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import WhatsAppLink from "@/components/whatsAppComponents";
 import { Agent } from "@prisma/client";
 import {
+  Bath,
+  Bed,
   CalendarRange,
+  CheckCircle2,
   Home,
   MapPin,
-  MapPinOff,
-  Share2,
   Maximize,
-  Bed,
-  Bath,
-  CheckCircle2,
+  Share2,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -95,7 +92,7 @@ export default function PropertyListingPage({
             <Badge className="bg-white/90 text-slate-900 hover:bg-white border-none px-3 py-1 text-sm backdrop-blur-md rounded-full font-bold">
               {arPurpose}
             </Badge>
-            {property.status && (
+            {property.available && (
               <Badge className="bg-emerald-500/90 text-white hover:bg-emerald-600 border-none px-3 py-1 text-sm backdrop-blur-md rounded-full">
                 <CheckCircle2 className="w-3.5 h-3.5 ml-1.5" />
                 متاح للبيع
