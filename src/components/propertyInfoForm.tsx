@@ -293,7 +293,7 @@ export function PropertyInfoForm({
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="url"
+                      type="text"
                       placeholder="33.875749, -5.686289"
                       {...field}
                       className="h-12 text-left"
