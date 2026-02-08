@@ -155,7 +155,11 @@ export default function InvestmentListingPage({
               <Image
                 width={96}
                 height={96}
-                src={agent?.image || "/placeholder-image.jpg"}
+                src={
+                  agent?.image && agent.image.length > 0
+                    ? agent.image
+                    : "/placeholder-image.jpg"
+                }
                 alt={agent?.name || "الوكيل"}
                 className="w-24 h-24 rounded-full mx-auto object-cover"
               />
