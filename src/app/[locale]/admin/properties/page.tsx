@@ -1,7 +1,7 @@
 import { Building2, Eye, MapPin, User } from "lucide-react";
 import Link from "next/link";
 import db from "@/db/db";
-import { DeletePropertyButton } from "./DeletePropertyButton";
+import { DeletePropertyButton } from "@/components/DeletePropertyButton";
 
 async function getAllProperties() {
   const properties = await db.property.findMany({
