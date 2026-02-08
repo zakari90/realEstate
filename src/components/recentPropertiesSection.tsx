@@ -1,8 +1,7 @@
 "use client";
 import { getAllProperties, PropertyDTO } from "@/_actions/client/actions";
-import { PageHeader } from "@/components/pageHeader";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowUpRight, Building2 } from "lucide-react";
+import { ArrowLeft, Building2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PropertyCard from "./propertyCard";

@@ -290,7 +290,7 @@ export function PropertyMediaForm({ propertyId }: { propertyId: string }) {
               <div className="p-4 space-y-3">
                 <div className="relative">
                   <Input
-                    placeholder="https://matterport.com/..."
+                    placeholder="https://3dwarehouse.sketchup.com/embed/f72e"
                     value={panoramaUrl}
                     onChange={(e) => handlePanorama(e.target.value)}
                     className="pl-10 h-11"
