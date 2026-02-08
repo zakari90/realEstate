@@ -57,6 +57,8 @@ export default function PropertyListingPage({
   const arPurpose = property.sellingBy
     ? selectItems[property.sellingBy as keyof typeof selectItems]
     : "";
+  console.log("-----------------------------------");
+  console.log(agent);
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -289,6 +291,8 @@ export default function PropertyListingPage({
                 <div className="flex flex-col items-center text-center">
                   <div className="relative mb-4">
                     <div className="absolute inset-0 bg-teal-500 rounded-full blur-md opacity-20"></div>
+                    {agent?.image}
+
                     <Image
                       width={100}
                       height={100}
