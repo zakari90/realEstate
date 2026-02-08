@@ -520,7 +520,7 @@ export function MapHelper() {
           <HelpCircle className="h-4 w-4 text-slate-400 hover:text-teal-600" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md w-full max-w-[90vw] md:w-[500px] overflow-auto">
+      <DialogContent className="text-center sm:max-w-md w-full max-w-[90vw] md:w-[500px] overflow-auto">
         <DialogHeader>
           <DialogTitle>كيفية إضافة رابط الخريطة</DialogTitle>
           <DialogDescription className="pt-2 flex flex-col justify-center">

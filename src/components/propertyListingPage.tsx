@@ -38,7 +38,9 @@ export default function PropertyListingPage({
   const videoUrl = property.video ? property.video : "";
   const ytVideo = property.ytVideo ? property.ytVideo : "";
   const panoramaUrl = property.panorama ? property.panorama : "";
-
+  const mapUrl = property.mapUrl ? property.mapUrl : "";
+  const [lat, lng] = mapUrl.split(",").map((v) => Number(v.trim()));
+  const mapSrc = `https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
   const features: string[] = property.features
     ? JSON.parse(property.features)
     : [];
@@ -215,29 +217,27 @@ export default function PropertyListingPage({
             </div>
 
             {/* Map */}
-            {property.mapUrl && (
-              <Card className="border-none shadow-lg overflow-hidden">
-                <CardHeader className="border-b bg-white/50 p-6">
-                  <CardTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-teal-600" />
-                    الموقع على الخريطة
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 h-[400px] relative">
-                  {property.mapUrl}
-                  <iframe
-                    src={property.mapUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full"
-                  />
-                </CardContent>
-              </Card>
-            )}
+
+            <Card className="border-none shadow-lg overflow-hidden">
+              <CardHeader className="border-b bg-white/50 p-6">
+                <CardTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-teal-600" />
+                  الموقع على الخريطة
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0 h-[400px] relative">
+                <iframe
+                  src={mapSrc}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                />
+              </CardContent>
+            </Card>
           </div>
 
           {/* Sidebar */}
