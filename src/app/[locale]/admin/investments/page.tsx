@@ -1,7 +1,7 @@
 import { TrendingUp, Eye, User } from "lucide-react";
 import Link from "next/link";
 import db from "@/db/db";
-import { DeleteInvestmentButton } from "./DeleteInvestmentButton";
+import { DeleteInvestmentButton } from "@/components/DeleteInvestmentButton";
 
 async function getAllInvestments() {
   const investments = await db.investment.findMany({
