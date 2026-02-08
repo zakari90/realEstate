@@ -107,7 +107,7 @@ export default function AboutUs() {
               <Image
                 width={300}
                 height={300}
-                src="fouder.jpg"
+                src="/founder.jpg"
                 alt="Founder"
                 className="relative w-48 h-48 md:w-64 md:h-64 rounded-[2.5rem] object-cover shadow-xl border-4 border-white"
               />

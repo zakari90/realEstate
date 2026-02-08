@@ -292,7 +292,7 @@ export default function PropertyListingPage({
                     <Image
                       width={100}
                       height={100}
-                      src={agent?.image || "/placeholder-user.jpg"}
+                      src={agent?.image || "/placeholder-image.jpg"}
                       alt={agent?.name || "Agent"}
                       className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md relative z-10"
                     />

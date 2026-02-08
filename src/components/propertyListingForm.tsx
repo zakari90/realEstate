@@ -1,18 +1,17 @@
 "use client";
 
-import { AgentPropertyData } from "@/_actions/agent/actions";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   CardDescription,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
+import { Building2, Camera, Info, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { PropertyInfoForm } from "./propertyInfoForm";
 import { PropertyMediaForm } from "./propertyMediaForm";
-import { Building2, Camera, Info, LayoutDashboard } from "lucide-react";
 
 export default function PropertyListingForm() {
   const [propertyId, setPropertyId] = useState<string>("");
