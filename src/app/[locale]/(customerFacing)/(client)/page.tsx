@@ -14,7 +14,7 @@ export default function Home() {
       <RecentInvestmentSection />
       {/* services */}
       <ServiceSection />
-      <ResetDemoButton />
+      {/* <ResetDemoButton /> */}
     </>
   );
 }
