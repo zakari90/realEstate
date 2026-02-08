@@ -60,11 +60,7 @@ const propertySchema = z.object({
     .optional(),
   price: z.number().positive({ message: "السعر يجب أن يكون رقمًا موجبًا" }),
   address: z.string().min(1, { message: "العنوان مطلوب" }),
-  mapLink: z
-    .string()
-    .url({ message: "يرجى إدخال رابط صالح" })
-    .optional()
-    .or(z.literal("")),
+  mapLink: z.string().optional().or(z.literal("")),
   bedrooms: z
     .number()
     .int()
@@ -325,7 +321,7 @@ export function PropertyInfoForm({
                   <FormLabel>السعر (بالدرهم)</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <DollarSign className="absolute right-3 top-3 w-5 h-5 text-slate-400" />
+                      {/* <DollarSign className="absolute right-3 top-3 w-5 h-5 text-slate-400" /> */}
                       <Input
                         type="number"
                         placeholder="0.00"
