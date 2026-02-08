@@ -29,7 +29,7 @@ interface AdminLayoutProps {
 
 const navItems = [
   {
-    href: "/admin/dashboard",
+    href: "/dashboard",
     label: "لوحة التحكم",
     icon: LayoutDashboard,
   },
