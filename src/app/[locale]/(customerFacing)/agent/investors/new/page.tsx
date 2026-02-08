@@ -32,7 +32,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -45,6 +45,7 @@ const selectItems = {
 };
 
 export default function PropertyOpportunityForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<investementForm>({
@@ -76,7 +77,9 @@ export default function PropertyOpportunityForm() {
         duration: 1000,
         variant: "default",
       });
-      redirect(`/investments/${response.message}`);
+
+      // Use router.push instead of redirect() to avoid catch block catching redirect error
+      router.push(`/agent/investors`);
     } catch (error) {
       console.error("خطأ أثناء نشر الفرصة:", error);
       toast({

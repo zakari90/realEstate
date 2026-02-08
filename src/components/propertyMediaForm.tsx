@@ -19,7 +19,6 @@ import {
   Trash2,
 } from "lucide-react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import { useState } from "react";
 import {
   Tooltip,
@@ -34,7 +33,8 @@ export function PropertyMediaForm({ propertyId }: { propertyId: string }) {
   const [panoramaUrl, setPanoramaUrl] = useState<string>("");
   const [ytVideo, setytVideo] = useState<string>("");
   const [loading, setLoading] = useState(false);
-
+  const examplePanoramaUrl =
+    "https://3dwarehouse.sketchup.com/embed/ca842bc2-6275-4a17-8e58-7d04f72b66be?token=JV26vmLOK4g=&binaryName=s22";
   const handleVideoUpload = (url: string) => {
     setVideoUrl(url || "");
   };
@@ -71,7 +71,9 @@ export function PropertyMediaForm({ propertyId }: { propertyId: string }) {
         description: "تم نشر الملكية بنجاح.",
         duration: 2000,
       });
-      redirect(`/agent/properties`); // Redirect to list instead of details for now
+
+      // Use window.location instead of redirect() to avoid catch block catching redirect error
+      window.location.href = "/agent/properties";
     } catch (error) {
       console.log(error);
       toast({
@@ -79,7 +81,6 @@ export function PropertyMediaForm({ propertyId }: { propertyId: string }) {
         description: "حدث خطأ أثناء حفظ البيانات.",
         variant: "destructive",
       });
-    } finally {
       setLoading(false);
     }
   }

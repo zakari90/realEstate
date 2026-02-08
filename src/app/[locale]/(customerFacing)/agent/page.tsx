@@ -1,17 +1,24 @@
 "use client";
+import { updateAgentData } from "@/_actions/agent/actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { useAgentInvestmentStore } from "@/context/investementStore";
 import { useAgentStore } from "@/context/propertyStore";
 import {
   ArrowUpRight,
   Building2,
+  Check,
   Loader2,
+  Pencil,
+  Phone,
   Plus,
   TrendingUp,
   User,
+  X,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function AgentPage() {
   const { agent, agentProperties, error, isLoading, fetchAgentData } =
@@ -19,10 +26,55 @@ function AgentPage() {
   const { agentInvestments, fetchAgentInvestemtData } =
     useAgentInvestmentStore();
 
+  const [isEditingPhone, setIsEditingPhone] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+
   useEffect(() => {
     fetchAgentData();
     fetchAgentInvestemtData();
   }, [fetchAgentData, fetchAgentInvestemtData]);
+
+  useEffect(() => {
+    if (agent?.phone) {
+      setPhoneNumber(agent.phone);
+    }
+  }, [agent]);
+
+  const handleSavePhone = async () => {
+    if (!phoneNumber || phoneNumber.trim().length === 0) {
+      toast({
+        title: "خطأ",
+        description: "رقم الهاتف مطلوب ولا يمكن أن يكون فارغاً",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await updateAgentData(phoneNumber.trim());
+      toast({
+        title: "تم التحديث",
+        description: "تم تحديث رقم الهاتف بنجاح",
+      });
+      setIsEditingPhone(false);
+      fetchAgentData(); // Refresh agent data
+    } catch (error) {
+      toast({
+        title: "خطأ",
+        description: "فشل تحديث رقم الهاتف",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setPhoneNumber(agent?.phone || "");
+    setIsEditingPhone(false);
+  };
 
   if (isLoading)
     return (
@@ -83,6 +135,75 @@ function AgentPage() {
               </Link>
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Phone Number Section */}
+      <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-lg">
+              <Phone className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-slate-800">
+                رقم الهاتف
+              </h3>
+              <p className="text-sm text-slate-500">
+                رقم الهاتف الذي سيظهر للعملاء
+              </p>
+            </div>
+          </div>
+
+          {isEditingPhone ? (
+            <div className="flex items-center gap-3">
+              <Input
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="أدخل رقم الهاتف"
+                className="w-48 h-10 text-left"
+                dir="ltr"
+                disabled={isSaving}
+              />
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={handleSavePhone}
+                disabled={isSaving}
+                className="h-10 w-10 text-green-600 hover:text-green-700 hover:bg-green-50"
+              >
+                {isSaving ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Check className="w-5 h-5" />
+                )}
+              </Button>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={handleCancelEdit}
+                disabled={isSaving}
+                className="h-10 w-10 text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-medium text-slate-700" dir="ltr">
+                {agent?.phone || "لم يتم تحديد رقم الهاتف"}
+              </span>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => setIsEditingPhone(true)}
+                className="h-10 w-10 text-slate-500 hover:text-teal-600 hover:bg-teal-50"
+              >
+                <Pencil className="w-5 h-5" />
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
